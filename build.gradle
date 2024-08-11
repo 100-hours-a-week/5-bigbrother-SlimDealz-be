@@ -44,6 +44,9 @@ dependencies {
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // firebase
+    implementation 'com.google.firebase:firebase-admin:9.2.0'
+
     // environment
     implementation 'io.github.cdimascio:dotenv-java:2.2.0'
 
