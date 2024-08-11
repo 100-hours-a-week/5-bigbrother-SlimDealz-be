@@ -1,4 +1,4 @@
 package bigbrother.slimdealz.entity;
 
-public class UserEntity {
+public class User {
 }
