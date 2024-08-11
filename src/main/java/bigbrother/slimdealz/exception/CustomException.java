@@ -7,11 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CustomException extends RuntimeException{
     private CustomErrorCode customErrorCode;
-    private String detalMessage;
+    private String detailMessage;
 
     public CustomException(CustomErrorCode customErrorCode) {
         super(customErrorCode.getMessage());
         this.customErrorCode = customErrorCode;
-        this.detalMessage = customErrorCode.getMessage();
+        this.detailMessage = customErrorCode.getMessage();
     }
 }

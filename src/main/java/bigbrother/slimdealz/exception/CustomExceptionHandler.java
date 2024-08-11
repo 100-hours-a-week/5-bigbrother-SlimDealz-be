@@ -11,11 +11,11 @@ public class CustomExceptionHandler {
     @ExceptionHandler(CustomException.class)
     public CustomErrorResponse handleCustomException(CustomException e, HttpServletRequest request) {
         log.error("error code : {}, url {}, message: {}",
-                e.getCustomErrorCode(), request.getRequestURI(), e.getDetalMessage());
+                e.getCustomErrorCode(), request.getRequestURI(), e.getDetailMessage());
 
         return CustomErrorResponse.builder()
                 .code(e.getCustomErrorCode())
-                .message(e.getDetalMessage())
+                .message(e.getDetailMessage())
                 .build();
     }
 }
