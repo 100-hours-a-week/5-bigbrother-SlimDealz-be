@@ -1,17 +1,15 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
     properties:
       hibernate.format_sql: true
-      hibernate.dialect: org.hibernate.dialect.MySQLDialect
-
-  logging:
-    config: classpath:log4j2.xml
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
