@@ -38,8 +38,8 @@ out/
 
 ### Environment Variables ###
 .env
-/resources/properties/env.properties
+src/main/resources/properties/env.properties
 
 # Ignore Firebase Service Account Key
-/resources/firebase/FirebaseServiceAccountKey.json
+src/main/resources/firebase/FirebaseServiceKey.json
 
