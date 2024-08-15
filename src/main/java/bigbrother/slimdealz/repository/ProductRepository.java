@@ -1,4 +1,4 @@
 package bigbrother.slimdealz.repository;
 
-public interface UserRepository {
+public interface ProductRepository {
 }
