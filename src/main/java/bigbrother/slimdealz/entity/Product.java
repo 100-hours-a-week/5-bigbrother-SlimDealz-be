@@ -1,17 +1,14 @@
 package bigbrother.slimdealz.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Table(name = "products")
 @Entity
-@Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@NoArgsConstructor (access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity{
 
     @Id
