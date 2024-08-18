@@ -1,25 +1,11 @@
-FROM gradle:8.1.1-jdk17 AS build
-
-WORKDIR /home/gradle/project
-
-COPY . .
-
-RUN gradle clean build -x test --no-daemon
-
-FROM eclipse-temurin:17-jre-alpine
+FROM amazoncorretto:17-alpine-jdk
 
 WORKDIR /app
+COPY ./build/libs/SlimDealz-0.0.1-SNAPSHOT /app/app.jar
 
-COPY .env /app/.env
+ENV TZ=Asia/Seoul
 
-COPY --from=build /home/gradle/project/build/libs/SlimDealz-0.0.1-SNAPSHOT.jar app.jar
-
-ENTRYPOINT ["java","-jar","/app/app.jar"]
-
-EXPOSE 8080
-
-
-
+CMD ["java", "-jar", "app.jar"]
 
 
 
