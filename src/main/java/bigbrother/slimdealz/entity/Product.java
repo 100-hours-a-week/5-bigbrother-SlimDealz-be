@@ -1,5 +1,6 @@
 package bigbrother.slimdealz.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 

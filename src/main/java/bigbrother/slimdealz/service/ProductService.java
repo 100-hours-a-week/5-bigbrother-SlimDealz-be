@@ -1,30 +1,29 @@
 package bigbrother.slimdealz.service;
 
 import bigbrother.slimdealz.entity.Product;
-import bigbrother.slimdealz.repository.ProductRepository;
+import bigbrother.slimdealz.repository.Product.ProductRepository;
+import bigbrother.slimdealz.repository.Product.ProductRepositoryImpl;
 import jakarta.persistence.Cacheable;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    private final ProductRepository productRepository;
+    private final ProductRepositoryImpl productRepositoryImpl;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public List<Product> searchProducts(String keyword) {
+        return productRepositoryImpl.searchByKeyword(keyword);
     }
 
-    @Cacheable(value = "productSearchCache", key = "#keyword")
-    public List<Product> searchByKeyword(String keyword) {
-        return productRepository.searchByKeyword(keyword);
-    }
-
-    public List<Product> searchByMeaning(String keyword) {
-        return productRepository.searchByMeaning(keyword);
-    }
-
-    public List<Product> searchByKoreanKeyword(String keyword) {
-        return productRepository.searchByKoreanKeyword(keyword);
-    }
+//    public List<Product> searchByMeaning(String keyword) {
+//        return productRepository.searchByMeaning(keyword);
+//    }
+//
+//    public List<Product> searchByKoreanKeyword(String keyword) {
+//        return productRepository.searchByKoreanKeyword(keyword);
+//    }
 }

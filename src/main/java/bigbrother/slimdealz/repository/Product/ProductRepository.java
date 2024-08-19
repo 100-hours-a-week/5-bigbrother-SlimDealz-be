@@ -1,4 +1,4 @@
-package bigbrother.slimdealz.repository;
+package bigbrother.slimdealz.repository.Product;
 
 import bigbrother.slimdealz.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;

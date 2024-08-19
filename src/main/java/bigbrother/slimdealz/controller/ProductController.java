@@ -1,33 +1,27 @@
 package bigbrother.slimdealz.controller;
 
 import bigbrother.slimdealz.entity.Product;
+import bigbrother.slimdealz.service.ProductService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class ProductController {
-    private final ProductController productService;
 
-    public ProductController(ProductController productService) {
-        this.productService = productService;
-    }
+    private final ProductService productService;
 
     @GetMapping("/search")
-    public List<Product> searchByKeyword(String keyword) {
-        return productService.searchByKeyword(keyword);
+    public List<Product> searchProducts(@RequestParam("keyword") String keyword) {
+        return productService.searchProducts(keyword);
     }
 
-    @GetMapping("/search/meaning")
-    public List<Product> searchByMeaning(String keyword) {
-        return productService.searchByMeaning(keyword);
-    }
-
-    @GetMapping("/search/converted")
-    public List<Product> searchByKoreanKeyword(String keyword) {
-        return productService.searchByKoreanKeyword(keyword);
-    }
 }
+
