@@ -76,10 +76,12 @@ public class KakaoAuthController {
         Map<String, Object> claims = Map.of(
                 "socialId", member.getSocialId(),
                 "name", member.getNickname(),
-                "role", member.getRole().getValue() // 사용자 역할 설정
+                "role", member.getRole().getValue(), // 사용자 역할 설정
+                "profile_image", member.getProfileImage()
         );
         String jwtToken = JWTutil.generateToken(claims, JWTConstants.ACCESS_EXP_TIME);
-
+        System.out.print(member.getRole());
+        System.out.print(member.getProfileImage());
         // 6. 리디렉션 URL을 정확히 문자열로 생성
         String redirectUrl = client_Url + "/signup?" +
                 "jwtToken=" + URLEncoder.encode(jwtToken, StandardCharsets.UTF_8) +
