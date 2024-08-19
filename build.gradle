@@ -86,6 +86,12 @@ sourceSets {
 configurations {
     querydsl.extendsFrom compileClasspath
 }
+tasks.withType(JavaCompile) {
+    options.annotationProcessorPath = configurations.querydsl
+}
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
+}
+clean {
+    delete querydslDir
 }
