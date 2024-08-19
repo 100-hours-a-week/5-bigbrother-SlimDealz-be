@@ -1,6 +1,6 @@
 package bigbrother.slimdealz.repository.Product;
 
-import bigbrother.slimdealz.entity.Product;
+import bigbrother.slimdealz.entity.product.Product;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +23,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         return queryFactory
                 .selectFrom(product)
+                .leftJoin(product.prices, price).fetchJoin()
                 .where(product.name.like(searchPattern))
                 .fetch();
     }

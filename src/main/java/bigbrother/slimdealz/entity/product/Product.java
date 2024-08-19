@@ -1,8 +1,11 @@
-package bigbrother.slimdealz.entity;
+package bigbrother.slimdealz.entity.product;
 
 
+import bigbrother.slimdealz.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Table(name = "products")
 @Entity
@@ -10,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor (access = AccessLevel.PROTECTED)
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "id")
@@ -20,8 +23,14 @@ public class Product extends BaseEntity{
 
     String image;
 
+    String brand;
+
     String category;
 
     @Column(name = "shipping_fee")
     String shippingFee;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Price> prices;
+
 }

@@ -1,10 +1,7 @@
 package bigbrother.slimdealz.service;
 
-import bigbrother.slimdealz.entity.Product;
-import bigbrother.slimdealz.repository.Product.ProductRepository;
+import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.repository.Product.ProductRepositoryImpl;
-import jakarta.persistence.Cacheable;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

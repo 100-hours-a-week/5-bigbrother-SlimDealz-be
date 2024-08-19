@@ -1,6 +1,6 @@
 package bigbrother.slimdealz.repository.Product;
 
-import bigbrother.slimdealz.entity.Product;
+import bigbrother.slimdealz.entity.product.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
