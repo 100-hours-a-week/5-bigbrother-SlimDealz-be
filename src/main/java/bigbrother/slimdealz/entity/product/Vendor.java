@@ -13,16 +13,16 @@ import lombok.*;
 public class Vendor extends BaseEntity {
 
     @Id
-    @GeneratedValue(generator = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "vendor_name")
+    @Column(name = "name")
     String vendorName;
 
-    @Column(name = "vendor_image")
+    @Column(name = "logo")
     String vendorImage;
 
-    @Column(name = "vendor_url")
+    @Column(name = "url")
     String vendorUrl;
 
 }

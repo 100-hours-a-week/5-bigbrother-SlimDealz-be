@@ -14,7 +14,7 @@ import java.time.Instant;
 public class PriceHistory {
 
     @Id
-    @GeneratedValue(generator = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(name = "previous_price")

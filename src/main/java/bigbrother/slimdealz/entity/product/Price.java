@@ -1,5 +1,8 @@
 package bigbrother.slimdealz.entity.product;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,25 +15,22 @@ import lombok.*;
 public class Price {
 
     @Id
-    @GeneratedValue(generator = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "set_price", nullable = false)
+    @Column(name = "price", nullable = false)
     int setPrice;
 
-    @Column(name = "discounted_price", nullable = false)
-    int discountedPrice;
+    @Column(name = "discounted_price")
+    Integer discountedPrice;
 
     String promotion;
 
-    @ManyToOne
-    @joinColumn(name = "product_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
-
-
-
 }
