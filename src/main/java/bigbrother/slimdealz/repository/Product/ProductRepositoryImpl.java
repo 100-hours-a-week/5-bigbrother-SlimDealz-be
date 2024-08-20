@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static bigbrother.slimdealz.entity.QProduct.product;
 import static bigbrother.slimdealz.entity.product.QPrice.price;
 import static bigbrother.slimdealz.entity.product.QProduct.product;
 
@@ -20,7 +21,18 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         return queryFactory
                 .selectFrom(product)
-                .where(product.name.containsIgnoreCase(keyword))
+                .where(product.name.containsIgnoreCase(keyword)) // containsIgnoreCase 부분검색, like '%%'
+                .fetch();
+    }
+
+    @Override
+    public List<Product> findLowestPriceProducts() {
+        return queryFactory
+                .select(product)
+                .from(product)
+                .join(price.product, product)
+                .orderBy(price.discountedPrice.asc())
+                .limit(10)
                 .fetch();
     }
 }

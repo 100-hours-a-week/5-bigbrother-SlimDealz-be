@@ -18,5 +18,10 @@ public class ProductController {
     public List<ProductDto> searchProducts(@RequestParam("keyword") String keyword) {
         return productService.searchProducts(keyword);
     }
+
+    @GetMapping("/today-lowest-products")
+    public List<ProductDto> findLowestPriceProducts() {
+        return productService.findLowestPriceProducts();
+    }
 }
 

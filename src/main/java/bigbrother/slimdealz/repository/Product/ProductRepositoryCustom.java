@@ -10,9 +10,6 @@ public interface ProductRepositoryCustom {
     // 키워드 검색
     List<Product> searchByKeyword(String keyword);
 
-    // 의미 검색
-//    List<Product> searchByMeaning(String keyword);
-
-    // 한글 키워드 검색
-//    List<Product> searchByKoreanKeyword(String keyword);
+    // 오늘의 최저가 상품
+    List<Product> findLowestPriceProducts();
 }
