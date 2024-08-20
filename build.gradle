@@ -48,6 +48,9 @@ dependencies {
     // firebase
     implementation 'com.google.firebase:firebase-admin:9.2.0'
 
+    // elastic search
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
