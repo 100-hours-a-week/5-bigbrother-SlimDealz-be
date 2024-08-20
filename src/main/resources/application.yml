@@ -7,11 +7,6 @@ spring:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/test_db?useSSL=false&serverTimezone=Asia/Seoul
-#    username: root
-#    password: 12345
 
   jpa:
     hibernate:

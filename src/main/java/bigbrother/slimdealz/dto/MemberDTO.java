@@ -13,6 +13,6 @@ public class MemberDTO {
     private String profileImage;  // 카카오 프로필 이미지 URL
     private String cardInfo;
     private String nickname;
-    private boolean recieveNotification; // 알림 설정
+    private boolean receiveNotification; // 알림 설정
 
 }

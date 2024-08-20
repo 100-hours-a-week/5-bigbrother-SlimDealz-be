@@ -5,6 +5,7 @@ import bigbrother.slimdealz.auth.JWTutil;
 import bigbrother.slimdealz.dto.MemberDTO;
 import bigbrother.slimdealz.entity.KakaoUserInfo;
 import bigbrother.slimdealz.entity.Member;
+import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.service.User.MemberService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,11 +44,10 @@ public class KakaoAuthController {
 
     @GetMapping("/auth/kakao/callback")
     public ResponseEntity<?> handleKakaoCallback(@RequestParam("code") String code) {
-        // 1. 카카오 서버에 액세스 토큰 및 리프레시 토큰 요청
+        // 1. 카카오 서버에 액세스 토큰 요청
         Map<String, Object> tokens = getKakaoAccessToken(code);
 
         String accessToken = (String) tokens.get("access_token");
-        String refreshToken = (String) tokens.get("refresh_token");
 
         // 2. 액세스 토큰을 사용하여 사용자 프로필 정보 가져오기
         ResponseEntity<String> userProfileResponse = getUserProfile(accessToken);
@@ -57,39 +59,45 @@ public class KakaoAuthController {
         // 4. 기존 회원 확인 및 등록 또는 업데이트
         Optional<Member> existingMember = memberService.findBySocialId(kakaoUserInfo.getSocialId());
         Member member;
+
+        String redirectUrl;
         if (existingMember.isPresent()) {
-            // 기존 회원이 존재하는 경우, 업데이트 로직을 추가할 수 있습니다.
             member = existingMember.get();
-            // 필요한 경우, 회원 정보를 업데이트
-            // memberService.updateMember(member, kakaoUserInfo);
+            redirectUrl = client_Url + "/main";
         } else {
-            // 기존 회원이 없는 경우, 새로 등록
             MemberDTO memberDTO = new MemberDTO();
             memberDTO.setName(kakaoUserInfo.getName());
             memberDTO.setSocialId(kakaoUserInfo.getSocialId());
             memberDTO.setProfileImage(kakaoUserInfo.getProfileImage());
 
-            member = memberService.saveMember(memberDTO);
+            member = Member.builder()
+                    .name(kakaoUserInfo.getName())
+                    .socialId(kakaoUserInfo.getSocialId())
+                    .profileImage(kakaoUserInfo.getProfileImage())
+                    .role(MemberRole.USER)
+                    .build();
+
+            redirectUrl = client_Url + "/signup";
         }
 
-        // 5. JWT 토큰 생성 (JwtUtils 사용)
+        // JWT 토큰 생성
         Map<String, Object> claims = Map.of(
                 "socialId", member.getSocialId(),
                 "name", member.getName(),
-                "role", member.getRole().getValue(), // 사용자 역할 설정
+                "role", member.getRole().getValue(),
                 "profile_image", member.getProfileImage()
         );
+
         String jwtToken = JWTutil.generateToken(claims, JWTConstants.ACCESS_EXP_TIME);
-        System.out.print(member.getRole());
-        System.out.print(member.getProfileImage());
-        // 6. 리디렉션 URL을 정확히 문자열로 생성
-        String redirectUrl = client_Url + "/signup?" +
-                "jwtToken=" + URLEncoder.encode(jwtToken, StandardCharsets.UTF_8) +
+        String refreshToken = JWTutil.generateToken(claims, JWTConstants.REFRESH_EXP_TIME);
+
+        // URI에 토큰을 포함시켜 리디렉션
+        redirectUrl += "?jwtToken=" + URLEncoder.encode(jwtToken, StandardCharsets.UTF_8) +
                 "&refreshToken=" + URLEncoder.encode(refreshToken, StandardCharsets.UTF_8);
 
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, redirectUrl)
-                .build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(redirectUrl));
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
     private Map<String, Object> getKakaoAccessToken(String authCode) {

@@ -21,7 +21,6 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/api/v1/members")
-
     public Map<String, String> signUp(@RequestBody MemberDTO memberDTO) {
         log.info("--------------------------- MemberController ---------------------------");
         log.info("memberDTO = {}", memberDTO);

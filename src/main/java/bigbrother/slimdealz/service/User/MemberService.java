@@ -28,6 +28,7 @@ public class MemberService {
                 .profileImage(memberDTO.getProfileImage())  // 필드 이름을 일관되게 변경
                 .nickname(memberDTO.getNickname())
                 .cardInfo(memberDTO.getCardInfo())
+                .receiveNotification(memberDTO.isReceiveNotification())
                 .role(MemberRole.USER)
                 .build();
         return memberRepository.save(member);

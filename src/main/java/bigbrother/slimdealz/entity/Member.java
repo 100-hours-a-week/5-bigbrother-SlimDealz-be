@@ -24,7 +24,7 @@ public class Member {
     private String nickname;
     private String cardInfo;
 
-    private boolean recieveNotification; // 알림 설정
+    private boolean receiveNotification; // 올바른 철자로 변경
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;
