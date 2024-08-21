@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static bigbrother.slimdealz.entity.QProduct.product;
 import static bigbrother.slimdealz.entity.product.QPrice.price;
 import static bigbrother.slimdealz.entity.product.QProduct.product;
 
@@ -29,7 +28,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public List<Product> findLowestPriceProducts() {
         return queryFactory
                 .select(product)
-                .from(product)
+                .from(price)
                 .join(price.product, product)
                 .orderBy(price.discountedPrice.asc())
                 .limit(10)
