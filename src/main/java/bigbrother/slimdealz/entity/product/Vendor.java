@@ -26,3 +26,7 @@ public class Vendor extends BaseEntity {
     String vendorUrl;
 
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes

@@ -5,9 +5,7 @@ import bigbrother.slimdealz.dto.MemberDTO;
 import bigbrother.slimdealz.service.User.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,5 +33,40 @@ public class MemberController {
             response.put("success", "성공적으로 처리하였습니다");
         }
         return response;
+    }
+
+    @PutMapping("/api/v1/users/{socialId}/profile")
+    public Map<String, String> updateMemberProfile(
+            @PathVariable String socialId,
+            @RequestBody MemberDTO memberDTO) {
+
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            memberService.updateMemberProfile(socialId, memberDTO);
+            response.put("success", "회원 정보가 성공적으로 수정되었습니다");
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+        }
+
+        return response;
+    }
+
+    @GetMapping("/api/v1/users/{socialId}/profile")
+    public MemberDTO getMemberProfile(@PathVariable String socialId) {
+        Optional<Member> optionalMember = memberService.findBySocialId(socialId);
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            MemberDTO memberDTO = new MemberDTO();
+            memberDTO.setName(member.getName());
+            memberDTO.setNickname(member.getNickname());
+            memberDTO.setSocialId(member.getSocialId());
+            memberDTO.setProfileImage(member.getProfileImage());
+            memberDTO.setCardInfo(member.getCardInfo());
+            memberDTO.setReceiveNotification(member.isReceiveNotification());
+            return memberDTO;
+        } else {
+            throw new RuntimeException("User not found with socialId: " + socialId);
+        }
     }
 }

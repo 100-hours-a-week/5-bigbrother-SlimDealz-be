@@ -134,4 +134,6 @@ public class KakaoAuthController {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(profileUri, HttpMethod.GET, entity, String.class);
     }
+
+
 }

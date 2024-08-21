@@ -31,3 +31,7 @@ public class ProductConverter {
                 .build();
     }
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes

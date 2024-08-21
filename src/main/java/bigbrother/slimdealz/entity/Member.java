@@ -1,16 +1,14 @@
 package bigbrother.slimdealz.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name= "users")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

@@ -17,3 +17,7 @@ public class PriceDto {
     private Long productId;
     private Long vendorId;
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes

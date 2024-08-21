@@ -20,13 +20,13 @@ import java.util.Map;
 @Slf4j
 public class JWTFilter extends OncePerRequestFilter {
 
-    // JWT 검증을 제외할 경로 설정
-    private static final String[] whitelist = {"/signIn", "/signUp", "/login", "/refresh", "/", "/index.html", "/auth/kakao/callback"};
+    // JWT 검증을 적용할 경로 패턴 설정
+    private static final String[] protectedPaths = {"/api/v1/users/**"};
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String requestURI = request.getRequestURI();
-        return PatternMatchUtils.simpleMatch(whitelist, requestURI);
+        return !PatternMatchUtils.simpleMatch(protectedPaths, requestURI);
     }
 
     @Override
@@ -36,14 +36,15 @@ public class JWTFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader(JWTConstants.JWT_HEADER);
 
         try {
-            JWTFilter.checkAuthorizationHeader(authHeader);
-            String token = JWTutil.getTokenFromHeader(authHeader);
-            Authentication authentication = JWTutil.getAuthentication(token);
+            if (authHeader != null && authHeader.startsWith(JWTConstants.JWT_TYPE)) {
+                // JWT 검증이 필요한 경로일 때만 검증 수행
+                String token = JWTutil.getTokenFromHeader(authHeader);
+                Authentication authentication = JWTutil.getAuthentication(token);
 
-            log.info("인증 정보: {}", authentication);
+                log.info("인증 정보: {}", authentication);
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             handleException(response, e);
@@ -74,4 +75,3 @@ public class JWTFilter extends OncePerRequestFilter {
         printWriter.close();
     }
 }
-

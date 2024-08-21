@@ -13,3 +13,7 @@ public interface ProductRepositoryCustom {
     // 오늘의 최저가 상품
     List<Product> findLowestPriceProducts();
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes

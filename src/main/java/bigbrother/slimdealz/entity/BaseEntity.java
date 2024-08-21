@@ -29,3 +29,7 @@ public abstract class BaseEntity {
     private Instant deletedAt;
 
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes

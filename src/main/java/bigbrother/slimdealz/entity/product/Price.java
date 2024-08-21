@@ -34,3 +34,7 @@ public class Price {
     @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
