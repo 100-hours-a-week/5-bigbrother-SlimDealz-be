@@ -50,3 +50,7 @@ spring:
     repositories:
       enalbled: true
     url: localhost:9200
+
+logging:
+  level:
+    root: info
