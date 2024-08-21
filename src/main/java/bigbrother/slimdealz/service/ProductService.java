@@ -1,29 +1,30 @@
 package bigbrother.slimdealz.service;
 
-import bigbrother.slimdealz.entity.Product;
+import bigbrother.slimdealz.dto.ProductConverter;
+import bigbrother.slimdealz.dto.ProductDto;
 import bigbrother.slimdealz.repository.Product.ProductRepository;
-import bigbrother.slimdealz.repository.Product.ProductRepositoryImpl;
-import jakarta.persistence.Cacheable;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-    private final ProductRepositoryImpl productRepositoryImpl;
+    private final ProductRepository productRepository;
 
-    public List<Product> searchProducts(String keyword) {
-        return productRepositoryImpl.searchByKeyword(keyword);
+    public List<ProductDto> searchProducts(String keyword) {
+        return productRepository.searchByKeyword(keyword)
+                .stream()
+                .map(ProductConverter::toProductDTO) //converter 를 통해 DTO 로 변환
+                .collect(Collectors.toList()); // stream의 변환된 요소들을 리스트로 반환
     }
 
-//    public List<Product> searchByMeaning(String keyword) {
-//        return productRepository.searchByMeaning(keyword);
-//    }
-//
-//    public List<Product> searchByKoreanKeyword(String keyword) {
-//        return productRepository.searchByKoreanKeyword(keyword);
-//    }
+    public List<ProductDto> findLowestPriceProducts() {
+        return productRepository.findLowestPriceProducts()
+                .stream()
+                .map(ProductConverter::toProductDTO)
+                .collect(Collectors.toList());
+    }
 }

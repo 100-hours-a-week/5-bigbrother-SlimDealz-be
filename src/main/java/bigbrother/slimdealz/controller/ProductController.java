@@ -1,13 +1,9 @@
 package bigbrother.slimdealz.controller;
 
-import bigbrother.slimdealz.entity.Product;
+import bigbrother.slimdealz.dto.ProductDto;
 import bigbrother.slimdealz.service.ProductService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +15,13 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/search")
-    public List<Product> searchProducts(@RequestParam("keyword") String keyword) {
+    public List<ProductDto> searchProducts(@RequestParam("keyword") String keyword) {
         return productService.searchProducts(keyword);
     }
 
+    @GetMapping("/today-lowest-products")
+    public List<ProductDto> findLowestPriceProducts() {
+        return productService.findLowestPriceProducts();
+    }
 }
 

@@ -1,6 +1,6 @@
 package bigbrother.slimdealz.repository.Product;
 
-import bigbrother.slimdealz.entity.Product;
+import bigbrother.slimdealz.entity.product.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,9 +10,6 @@ public interface ProductRepositoryCustom {
     // 키워드 검색
     List<Product> searchByKeyword(String keyword);
 
-    // 의미 검색
-//    List<Product> searchByMeaning(String keyword);
-
-    // 한글 키워드 검색
-//    List<Product> searchByKoreanKeyword(String keyword);
+    // 오늘의 최저가 상품
+    List<Product> findLowestPriceProducts();
 }
