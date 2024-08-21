@@ -1,6 +1,5 @@
 package bigbrother.slimdealz.config;
 
-
 import bigbrother.slimdealz.auth.JWTFilter;
 import bigbrother.slimdealz.exception.CommonLoginFailHandler;
 import bigbrother.slimdealz.exception.CommonLoginSuccessHandler;
@@ -95,3 +94,4 @@ public class SecurityConfig {
         return http.build();
     }
 }
+
