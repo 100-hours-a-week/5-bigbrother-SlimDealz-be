@@ -12,4 +12,7 @@ public interface ProductRepositoryCustom {
 
     // 오늘의 최저가 상품
     List<Product> findLowestPriceProducts();
+
+    // 상품 상세 페이지
+    Product findProductWithLowestPriceByName(String productName);
 }
