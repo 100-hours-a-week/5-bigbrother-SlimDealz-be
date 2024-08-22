@@ -1,4 +1,7 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 package bigbrother.slimdealz.repository.Product;
 
 import bigbrother.slimdealz.entity.product.Product;
@@ -38,6 +41,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .limit(10)
                 .fetch();
     }
+<<<<<<< Updated upstream
 }
 =======
 //package bigbrother.slimdealz.repository.Product;
@@ -80,4 +84,26 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 //                .fetch();
 //    }
 //}
+>>>>>>> Stashed changes
+=======
+
+    @Override
+    public Product findProductWithLowestPriceByName(String productName) {
+        return queryFactory
+                .selectFrom(product)
+                .join(product.prices, price)
+                .where(product.name.eq(productName)) // 상품명과 일치하는 상품만 조회
+                .groupBy(product.id, price.vendor.id)
+                .orderBy(product.name.asc(), price.discountedPrice.asc()) // 할인가 기준 최저가 정렬
+                .fetchFirst(); // 정렬한 상품 중 첫번째 상품 반환
+    }
+
+    @Override
+    public List<Product> findByCategory(String category) {
+        return queryFactory
+                .selectFrom(product)
+                .where(product.category.eq(category)) // 카테고리 별 조회
+                .fetch();
+    }
+}
 >>>>>>> Stashed changes

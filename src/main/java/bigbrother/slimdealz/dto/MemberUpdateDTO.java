@@ -3,8 +3,13 @@ package bigbrother.slimdealz.dto;
 public class MemberUpdateDTO {
 
     private String nickname;
+<<<<<<< Updated upstream
     private String cardInfo;
     private boolean receiveNotification;
+=======
+    private String card;
+    private boolean notification_agree;
+>>>>>>> Stashed changes
 
     // Getters and Setters
 
@@ -16,6 +21,7 @@ public class MemberUpdateDTO {
         this.nickname = nickname;
     }
 
+<<<<<<< Updated upstream
     public String getCardInfo() {
         return cardInfo;
     }
@@ -30,5 +36,21 @@ public class MemberUpdateDTO {
 
     public void setReceiveNotification(boolean receiveNotification) {
         this.receiveNotification = receiveNotification;
+=======
+    public String getCard() {
+        return card;
+    }
+
+    public void setCard(String card) {
+        this.card = card;
+    }
+
+    public boolean getNotification_Agree() {
+        return notification_agree;
+    }
+
+    public void setNotification_Agree(boolean notification_agree) {
+        this.notification_agree = notification_agree;
+>>>>>>> Stashed changes
     }
 }

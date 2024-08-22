@@ -74,4 +74,8 @@ public class JWTFilter extends OncePerRequestFilter {
         printWriter.println(json);
         printWriter.close();
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

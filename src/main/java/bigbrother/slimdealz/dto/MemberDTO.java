@@ -9,10 +9,14 @@ import lombok.ToString;
 @ToString
 public class MemberDTO {
     private String name;      // 카카오에서 가져온 닉네임
-    private String socialId;      // 카카오 사용자 ID
+    private String kakao_Id;      // 카카오 사용자 ID
     private String profileImage;  // 카카오 프로필 이미지 URL
-    private String cardInfo;
+    private String card;
     private String nickname;
+<<<<<<< Updated upstream
     private boolean receiveNotification; // 알림 설정
+=======
+    private boolean notification_agree; // 알림 설정
+>>>>>>> Stashed changes
 
 }

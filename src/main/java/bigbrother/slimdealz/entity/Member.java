@@ -7,6 +7,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name= "users")
+<<<<<<< Updated upstream
+=======
+@Setter
+>>>>>>> Stashed changes
 @Getter
 @Setter
 @Builder
@@ -18,12 +22,16 @@ public class Member {
     private Long id;
 
     private String name;
-    private String socialId;
+    private String kakao_Id;
     private String profileImage;
     private String nickname;
-    private String cardInfo;
+    private String card;
 
+<<<<<<< Updated upstream
     private boolean receiveNotification; // 올바른 철자로 변경
+=======
+    private boolean notification_agree; // 올바른 철자로 변경
+>>>>>>> Stashed changes
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;

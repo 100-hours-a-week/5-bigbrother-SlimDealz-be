@@ -27,6 +27,9 @@ public class Vendor extends BaseEntity {
 
 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

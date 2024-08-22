@@ -35,6 +35,9 @@ public class Price {
     private Vendor vendor;
 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
