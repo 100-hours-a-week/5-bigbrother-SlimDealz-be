@@ -1,6 +1,7 @@
 package bigbrother.slimdealz.controller;
 
 import bigbrother.slimdealz.dto.ProductDto;
+import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.service.ProductService;
@@ -41,6 +42,19 @@ public class ProductController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e.getMessage());
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/product-detail")
+    public ProductDto getProductWithLowestPriceByName(@RequestParam("productName") String productName) {
+        try {
+            return productService.getProductWithLowestPriceByName(productName);
+        } catch (CustomException e) {
+            log.error(e.getDetailMessage());
+            throw e;
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
         }

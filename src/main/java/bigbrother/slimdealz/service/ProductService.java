@@ -2,6 +2,7 @@ package bigbrother.slimdealz.service;
 
 import bigbrother.slimdealz.dto.ProductConverter;
 import bigbrother.slimdealz.dto.ProductDto;
+import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.repository.Product.ProductRepository;
@@ -38,5 +39,14 @@ public class ProductService {
             throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
         }
         return products;
+    }
+
+    public ProductDto getProductWithLowestPriceByName(String productName) {
+        Product product = productRepository.findProductWithLowestPriceByName(productName);
+
+        if(product == null) {
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
+        }
+        return ProductConverter.toProductDTO(product);
     }
 }
