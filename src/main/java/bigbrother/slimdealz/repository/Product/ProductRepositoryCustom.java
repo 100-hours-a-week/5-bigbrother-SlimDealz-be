@@ -15,4 +15,7 @@ public interface ProductRepositoryCustom {
 
     // 상품 상세 페이지
     Product findProductWithLowestPriceByName(String productName);
+
+    // 상품 목록
+    List<Product> findByCategory(String category);
 }

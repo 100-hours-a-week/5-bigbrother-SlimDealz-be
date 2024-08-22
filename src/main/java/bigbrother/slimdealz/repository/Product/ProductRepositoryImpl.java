@@ -48,4 +48,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .orderBy(product.name.asc(), price.discountedPrice.asc()) // 할인가 기준 최저가 정렬
                 .fetchFirst(); // 정렬한 상품 중 첫번째 상품 반환
     }
+
+    @Override
+    public List<Product> findByCategory(String category) {
+        return queryFactory
+                .selectFrom(product)
+                .where(product.category.eq(category)) // 카테고리 별 조회
+                .fetch();
+    }
 }

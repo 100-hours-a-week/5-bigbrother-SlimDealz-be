@@ -59,5 +59,18 @@ public class ProductController {
             throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
         }
     }
+
+    @GetMapping("/products")
+    public List<ProductDto> findByCategory(@RequestParam("category") String category) {
+        try {
+            return productService.findByCategory(category);
+        } catch (CustomException e) {
+            log.error(e.getDetailMessage());
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
+        }
+    }
 }
 
