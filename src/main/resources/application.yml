@@ -10,8 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
     properties:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
