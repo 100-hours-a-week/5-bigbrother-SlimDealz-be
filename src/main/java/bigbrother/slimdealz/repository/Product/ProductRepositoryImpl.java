@@ -1,5 +1,8 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 package bigbrother.slimdealz.repository.Product;
@@ -42,8 +45,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .fetch();
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 =======
+=======
+
+>>>>>>> Stashed changes
 //package bigbrother.slimdealz.repository.Product;
 //
 //import bigbrother.slimdealz.entity.product.Product;
@@ -84,8 +91,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 //                .fetch();
 //    }
 //}
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> Stashed changes
 
     @Override
     public Product findProductWithLowestPriceByName(String productName) {
@@ -106,4 +116,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .fetch();
     }
 }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

@@ -14,9 +14,13 @@ public class MemberDTO {
     private String card;
     private String nickname;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private boolean receiveNotification; // 알림 설정
 =======
     private boolean notification_agree; // 알림 설정
 >>>>>>> Stashed changes
 
+=======
+    private boolean notification_agree; // 알림 설정
+>>>>>>> Stashed changes
 }

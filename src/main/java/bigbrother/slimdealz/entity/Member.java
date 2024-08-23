@@ -8,8 +8,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name= "users")
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 @Setter
+>>>>>>> Stashed changes
+=======
+
 >>>>>>> Stashed changes
 @Getter
 @Setter
@@ -26,9 +30,13 @@ public class Member {
     private String profileImage;
     private String nickname;
     private String card;
+<<<<<<< Updated upstream
 
 <<<<<<< Updated upstream
     private boolean receiveNotification; // 올바른 철자로 변경
+=======
+    private boolean notification_agree; // 올바른 철자로 변경
+>>>>>>> Stashed changes
 =======
     private boolean notification_agree; // 올바른 철자로 변경
 >>>>>>> Stashed changes

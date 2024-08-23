@@ -33,6 +33,7 @@ public class Price {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
+<<<<<<< Updated upstream
 }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -40,4 +41,7 @@ public class Price {
 
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+}
 >>>>>>> Stashed changes

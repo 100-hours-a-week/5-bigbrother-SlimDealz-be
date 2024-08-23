@@ -4,6 +4,7 @@ public class MemberUpdateDTO {
 
     private String nickname;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private String cardInfo;
     private boolean receiveNotification;
 =======
@@ -45,12 +46,22 @@ public class MemberUpdateDTO {
         this.card = card;
     }
 
+=======
+    private String card;
+    private boolean notification_agree;
+
+    // Getters and Setters
+
+>>>>>>> Stashed changes
     public boolean getNotification_Agree() {
         return notification_agree;
     }
 
     public void setNotification_Agree(boolean notification_agree) {
         this.notification_agree = notification_agree;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 }

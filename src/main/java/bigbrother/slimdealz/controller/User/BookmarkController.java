@@ -1,6 +1,7 @@
 package bigbrother.slimdealz.controller.User;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import bigbrother.slimdealz.dto.PriceDto;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.dto.ProductDto;
@@ -9,15 +10,21 @@ import bigbrother.slimdealz.repository.User.MemberRepository;
 import bigbrother.slimdealz.service.User.BookmarkService;
 import lombok.RequiredArgsConstructor;
 =======
+=======
+>>>>>>> Stashed changes
 import bigbrother.slimdealz.dto.BookmarkDto;
 import bigbrother.slimdealz.service.User.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 import java.util.stream.Collectors;
 
@@ -28,10 +35,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/users/{userId}/bookmarks")
 >>>>>>> Stashed changes
+=======
+
+@RestController
+@RequestMapping("/api/v1/users/{userId}/bookmarks")
+>>>>>>> Stashed changes
 @RequiredArgsConstructor
 public class BookmarkController {
 
     private final BookmarkService bookmarkService;
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     private final MemberRepository memberRepository;
 
@@ -72,6 +85,8 @@ public class BookmarkController {
     }
 }
 =======
+=======
+>>>>>>> Stashed changes
 
     @GetMapping
     public ResponseEntity<List<BookmarkDto>> getUserBookmarks(@PathVariable Long userId) {
@@ -90,5 +105,9 @@ public class BookmarkController {
         bookmarkService.deleteBookmark(userId, bookmarkId);
         return ResponseEntity.noContent().build();
     }
+<<<<<<< Updated upstream
+}
+>>>>>>> Stashed changes
+=======
 }
 >>>>>>> Stashed changes

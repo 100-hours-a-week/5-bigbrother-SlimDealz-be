@@ -30,6 +30,7 @@ public class ProductConverter {
                 .vendorId(price.getVendor().getId())
                 .build();
     }
+<<<<<<< Updated upstream
 }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -37,4 +38,7 @@ public class ProductConverter {
 
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+}
 >>>>>>> Stashed changes

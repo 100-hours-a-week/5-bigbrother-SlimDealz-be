@@ -29,8 +29,13 @@ public class MemberService {
                 .profileImage(memberDTO.getProfileImage())  // 필드 이름을 일관되게 변경
                 .nickname(memberDTO.getNickname())
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 .cardInfo(memberDTO.getCardInfo())
                 .receiveNotification(memberDTO.isReceiveNotification())
+=======
+                .card(memberDTO.getCard())
+                .notification_agree(memberDTO.isNotification_agree())
+>>>>>>> Stashed changes
 =======
                 .card(memberDTO.getCard())
                 .notification_agree(memberDTO.isNotification_agree())
@@ -41,8 +46,13 @@ public class MemberService {
     }
     //MemberService에 업데이트 메서드 추가:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public Member updateMemberProfile(String socialId, MemberDTO memberDTO) {
         Optional<Member> optionalMember = memberRepository.findBySocialId(socialId);
+=======
+    public Member updateMemberProfile(String kakao_Id, MemberDTO memberDTO) {
+        Optional<Member> optionalMember = memberRepository.findByKakaoId(kakao_Id);
+>>>>>>> Stashed changes
 =======
     public Member updateMemberProfile(String kakao_Id, MemberDTO memberDTO) {
         Optional<Member> optionalMember = memberRepository.findByKakaoId(kakao_Id);
@@ -52,6 +62,7 @@ public class MemberService {
             Member member = optionalMember.get();
             member.setNickname(memberDTO.getNickname());
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             member.setCardInfo(memberDTO.getCardInfo());
             member.setReceiveNotification(memberDTO.isReceiveNotification());
 
@@ -59,12 +70,17 @@ public class MemberService {
         } else {
             throw new RuntimeException("User not found with socialId: " + socialId);
 =======
+=======
+>>>>>>> Stashed changes
             member.setCard(memberDTO.getCard());
             member.setNotification_agree(memberDTO.isNotification_agree());
 
             return memberRepository.save(member);
         } else {
             throw new RuntimeException("User not found with kakao_Id: " + kakao_Id);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         }
     }

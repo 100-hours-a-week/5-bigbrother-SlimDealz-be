@@ -4,6 +4,12 @@ package bigbrother.slimdealz.service;
 import bigbrother.slimdealz.dto.ProductConverter;
 import bigbrother.slimdealz.dto.ProductDto;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+import bigbrother.slimdealz.entity.product.Product;
+import bigbrother.slimdealz.exception.CustomErrorCode;
+import bigbrother.slimdealz.exception.CustomException;
+>>>>>>> Stashed changes
 =======
 import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
@@ -22,6 +28,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public List<ProductDto> searchProducts(String keyword) {
         return productRepository.searchByKeyword(keyword)
                 .stream()
@@ -35,6 +42,8 @@ public class ProductService {
                 .map(ProductConverter::toProductDTO)
                 .collect(Collectors.toList());
 =======
+=======
+>>>>>>> Stashed changes
     // 상품 검색
     public List<ProductDto> searchProducts(String keyword) {
         List<ProductDto> products = productRepository.searchByKeyword(keyword)
@@ -82,6 +91,9 @@ public class ProductService {
             throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
         }
         return products;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 }

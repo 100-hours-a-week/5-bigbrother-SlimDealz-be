@@ -39,7 +39,13 @@ spring:
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+>>>>>>> Stashed changes
+=======
+
+
+
 >>>>>>> Stashed changes
   data:
     redis:
@@ -49,6 +55,7 @@ spring:
       timeout: 2000
     cache:
       type: redis
+<<<<<<< Updated upstream
 
 <<<<<<< Updated upstream
   elasticsearch:
@@ -64,15 +71,24 @@ spring:
 #      timeout: 2000
 #    cache:
 #      type: redis
+=======
+>>>>>>> Stashed changes
 #
 #  elasticsearch:
 #    repositories:
 #      enalbled: true
 #    url: localhost:9200
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 =======
+=======
+
+>>>>>>> Stashed changes
 #  elasticsearch:
 #    repositories:
 #      enalbled: true
 #    url: localhost:9200
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

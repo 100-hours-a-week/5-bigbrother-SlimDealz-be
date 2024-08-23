@@ -25,6 +25,7 @@ public class Vendor extends BaseEntity {
     @Column(name = "url")
     String vendorUrl;
 
+<<<<<<< Updated upstream
 }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -32,4 +33,7 @@ public class Vendor extends BaseEntity {
 
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+}
 >>>>>>> Stashed changes

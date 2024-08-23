@@ -36,9 +36,15 @@ public class MemberController {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     @PutMapping("/api/v1/users/{socialId}/profile")
     public Map<String, String> updateMemberProfile(
             @PathVariable String socialId,
+=======
+    @PutMapping("/api/v1/users/{kakao_Id}/profile")
+    public Map<String, String> updateMemberProfile(
+            @PathVariable String kakao_Id,
+>>>>>>> Stashed changes
 =======
     @PutMapping("/api/v1/users/{kakao_Id}/profile")
     public Map<String, String> updateMemberProfile(
@@ -50,7 +56,11 @@ public class MemberController {
 
         try {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             memberService.updateMemberProfile(socialId, memberDTO);
+=======
+            memberService.updateMemberProfile(kakao_Id, memberDTO);
+>>>>>>> Stashed changes
 =======
             memberService.updateMemberProfile(kakao_Id, memberDTO);
 >>>>>>> Stashed changes
@@ -63,9 +73,15 @@ public class MemberController {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     @GetMapping("/api/v1/users/{socialId}/profile")
     public MemberDTO getMemberProfile(@PathVariable String socialId) {
         Optional<Member> optionalMember = memberService.findBySocialId(socialId);
+=======
+    @GetMapping("/api/v1/users/{kakao_Id}/profile")
+    public MemberDTO getMemberProfile(@PathVariable String kakao_Id) {
+        Optional<Member> optionalMember = memberService.findByKakaoId(kakao_Id);
+>>>>>>> Stashed changes
 =======
     @GetMapping("/api/v1/users/{kakao_Id}/profile")
     public MemberDTO getMemberProfile(@PathVariable String kakao_Id) {
@@ -77,6 +93,7 @@ public class MemberController {
             memberDTO.setName(member.getName());
             memberDTO.setNickname(member.getNickname());
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             memberDTO.setSocialId(member.getSocialId());
             memberDTO.setProfileImage(member.getProfileImage());
             memberDTO.setCardInfo(member.getCardInfo());
@@ -85,6 +102,8 @@ public class MemberController {
         } else {
             throw new RuntimeException("User not found with socialId: " + socialId);
 =======
+=======
+>>>>>>> Stashed changes
             memberDTO.setKakao_Id(member.getKakao_Id());
             memberDTO.setProfileImage(member.getProfileImage());
             memberDTO.setCard(member.getCard());
@@ -92,6 +111,9 @@ public class MemberController {
             return memberDTO;
         } else {
             throw new RuntimeException("User not found with kakao_Id: " + kakao_Id);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         }
     }

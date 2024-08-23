@@ -28,6 +28,7 @@ public abstract class BaseEntity {
     @Column(name = "deleted_at")
     private Instant deletedAt;
 
+<<<<<<< Updated upstream
 }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -35,4 +36,7 @@ public abstract class BaseEntity {
 
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+}
 >>>>>>> Stashed changes

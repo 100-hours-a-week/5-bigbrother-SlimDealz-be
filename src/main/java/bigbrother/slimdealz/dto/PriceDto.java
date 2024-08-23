@@ -16,6 +16,7 @@ public class PriceDto {
     private String promotion;
     private Long productId;
     private Long vendorId;
+<<<<<<< Updated upstream
 }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -23,4 +24,7 @@ public class PriceDto {
 
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+}
 >>>>>>> Stashed changes

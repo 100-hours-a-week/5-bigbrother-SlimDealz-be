@@ -1,7 +1,10 @@
 package bigbrother.slimdealz.entity;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import bigbrother.slimdealz.entity.Member;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 import bigbrother.slimdealz.entity.product.Product;
@@ -12,7 +15,11 @@ import java.sql.Timestamp;
 
 @Entity
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 @Table(name = "bookmark")
+=======
+@Table(name = "bookmarks")
+>>>>>>> Stashed changes
 =======
 @Table(name = "bookmarks")
 >>>>>>> Stashed changes
@@ -29,6 +36,7 @@ public class Bookmark {
 
     @ManyToOne(fetch = FetchType.LAZY)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     @JoinColumn(name = "user_id")
     private Member member;  // Member 엔티티와 연관
 
@@ -43,6 +51,8 @@ public class Bookmark {
 
     // Getters and Setters
 =======
+=======
+>>>>>>> Stashed changes
     @JoinColumn(name = "user_id", nullable = false)
     private Member member;  // Reference to the Member entity
 
@@ -55,5 +65,8 @@ public class Bookmark {
 
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
