@@ -41,6 +41,7 @@ public class KakaoAuthController {
     @Autowired
     private final RestTemplate restTemplate;
 
+    @Autowired
     public KakaoAuthController(MemberService memberService, RestTemplate restTemplate) {
         this.memberService = memberService;
         this.restTemplate = restTemplate;
