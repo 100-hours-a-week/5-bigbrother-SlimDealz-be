@@ -36,9 +36,11 @@ public class KakaoAuthController {
     private String client_Url;
 
     private final MemberService memberService;
+    private final RestTemplate restTemplate;
 
-    public KakaoAuthController(MemberService memberService) {
+    public KakaoAuthController(MemberService memberService, RestTemplate restTemplate) {
         this.memberService = memberService;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping("/auth/kakao/callback")
