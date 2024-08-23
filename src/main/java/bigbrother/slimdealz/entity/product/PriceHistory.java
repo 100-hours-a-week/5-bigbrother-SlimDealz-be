@@ -30,6 +30,6 @@ public class PriceHistory {
     Instant endAt;
 
     @ManyToOne
-    @JoinColumn(name = "price_id")
+    @JoinColumn(name = "price_id", nullable = false, foreignKey = @ForeignKey(name = "FK_PriceHistory_Price"))
     private Price price;
 }
