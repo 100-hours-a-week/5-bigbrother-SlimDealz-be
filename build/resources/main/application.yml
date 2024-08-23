@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create # 개발 이후 validate 로 변경
+      ddl-auto: validate # 개발 이후 validate 로 변경
     show-sql: true
     properties:
       hibernate.format_sql: true
@@ -50,3 +50,7 @@ spring:
     repositories:
       enalbled: true
     url: localhost:9200
+
+logging:
+  level:
+    root: info
