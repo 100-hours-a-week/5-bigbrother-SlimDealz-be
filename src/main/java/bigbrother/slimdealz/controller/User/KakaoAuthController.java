@@ -37,11 +37,10 @@ public class KakaoAuthController {
     private String client_Url;
 
     @Autowired
-    private final MemberService memberService;
+    private MemberService memberService;
     @Autowired
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    @Autowired
     public KakaoAuthController(MemberService memberService, RestTemplate restTemplate) {
         this.memberService = memberService;
         this.restTemplate = restTemplate;
