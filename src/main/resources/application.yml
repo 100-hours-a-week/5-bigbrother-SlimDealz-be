@@ -37,16 +37,9 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id # 유저 정보 조회 시 반환되는 최상위 필드명으로 해야 한다.
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-=======
 
 
 
->>>>>>> Stashed changes
   data:
     redis:
       host: ${REDIS_HOST}
@@ -55,40 +48,13 @@ spring:
       timeout: 2000
     cache:
       type: redis
-<<<<<<< Updated upstream
-
-<<<<<<< Updated upstream
-  elasticsearch:
-    repositories:
-      enalbled: true
-    url: localhost:9200
-=======
-#  data:
-#    redis:
-#      host: ${REDIS_HOST}
-#      port: ${REDIS_PORT}
-#      password: ${REDIS_PASSWORD}
-#      timeout: 2000
-#    cache:
-#      type: redis
-=======
->>>>>>> Stashed changes
 #
 #  elasticsearch:
 #    repositories:
 #      enalbled: true
 #    url: localhost:9200
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
-=======
 
->>>>>>> Stashed changes
 #  elasticsearch:
 #    repositories:
 #      enalbled: true
 #    url: localhost:9200
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes

@@ -16,15 +16,4 @@ public class PriceDto {
     private String promotion;
     private Long productId;
     private Long vendorId;
-<<<<<<< Updated upstream
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
-}
->>>>>>> Stashed changes

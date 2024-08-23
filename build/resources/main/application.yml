@@ -38,7 +38,6 @@ spring:
             user-name-attribute: id # 유저 정보 조회 시 반환되는 최상위 필드명으로 해야 한다.
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 #  data:
 #    redis:
 #      host: ${REDIS_HOST}
@@ -49,11 +48,6 @@ spring:
 #      type: redis
 #
 =======
-=======
-
-
-
->>>>>>> Stashed changes
   data:
     redis:
       host: ${REDIS_HOST}
@@ -62,22 +56,9 @@ spring:
       timeout: 2000
     cache:
       type: redis
-<<<<<<< Updated upstream
 
 >>>>>>> Stashed changes
 #  elasticsearch:
 #    repositories:
 #      enalbled: true
 #    url: localhost:9200
-=======
-#
-#  elasticsearch:
-#    repositories:
-#      enalbled: true
-#    url: localhost:9200
-
-#  elasticsearch:
-#    repositories:
-#      enalbled: true
-#    url: localhost:9200
->>>>>>> Stashed changes

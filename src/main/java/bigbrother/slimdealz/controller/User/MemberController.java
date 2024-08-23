@@ -35,35 +35,15 @@ public class MemberController {
         return response;
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    @PutMapping("/api/v1/users/{socialId}/profile")
-    public Map<String, String> updateMemberProfile(
-            @PathVariable String socialId,
-=======
     @PutMapping("/api/v1/users/{kakao_Id}/profile")
     public Map<String, String> updateMemberProfile(
             @PathVariable String kakao_Id,
->>>>>>> Stashed changes
-=======
-    @PutMapping("/api/v1/users/{kakao_Id}/profile")
-    public Map<String, String> updateMemberProfile(
-            @PathVariable String kakao_Id,
->>>>>>> Stashed changes
             @RequestBody MemberDTO memberDTO) {
 
         Map<String, String> response = new HashMap<>();
 
         try {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            memberService.updateMemberProfile(socialId, memberDTO);
-=======
             memberService.updateMemberProfile(kakao_Id, memberDTO);
->>>>>>> Stashed changes
-=======
-            memberService.updateMemberProfile(kakao_Id, memberDTO);
->>>>>>> Stashed changes
             response.put("success", "회원 정보가 성공적으로 수정되었습니다");
         } catch (Exception e) {
             response.put("error", e.getMessage());
@@ -72,38 +52,14 @@ public class MemberController {
         return response;
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    @GetMapping("/api/v1/users/{socialId}/profile")
-    public MemberDTO getMemberProfile(@PathVariable String socialId) {
-        Optional<Member> optionalMember = memberService.findBySocialId(socialId);
-=======
     @GetMapping("/api/v1/users/{kakao_Id}/profile")
     public MemberDTO getMemberProfile(@PathVariable String kakao_Id) {
         Optional<Member> optionalMember = memberService.findByKakaoId(kakao_Id);
->>>>>>> Stashed changes
-=======
-    @GetMapping("/api/v1/users/{kakao_Id}/profile")
-    public MemberDTO getMemberProfile(@PathVariable String kakao_Id) {
-        Optional<Member> optionalMember = memberService.findByKakaoId(kakao_Id);
->>>>>>> Stashed changes
         if (optionalMember.isPresent()) {
             Member member = optionalMember.get();
             MemberDTO memberDTO = new MemberDTO();
             memberDTO.setName(member.getName());
             memberDTO.setNickname(member.getNickname());
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            memberDTO.setSocialId(member.getSocialId());
-            memberDTO.setProfileImage(member.getProfileImage());
-            memberDTO.setCardInfo(member.getCardInfo());
-            memberDTO.setReceiveNotification(member.isReceiveNotification());
-            return memberDTO;
-        } else {
-            throw new RuntimeException("User not found with socialId: " + socialId);
-=======
-=======
->>>>>>> Stashed changes
             memberDTO.setKakao_Id(member.getKakao_Id());
             memberDTO.setProfileImage(member.getProfileImage());
             memberDTO.setCard(member.getCard());
@@ -111,10 +67,6 @@ public class MemberController {
             return memberDTO;
         } else {
             throw new RuntimeException("User not found with kakao_Id: " + kakao_Id);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         }
     }
 }

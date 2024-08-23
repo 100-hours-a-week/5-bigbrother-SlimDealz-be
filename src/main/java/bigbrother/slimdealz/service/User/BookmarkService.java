@@ -1,19 +1,5 @@
 package bigbrother.slimdealz.service.User;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-import bigbrother.slimdealz.entity.Bookmark;
-import bigbrother.slimdealz.entity.product.Product;
-import bigbrother.slimdealz.repository.User.BookmarkRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-=======
-=======
->>>>>>> Stashed changes
 import bigbrother.slimdealz.dto.BookmarkDto;
 import bigbrother.slimdealz.entity.Bookmark;
 import bigbrother.slimdealz.entity.Member;
@@ -27,29 +13,12 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 
->>>>>>> Stashed changes
 @Service
 @RequiredArgsConstructor
 public class BookmarkService {
 
     private final BookmarkRepository bookmarkRepository;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-    public List<Product> getUserBookmarks(Long memberId) {
-        List<Bookmark> bookmarks = bookmarkRepository.findByMemberId(memberId);
-        return bookmarks.stream()
-                .map(Bookmark::getProduct)
-                .collect(Collectors.toList());
-    }
-}
-=======
-=======
->>>>>>> Stashed changes
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
 
@@ -92,9 +61,4 @@ public class BookmarkService {
                 .createdAt(bookmark.getCreatedAt())
                 .build();
     }
-<<<<<<< Updated upstream
 }
->>>>>>> Stashed changes
-=======
-}
->>>>>>> Stashed changes

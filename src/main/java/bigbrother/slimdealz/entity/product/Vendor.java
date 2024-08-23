@@ -25,15 +25,4 @@ public class Vendor extends BaseEntity {
     @Column(name = "url")
     String vendorUrl;
 
-<<<<<<< Updated upstream
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
-}
->>>>>>> Stashed changes

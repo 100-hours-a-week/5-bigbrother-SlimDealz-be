@@ -72,15 +72,7 @@ public class KakaoAuthController {
 
             member = Member.builder()
                     .name(kakaoUserInfo.getName())
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    .socialId(kakaoUserInfo.getSocialId())
-=======
                     .kakao_Id(kakaoUserInfo.getKakao_Id())
->>>>>>> Stashed changes
-=======
-                    .kakao_Id(kakaoUserInfo.getKakao_Id())
->>>>>>> Stashed changes
                     .profileImage(kakaoUserInfo.getProfileImage())
                     .role(MemberRole.USER)
                     .build();
