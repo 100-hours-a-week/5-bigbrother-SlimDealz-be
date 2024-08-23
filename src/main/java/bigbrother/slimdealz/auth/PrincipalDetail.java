@@ -33,7 +33,7 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
     public Map<String, Object> getMemberInfo() {
         Map<String, Object> info = new HashMap<>();
         info.put("name", member.getName());
-        info.put("socialId", member.getSocialId());
+        info.put("kakao_Id", member.getKakao_Id());
         info.put("role", member.getRole().getValue());
         return info;
     }
@@ -61,7 +61,7 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
 
     @Override
     public String getUsername() {
-        return member.getName();  // 또는 socialId 등 다른 유일한 식별자를 반환
+        return member.getName();
     }
 
     @Override

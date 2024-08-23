@@ -1,16 +1,15 @@
 package bigbrother.slimdealz.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name= "users")
+
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,12 +19,11 @@ public class Member {
     private Long id;
 
     private String name;
-    private String socialId;
+    private String kakao_Id;
     private String profileImage;
     private String nickname;
-    private String cardInfo;
-
-    private boolean receiveNotification; // 올바른 철자로 변경
+    private String card;
+    private boolean notification_agree; // 올바른 철자로 변경
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;

@@ -61,13 +61,13 @@ public class JWTutil {
     public static Authentication getAuthentication(String token) {
         Map<String, Object> claims = validateToken(token);
 
-        // socialId와 name, role 정보를 사용
-        String socialId = (String) claims.get("socialId");
+        // kakao_Id와 name, role 정보를 사용
+        String kakao_Id = (String) claims.get("kakao_Id");
         String name = (String) claims.get("name");
         String role = (String) claims.get("role");
         MemberRole memberRole = MemberRole.fromValue(role);
 
-        Member member = Member.builder().socialId(socialId).name(name).role(memberRole).build();
+        Member member = Member.builder().kakao_Id(kakao_Id).name(name).role(memberRole).build();
         Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(member.getRole().getValue()));
         PrincipalDetail principalDetail = new PrincipalDetail(member, authorities);
 

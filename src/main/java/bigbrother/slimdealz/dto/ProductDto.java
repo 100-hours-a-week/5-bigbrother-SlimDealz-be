@@ -21,3 +21,4 @@ public class ProductDto {
     private String shippingFee;
     private List<PriceDto> prices;
 }
+
