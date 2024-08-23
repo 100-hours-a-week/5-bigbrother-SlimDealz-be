@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         log.info("--------------------------- UserDetailsServiceImpl ---------------------------");
         log.info("username = {}", username);
 
-        return memberRepository.findBySocialId(username)
+        return memberRepository.findByKakaoId(username)
                 .map(member -> new PrincipalDetail(member, Collections.singleton(new SimpleGrantedAuthority(member.getRole().getValue()))))
                 .orElseThrow(() -> new UsernameNotFoundException("등록되지 않은 사용자입니다"));
     }

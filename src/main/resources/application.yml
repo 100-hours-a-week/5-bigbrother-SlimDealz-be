@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate # 개발 이후 validate 로 변경
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate.format_sql: true
@@ -37,6 +37,9 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id # 유저 정보 조회 시 반환되는 최상위 필드명으로 해야 한다.
 
+
+
+
   data:
     redis:
       host: ${REDIS_HOST}
@@ -45,12 +48,13 @@ spring:
       timeout: 2000
     cache:
       type: redis
+#
+#  elasticsearch:
+#    repositories:
+#      enalbled: true
+#    url: localhost:9200
 
-  elasticsearch:
-    repositories:
-      enalbled: true
-    url: localhost:9200
-
-logging:
-  level:
-    root: info
+#  elasticsearch:
+#    repositories:
+#      enalbled: true
+#    url: localhost:9200

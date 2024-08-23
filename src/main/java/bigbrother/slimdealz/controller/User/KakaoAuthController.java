@@ -3,7 +3,7 @@ package bigbrother.slimdealz.controller.User;
 import bigbrother.slimdealz.auth.JWTConstants;
 import bigbrother.slimdealz.auth.JWTutil;
 import bigbrother.slimdealz.dto.MemberDTO;
-import bigbrother.slimdealz.entity.KakaoUserInfo;
+import bigbrother.slimdealz.auth.KakaoUserInfo;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.service.User.MemberService;
@@ -20,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -57,7 +56,7 @@ public class KakaoAuthController {
         KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(userProfile);
 
         // 4. 기존 회원 확인 및 등록 또는 업데이트
-        Optional<Member> existingMember = memberService.findBySocialId(kakaoUserInfo.getSocialId());
+        Optional<Member> existingMember = memberService.findByKakaoId(kakaoUserInfo.getKakao_Id());
         Member member;
 
         String redirectUrl;
@@ -67,12 +66,12 @@ public class KakaoAuthController {
         } else {
             MemberDTO memberDTO = new MemberDTO();
             memberDTO.setName(kakaoUserInfo.getName());
-            memberDTO.setSocialId(kakaoUserInfo.getSocialId());
+            memberDTO.setKakao_Id(kakaoUserInfo.getKakao_Id());
             memberDTO.setProfileImage(kakaoUserInfo.getProfileImage());
 
             member = Member.builder()
                     .name(kakaoUserInfo.getName())
-                    .socialId(kakaoUserInfo.getSocialId())
+                    .kakao_Id(kakaoUserInfo.getKakao_Id())
                     .profileImage(kakaoUserInfo.getProfileImage())
                     .role(MemberRole.USER)
                     .build();
@@ -82,7 +81,7 @@ public class KakaoAuthController {
 
         // JWT 토큰 생성
         Map<String, Object> claims = Map.of(
-                "socialId", member.getSocialId(),
+                "kakao_Id", member.getKakao_Id(),
                 "name", member.getName(),
                 "role", member.getRole().getValue(),
                 "profile_image", member.getProfileImage()
@@ -134,4 +133,6 @@ public class KakaoAuthController {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(profileUri, HttpMethod.GET, entity, String.class);
     }
+
+
 }
