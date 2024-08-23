@@ -29,6 +29,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      # Step to create the .env file
+      - name: .env 파일 생성
+        run: echo "${{ secrets.SECRET_PROPERTIES }}" > .env
+
       - name: Gradle 을 통해 빌드
         run: |
           chmod +x ./gradlew
@@ -62,7 +66,6 @@ jobs:
         run: |
           sudo docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           sudo docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }}:${{ secrets.IMAGE_TAG }}
-
       - name: blue green 배포
         run: |
           sudo chmod +x deploy.sh
