@@ -10,8 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
     properties:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
@@ -48,13 +47,3 @@ spring:
       timeout: 2000
     cache:
       type: redis
-#
-#  elasticsearch:
-#    repositories:
-#      enalbled: true
-#    url: localhost:9200
-
-#  elasticsearch:
-#    repositories:
-#      enalbled: true
-#    url: localhost:9200
