@@ -22,15 +22,13 @@ public class Product extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(name = "product_name", nullable = false)
     String name;
 
-    String image;
-
-    String brand;
-
+    @Column(name = "product_category", nullable = false)
     String category;
 
-    @Column(name = "shipping_fee")
+    @Column(name = "shipping_price")
     String shippingFee;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
