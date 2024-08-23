@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.2'
     id 'io.spring.dependency-management' version '1.1.6'
-//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'bigbrother'
@@ -30,6 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    //elastic search
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
     // oauth2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -51,7 +53,7 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-admin:9.2.0'
 
     // elastic search
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
 
     compileOnly 'org.projectlombok:lombok'
@@ -73,29 +75,3 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
-
-//tasks.named('test') {
-//    useJUnitPlatform()
-//}
-//
-// queryDSL 추가 : QueryDSL 빌드 옵션.
-//
-//querydsl {
-//    jpa = true
-//    querydslSourcesDir = querydslDir
-//}
-//sourceSets {
-//    main.java.srcDir querydslDir
-//}
-//configurations {
-//    querydsl.extendsFrom compileClasspath
-//}
-//tasks.withType(JavaCompile) {
-//    options.annotationProcessorPath = configurations.querydsl
-//}
-//compileQuerydsl {
-//    options.annotationProcessorPath = configurations.querydsl
-//}
-//clean {
-//    delete querydslDir
-//}

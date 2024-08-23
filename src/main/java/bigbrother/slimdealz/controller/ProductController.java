@@ -1,7 +1,6 @@
 package bigbrother.slimdealz.controller;
 
 import bigbrother.slimdealz.dto.ProductDto;
-import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.service.ProductService;
