@@ -11,7 +11,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+<<<<<<< Updated upstream
     show-sql: true
+=======
+
+>>>>>>> Stashed changes
     properties:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
@@ -24,7 +28,7 @@ spring:
             client-name: kakao
             client-id: ${KAKAO_API_KEY}
             client-secret: ${KAKAO_SECRET_KEY}
-            redirect-uri: ${KAKAO_REDIRECT_URL}
+            redirect-uri: ${SERVER_URL}/auth/kakao/callback
             client-authentication-method: client_secret_post # kakao는 인증 토큰 발급 요청 메서드가 post이다. (최근 버전에는 작성 방법이 이렇게 바뀌었다.)
             authorization-grant-type: authorization_code
             scope: profile_nickname, profile_image # kakao 개인 정보 동의 항목 설정의 id 값(받아올 값)

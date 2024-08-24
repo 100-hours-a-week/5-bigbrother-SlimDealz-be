@@ -8,6 +8,11 @@ import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.service.User.MemberService;
 import com.google.gson.Gson;
+<<<<<<< Updated upstream
+=======
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -30,7 +35,7 @@ public class KakaoAuthController {
     @Value("${KAKAO_API_KEY}")
     private String kakaoApiKey;
 
-    @Value("${KAKAO_REDIRECT_URL}")
+    @Value("${SERVER_URL}/auth/kakao/callback")
     private String kakaoRedirectUrl;
 
     @Value("${CLIENT_URL}")
@@ -63,7 +68,7 @@ public class KakaoAuthController {
         String redirectUrl;
         if (existingMember.isPresent()) {
             member = existingMember.get();
-            redirectUrl = client_Url + "/main";
+            redirectUrl = client_Url + "/";
         } else {
             MemberDTO memberDTO = new MemberDTO();
             memberDTO.setName(kakaoUserInfo.getName());
