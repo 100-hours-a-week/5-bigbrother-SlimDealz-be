@@ -4,7 +4,7 @@ package bigbrother.slimdealz.service.User;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.auth.PrincipalDetail;
-import bigbrother.slimdealz.entity.KakaoUserInfo;
+import bigbrother.slimdealz.auth.KakaoUserInfo;
 import bigbrother.slimdealz.repository.User.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
