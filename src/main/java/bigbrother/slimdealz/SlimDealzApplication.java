@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableJpaAuditing
 @EntityScan(basePackages = "bigbrother.slimdealz.entity")
+
 public class SlimDealzApplication {
 
     public static void main(String[] args) {

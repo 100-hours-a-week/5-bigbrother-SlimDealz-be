@@ -8,6 +8,7 @@ import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.service.User.MemberService;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -35,10 +36,15 @@ public class KakaoAuthController {
     @Value("${CLIENT_URL}")
     private String client_Url;
 
-    private final MemberService memberService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public KakaoAuthController(MemberService memberService) {
+    @Autowired
+    public KakaoAuthController(MemberService memberService, RestTemplate restTemplate) {
         this.memberService = memberService;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping("/auth/kakao/callback")
