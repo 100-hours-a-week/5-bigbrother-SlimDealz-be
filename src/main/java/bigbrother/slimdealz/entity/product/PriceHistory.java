@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.time.Instant;
 
-@Table(name = "price_history")
+@Table(name = "priceHistory")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -19,9 +19,6 @@ public class PriceHistory {
 
     @Column(name = "previous_price")
     int previousPrice;
-
-    @Column(name = "current_price")
-    int currentPrice;
 
     @Column(name = "updated_at")
     Instant updatedAt;

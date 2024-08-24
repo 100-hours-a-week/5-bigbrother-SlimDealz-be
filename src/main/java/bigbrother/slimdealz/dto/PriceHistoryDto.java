@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class PriceHistoryDto {
     private Long id;
     private int previousPrice;
-    private int currentPrice;
     private String updatedAt;
     private String endAt;
 }

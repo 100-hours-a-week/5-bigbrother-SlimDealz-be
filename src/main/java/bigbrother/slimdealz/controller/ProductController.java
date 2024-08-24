@@ -20,9 +20,11 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/search")
-    public List<ProductDto> searchProducts(@RequestParam("keyword") String keyword) {
+    public List<ProductDto> searchProducts(@RequestParam("keyword") String keyword,
+                                           @RequestParam(value = "lastSeenId", required = false) Long lastSeenId,
+                                           @RequestParam(value = "size", defaultValue = "10") int size) {
         try {
-            return productService.searchProducts(keyword);
+            return productService.searchProducts(keyword, lastSeenId, size);
         } catch (CustomException e) {
             log.error(e.getDetailMessage());
             throw e;
@@ -61,9 +63,11 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<ProductDto> findByCategory(@RequestParam("category") String category) {
+    public List<ProductDto> findByCategory(@RequestParam("category") String category,
+                                           @RequestParam(value = "lastSeenId", required = false) Long lastSeenId,
+                                           @RequestParam(value = "size", defaultValue = "10") int size) {
         try {
-            return productService.findByCategory(category);
+            return productService.findByCategory(category, lastSeenId, size);
         } catch (CustomException e) {
             log.error(e.getDetailMessage());
             throw e;
