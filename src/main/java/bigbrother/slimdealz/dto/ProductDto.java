@@ -17,6 +17,7 @@ public class ProductDto {
     private String name;
     private String category;
     private String shippingFee;
+    private String vendorUrl;
     private List<PriceDto> prices;
 }
 
