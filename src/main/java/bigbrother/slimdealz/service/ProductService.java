@@ -18,8 +18,8 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     // 상품 검색
-    public List<ProductDto> searchProducts(String keyword) {
-        List<ProductDto> products = productRepository.searchByKeyword(keyword)
+    public List<ProductDto> searchProducts(String keyword, Long lastSeenId, int size) {
+        List<ProductDto> products = productRepository.searchByKeyword(keyword, lastSeenId, size)
                 .stream()
                 .map(ProductConverter::toProductDTO) //converter 를 통해 DTO 로 변환
                 .collect(Collectors.toList()); // stream의 변환된 요소들을 리스트로 반환
@@ -54,8 +54,8 @@ public class ProductService {
     }
 
     // 카테고리 별 상품 조회
-    public List<ProductDto> findByCategory(String category) {
-        List<ProductDto> products = productRepository.findByCategory(category)
+    public List<ProductDto> findByCategory(String category, Long lastSeenId, int size) {
+        List<ProductDto> products = productRepository.findByCategory(category, lastSeenId, size)
                 .stream()
                 .map(ProductConverter::toProductDTO)
                 .collect(Collectors.toList());

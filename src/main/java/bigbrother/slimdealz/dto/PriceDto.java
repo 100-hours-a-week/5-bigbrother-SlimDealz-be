@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class PriceDto {
     private Long id;
     private int setPrice;
-    private Integer discountedPrice;
     private String promotion;
     private Long productId;
     private Long vendorId;
