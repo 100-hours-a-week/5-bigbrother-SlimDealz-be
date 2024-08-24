@@ -1,4 +1,4 @@
-package bigbrother.slimdealz.entity;
+package bigbrother.slimdealz.auth;
 
 import java.util.Map;
 
