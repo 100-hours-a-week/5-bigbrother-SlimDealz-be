@@ -8,11 +8,9 @@ import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.service.User.MemberService;
 import com.google.gson.Gson;
-<<<<<<< Updated upstream
-=======
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;

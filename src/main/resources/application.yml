@@ -11,11 +11,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-<<<<<<< Updated upstream
-    show-sql: true
-=======
 
->>>>>>> Stashed changes
     properties:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
