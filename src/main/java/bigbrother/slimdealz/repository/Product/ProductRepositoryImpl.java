@@ -51,6 +51,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     // 상품 상세 페이지
+
     @Override
     public Product findProductWithLowestPriceByName(String productName) {
         return queryFactory
