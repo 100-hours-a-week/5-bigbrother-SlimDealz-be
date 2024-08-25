@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/login")
+@RequestMapping("/api/v1/login/kakao-url")
 public class LoginController {
 
     @Value("${SERVER_URL}/oauth2/authorization/kakao")

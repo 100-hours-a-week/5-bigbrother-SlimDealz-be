@@ -16,13 +16,10 @@ public class Vendor extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "name")
+    @Column(name = "vendor_name")
     String vendorName;
 
-    @Column(name = "logo")
-    String vendorImage;
-
-    @Column(name = "url")
+    @Column(name = "vendor_url")
     String vendorUrl;
 
 }

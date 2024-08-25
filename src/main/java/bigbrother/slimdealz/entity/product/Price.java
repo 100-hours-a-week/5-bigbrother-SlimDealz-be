@@ -18,11 +18,8 @@ public class Price {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "set_price", nullable = false)
     int setPrice;
-
-    @Column(name = "discounted_price")
-    Integer discountedPrice;
 
     String promotion;
 
