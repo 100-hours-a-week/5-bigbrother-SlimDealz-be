@@ -1,7 +1,7 @@
 package bigbrother.slimdealz.service;
 
-import bigbrother.slimdealz.dto.ProductConverter;
-import bigbrother.slimdealz.dto.ProductDto;
+import bigbrother.slimdealz.dto.product.ProductConverter;
+import bigbrother.slimdealz.dto.product.ProductDto;
 import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
@@ -73,5 +73,18 @@ public class ProductService {
         return products.stream()
                 .map(ProductConverter::toProductDTO)
                 .collect(Collectors.toList());
+    }
+
+    // 랜덤 추천
+    public  List<ProductDto> findRandomProducts() {
+        List<ProductDto> products = productRepository.findRandomProducts()
+                .stream()
+                .map(ProductConverter::toProductDTO)
+                .collect(Collectors.toList());
+
+        if(products.isEmpty()) {
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
+        }
+        return products;
     }
 }

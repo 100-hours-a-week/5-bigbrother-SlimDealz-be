@@ -4,11 +4,13 @@ import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.entity.product.QPrice;
 import bigbrother.slimdealz.entity.product.QProduct;
 import bigbrother.slimdealz.entity.product.QVendor;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.beans.Expression;
 import java.util.List;
 
 
@@ -93,6 +95,27 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .leftJoin(product.prices, price)
                 .fetchJoin()
                 .where(product.name.eq(productName))
+                .fetch();
+    }
+
+    // 랜덤 추천
+    @Override
+    public List<Product> findRandomProducts() {
+        QProduct productSub = new QProduct("productSub");
+        QPrice priceSub = new QPrice("priceSub");
+
+        return queryFactory
+                .selectFrom(product)
+                .join(product.prices, price)
+                .where(price.setPrice.eq(
+                        JPAExpressions
+                                .select(priceSub.setPrice.min())
+                                .from(priceSub)
+                                .join(priceSub.product, productSub)
+                                .where(productSub.name.eq(product.name))
+                ))
+                .orderBy(Expressions.numberTemplate(Double.class, "function('RAND')").asc()) // 랜덤으로 섞기
+                .limit(10) // 10개만 선택
                 .fetch();
     }
 

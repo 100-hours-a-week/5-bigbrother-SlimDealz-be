@@ -1,6 +1,6 @@
 package bigbrother.slimdealz.controller;
 
-import bigbrother.slimdealz.dto.ProductDto;
+import bigbrother.slimdealz.dto.product.ProductDto;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.service.ProductService;
@@ -86,6 +86,20 @@ public class ProductController {
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new CustomException(CustomErrorCode.PRODUCT_URL_NOT_FOUND);
+        }
+    }
+
+    // 랜덤 추천
+    @GetMapping("/random-products")
+    public List<ProductDto> findRandomProducts() {
+        try {
+            return productService.findRandomProducts();
+        } catch (CustomException e) {
+            log.error(e.getDetailMessage());
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
         }
     }
 

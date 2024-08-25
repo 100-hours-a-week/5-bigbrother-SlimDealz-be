@@ -1,7 +1,6 @@
 package bigbrother.slimdealz.controller.User;
 
-import bigbrother.slimdealz.dto.BookmarkDto;
-import bigbrother.slimdealz.dto.BookmarkProductPriceDto;
+import bigbrother.slimdealz.dto.user.BookmarkDto;
 import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.service.User.BookmarkService;
 import bigbrother.slimdealz.service.User.UserService;  // Assuming you have a UserService to handle user-related logic
