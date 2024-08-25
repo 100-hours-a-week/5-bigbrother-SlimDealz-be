@@ -1,6 +1,7 @@
 package bigbrother.slimdealz.controller.User;
 
 import bigbrother.slimdealz.dto.BookmarkDto;
+import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.service.User.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,11 @@ public class BookmarkController {
     public ResponseEntity<Void> deleteBookmark(@PathVariable Long userId, @PathVariable Long bookmarkId) {
         bookmarkService.deleteBookmark(userId, bookmarkId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/recommendations")
+    public ResponseEntity<List<Product>> recommendProductsForUser(@PathVariable Long userId) {
+        List<Product> recommendedProducts = bookmarkService.recommendProductsForUser(userId);
+        return ResponseEntity.ok(recommendedProducts);
     }
 }

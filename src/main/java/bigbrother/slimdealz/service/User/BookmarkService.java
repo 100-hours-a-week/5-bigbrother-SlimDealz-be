@@ -53,6 +53,10 @@ public class BookmarkService {
         bookmarkRepository.delete(bookmark);
     }
 
+    public List<Product> recommendProductsForUser(Long userId) {
+        return bookmarkRepository.findRecommendedProducts(userId);
+    }
+
     private BookmarkDto convertToBookmarkDto(Bookmark bookmark) {
         return BookmarkDto.builder()
                 .id(bookmark.getId())
