@@ -2,6 +2,7 @@ package bigbrother.slimdealz.dto;
 
 import bigbrother.slimdealz.entity.product.Price;
 import bigbrother.slimdealz.entity.product.Product;
+import bigbrother.slimdealz.entity.product.Vendor;
 
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ public class ProductConverter {
                 .name(product.getName())
                 .category(product.getCategory())
                 .shippingFee(product.getShippingFee())
+                .vendorUrl(product.getVendorUrl())
                 .prices(product.getPrices().stream()
                         .map(ProductConverter::toPriceDTO)
                         .collect(Collectors.toList()))
@@ -24,7 +26,15 @@ public class ProductConverter {
                 .setPrice(price.getSetPrice())
                 .promotion(price.getPromotion())
                 .productId(price.getProduct().getId())
-                .vendorId(price.getVendor().getId())
+                .vendor(toVendorDTO(price.getVendor()))
+                .build();
+    }
+
+    public static VendorDto toVendorDTO(Vendor vendor) {
+        return VendorDto.builder()
+                .id(vendor.getId())
+                .vendorName(vendor.getVendorName())
+                .vendorUrl(vendor.getVendorUrl())
                 .build();
     }
 }

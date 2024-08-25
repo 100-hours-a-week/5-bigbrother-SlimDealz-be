@@ -43,3 +43,5 @@ src/main/resources/properties/env.properties
 # Ignore Firebase Service Account Key
 src/main/resources/firebase/FirebaseServiceKey.json
 
+### Mac OS
+.DS_Store

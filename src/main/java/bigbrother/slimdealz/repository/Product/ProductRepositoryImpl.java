@@ -3,16 +3,13 @@ package bigbrother.slimdealz.repository.Product;
 import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.entity.product.QPrice;
 import bigbrother.slimdealz.entity.product.QProduct;
+import bigbrother.slimdealz.entity.product.QVendor;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-import static com.querydsl.core.types.dsl.Expressions.allOf;
 
 
 @Repository
@@ -22,6 +19,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     private final QProduct product = QProduct.product;
     private final QPrice price = QPrice.price;
+    private final QVendor vendor = QVendor.vendor;
 
     // 검색 결과 목록
     @Override
