@@ -74,4 +74,17 @@ public class ProductService {
                 .map(ProductConverter::toProductDTO)
                 .collect(Collectors.toList());
     }
+
+    // 랜덤 추천
+    public  List<ProductDto> findRandomProducts() {
+        List<ProductDto> products = productRepository.findRandomProducts()
+                .stream()
+                .map(ProductConverter::toProductDTO)
+                .collect(Collectors.toList());
+
+        if(products.isEmpty()) {
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
+        }
+        return products;
+    }
 }
