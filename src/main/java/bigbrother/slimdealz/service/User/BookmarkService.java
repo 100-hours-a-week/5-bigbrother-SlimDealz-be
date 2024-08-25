@@ -3,6 +3,7 @@ package bigbrother.slimdealz.service.User;
 import bigbrother.slimdealz.dto.BookmarkDto;
 import bigbrother.slimdealz.dto.BookmarkProductPriceDto;
 import bigbrother.slimdealz.dto.PriceDto;
+import bigbrother.slimdealz.dto.VendorDto;
 import bigbrother.slimdealz.entity.Bookmark;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.product.Product;
@@ -81,7 +82,10 @@ public class BookmarkService {
                             .setPrice(price.getSetPrice())
                             .promotion(price.getPromotion())
                             .productId(price.getProduct().getId())
-                            .vendorId(price.getVendor().getId())
+                            .vendor(VendorDto.builder()
+                                    .id(price.getVendor().getId())
+                                    .vendorName(price.getVendor().getVendorName())
+                                    .build())
                             .build())
                     .collect(Collectors.toList());
 
