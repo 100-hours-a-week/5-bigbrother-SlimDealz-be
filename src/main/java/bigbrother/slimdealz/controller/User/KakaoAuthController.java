@@ -2,15 +2,13 @@ package bigbrother.slimdealz.controller.User;
 
 import bigbrother.slimdealz.auth.JWTConstants;
 import bigbrother.slimdealz.auth.JWTutil;
-import bigbrother.slimdealz.dto.MemberDTO;
+import bigbrother.slimdealz.dto.user.MemberDTO;
 import bigbrother.slimdealz.auth.KakaoUserInfo;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.service.User.MemberService;
 import com.google.gson.Gson;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -23,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 

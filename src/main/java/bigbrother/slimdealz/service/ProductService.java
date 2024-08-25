@@ -1,7 +1,7 @@
 package bigbrother.slimdealz.service;
 
-import bigbrother.slimdealz.dto.ProductConverter;
-import bigbrother.slimdealz.dto.ProductDto;
+import bigbrother.slimdealz.dto.product.ProductConverter;
+import bigbrother.slimdealz.dto.product.ProductDto;
 import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
