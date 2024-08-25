@@ -12,10 +12,13 @@ public class KakaoUserInfo {
         Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
         this.profile = (Map<String, Object>) account.get("profile");
     }
+
     public String getKakao_Id() {
         return kakao_Id;
     }
+
     public String getName() {
+
         return String.valueOf(profile.get("nickname"));
     }
 

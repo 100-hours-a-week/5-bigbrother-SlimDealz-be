@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
     properties:
       hibernate.format_sql: true
@@ -48,13 +48,3 @@ spring:
       timeout: 2000
     cache:
       type: redis
-#
-#  elasticsearch:
-#    repositories:
-#      enalbled: true
-#    url: localhost:9200
-
-#  elasticsearch:
-#    repositories:
-#      enalbled: true
-#    url: localhost:9200
