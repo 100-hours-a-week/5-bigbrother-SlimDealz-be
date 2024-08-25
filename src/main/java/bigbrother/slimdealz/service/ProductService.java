@@ -65,4 +65,13 @@ public class ProductService {
         }
         return products;
     }
+
+    // 판매처 리스트
+    public List<ProductDto> getProductWithVendors(String productName) {
+        List<Product> products = productRepository.findProductWithVendors(productName);
+
+        return products.stream()
+                .map(ProductConverter::toProductDTO)
+                .collect(Collectors.toList());
+    }
 }

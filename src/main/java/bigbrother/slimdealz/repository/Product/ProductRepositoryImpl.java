@@ -51,6 +51,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     // 상품 상세 페이지
+
     @Override
     public Product findProductWithLowestPriceByName(String productName) {
         return queryFactory
@@ -85,4 +86,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .limit(size)
                 .fetch();
     }
+
+    // 판매처 리스트
+    @Override
+    public List<Product> findProductWithVendors(String productName) {
+        return queryFactory
+                .selectFrom(product)
+                .leftJoin(product.prices, price)
+                .fetchJoin()
+                .where(product.name.eq(productName))
+                .fetch();
+    }
+
 }

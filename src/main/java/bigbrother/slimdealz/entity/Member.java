@@ -21,6 +21,12 @@ public class Member {
     private String name;
     private String kakao_Id;
     private String profileImage;
+    private String kakaoAccessToken;
+    private String kakaoRefreshToken;
+
+    private LocalDateTime kakaoAccessTokenExpiresAt;
+    private LocalDateTime kakaoRefreshTokenExpiresAt;
+
     private String nickname;
     private String card;
     private boolean notification_agree; // 올바른 철자로 변경

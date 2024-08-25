@@ -19,4 +19,7 @@ public interface ProductRepositoryCustom {
 
     // 상품 목록
     List<Product> findByCategory(String category, Long lastSeenId, int size);
+
+    // 판매처 리스트
+    List<Product> findProductWithVendors(String productName);
 }

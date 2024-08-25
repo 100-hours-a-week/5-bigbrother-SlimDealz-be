@@ -76,5 +76,19 @@ public class ProductController {
             throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
         }
     }
+
+    @GetMapping("/vendor-list")
+    public List<ProductDto> getProductWithVendors(@RequestParam("productName") String productName) {
+        try {
+            return productService.getProductWithVendors(productName);
+        } catch (CustomException e) {
+            log.error(e.getDetailMessage());
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new CustomException(CustomErrorCode.PRODUCT_URL_NOT_FOUND);
+        }
+    }
+
 }
 

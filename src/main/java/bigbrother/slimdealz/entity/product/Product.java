@@ -28,6 +28,9 @@ public class Product extends BaseEntity {
     @Column(name = "shipping_price")
     String shippingFee;
 
+    @Column(name = "vendor_url", nullable = false)
+    String vendorUrl;
+
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Price> prices;
 

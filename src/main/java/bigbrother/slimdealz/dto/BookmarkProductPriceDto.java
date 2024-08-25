@@ -11,13 +11,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
-
-    private Long id;
-    private String name;
-    private String category;
+public class BookmarkProductPriceDto {
+    private Long bookmarkId;
+    private Long productId;
+    private String productName;
     private String shippingFee;
-    private String vendorUrl;
-    private List<PriceDto> prices;
+    private List<PriceDto> prices;  // List to hold multiple prices
 }
-
