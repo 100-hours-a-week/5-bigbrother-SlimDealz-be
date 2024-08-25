@@ -49,5 +49,5 @@ cloud:
   aws:
     s3:
       bucket: ${AWS_S3_BUCKET}
-      stack.auto: false
-      region.static: ap-northeast-2
+    stack.auto: false
+    region.static: ap-northeast-2
