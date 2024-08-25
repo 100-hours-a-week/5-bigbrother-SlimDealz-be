@@ -16,6 +16,7 @@ import java.util.List;
 public class BookmarkController {
 
     private final BookmarkService bookmarkService;
+    private final UserService userService;
 
     @GetMapping
     public ResponseEntity<List<BookmarkDto>> getUserBookmarks(@PathVariable Long userId) {
