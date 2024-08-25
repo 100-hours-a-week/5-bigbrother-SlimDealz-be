@@ -1,8 +1,10 @@
 package bigbrother.slimdealz.controller.User;
 
 import bigbrother.slimdealz.dto.BookmarkDto;
+import bigbrother.slimdealz.dto.BookmarkProductPriceDto;
 import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.service.User.BookmarkService;
+import bigbrother.slimdealz.service.User.UserService;  // Assuming you have a UserService to handle user-related logic
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
