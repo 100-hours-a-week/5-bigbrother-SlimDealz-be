@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final S3Service s3Service;
 
     // 상품 검색
     public List<ProductDto> searchProducts(String keyword, Long lastSeenId, int size) {
@@ -50,7 +51,14 @@ public class ProductService {
         if(product == null) {
             throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
         }
-        return ProductConverter.toProductDTO(product);
+
+        ProductDto productDto = ProductConverter.toProductDTO(product);
+
+        String imageUrl = s3Service.getProductImageUrl(productName);
+
+        productDto.setImageUrl(imageUrl);
+
+        return productDto;
     }
 
     // 카테고리 별 상품 조회

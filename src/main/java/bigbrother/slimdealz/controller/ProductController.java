@@ -4,6 +4,7 @@ import bigbrother.slimdealz.dto.product.ProductDto;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.service.ProductService;
+import bigbrother.slimdealz.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final S3Service s3Service;
 
     @GetMapping("/search")
     public List<ProductDto> searchProducts(@RequestParam("keyword") String keyword,
@@ -51,7 +53,14 @@ public class ProductController {
     @GetMapping("/product-detail")
     public ProductDto getProductWithLowestPriceByName(@RequestParam("productName") String productName) {
         try {
-            return productService.getProductWithLowestPriceByName(productName);
+            ProductDto productDto = productService.getProductWithLowestPriceByName(productName);
+
+            String imageUrl = s3Service.getProductImageUrl(productName);
+
+            productDto.setImageUrl(imageUrl);
+
+            return productDto;
+
         } catch (CustomException e) {
             log.error(e.getDetailMessage());
             throw e;
