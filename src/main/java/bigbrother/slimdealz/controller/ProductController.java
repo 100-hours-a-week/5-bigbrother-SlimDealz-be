@@ -89,5 +89,19 @@ public class ProductController {
         }
     }
 
+    // 랜덤 추천
+    @GetMapping("/random-products")
+    public List<ProductDto> findRandomProducts() {
+        try {
+            return productService.findRandomProducts();
+        } catch (CustomException e) {
+            log.error(e.getDetailMessage());
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
+        }
+    }
+
 }
 
