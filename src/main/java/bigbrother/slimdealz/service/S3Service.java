@@ -22,28 +22,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class S3Service {
-    private AmazonS3 amazonS3;
-    private S3Config s3Config;
+    private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public byte[] downloadImage(String fileName) throws IOException {
-        S3Object s3Object = amazonS3.getObject(bucket, fileName);
-        S3ObjectInputStream inputStream = s3Object.getObjectContent();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
-        }
-
-        return outputStream.toByteArray();
-    }
-
-    // 상품명과 동일한 이름을 가진 이미지 파일 탐색
+    // 상품명과 일치하는 이미지 파일 찾기
     public String findImageName(String productName) {
         ObjectListing objectListing = amazonS3.listObjects(bucket);
         List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
@@ -52,8 +36,17 @@ public class S3Service {
                 .map(S3ObjectSummary::getKey)
                 .filter(key -> key.contains(productName))
                 .findFirst()
-                .orElseThrow(() -> new CustomException( CustomErrorCode.PRODUCT_IMAGE_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(CustomErrorCode.PRODUCT_IMAGE_NOT_FOUND));
     }
 
+    // 이미지 파일 URL 반환
+    public String getImageUrl(String fileName) {
+        return amazonS3.getUrl(bucket, fileName).toString();
+    }
 
+    public String getProductImageUrl (String productName) {
+        String fileName = findImageName(productName);
+
+        return getImageUrl(fileName);
+    }
 }

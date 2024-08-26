@@ -24,24 +24,15 @@ public class ImageController {
     private final S3Service s3Service;
 
     @GetMapping
-    public ResponseEntity<byte[]> getProductImage(@RequestParam String productName) throws IOException {
+    public ResponseEntity<String> getProductImageUrl(@RequestParam("productName") String productName) {
         try {
-            String fileName = s3Service.findImageName(productName);
+            String imageUrl = s3Service.getProductImageUrl(productName);
 
-            byte[] imageData = s3Service.downloadImage(fileName);
-
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
-                    .body(imageData);
+            return ResponseEntity.ok(imageUrl);
         }
         catch (CustomException e) {
             log.error(e.getDetailMessage());
             throw e;
-        }
-        catch (IOException e) {
-            log.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

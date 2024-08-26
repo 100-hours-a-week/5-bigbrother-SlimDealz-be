@@ -14,11 +14,25 @@ public class S3Config {
     @Value("${cloud.aws.region.static}")
     private String region;
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+//    @Value("${cloud.aws.s3.url}")
+//    private String url;
+
+    @Value("${cloud.aws.credentials.access-key}")
+    private String accessKey;
+
+    @Value("${cloud.aws.credentials.secret-key}")
+    private String secretKey;
+
     @Bean
     public AmazonS3 amazonS3Client() {
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
 
         return AmazonS3ClientBuilder.standard()
                 .withRegion(region)
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .enablePathStyleAccess()
                 .build();
     }
