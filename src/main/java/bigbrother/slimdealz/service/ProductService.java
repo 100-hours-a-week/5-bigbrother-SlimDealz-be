@@ -22,7 +22,12 @@ public class ProductService {
     public List<ProductDto> searchProducts(String keyword, Long lastSeenId, int size) {
         List<ProductDto> products = productRepository.searchByKeyword(keyword, lastSeenId, size)
                 .stream()
-                .map(ProductConverter::toProductDTO) //converter 를 통해 DTO 로 변환
+                .map(product -> {
+                            ProductDto productDto = ProductConverter.toProductDTO(product);
+                            String imageUrl = s3Service.getProductImageUrl(product.getName());
+                            productDto.setImageUrl(imageUrl);
+                            return productDto;
+                }) //converter 를 통해 DTO 로 변환
                 .collect(Collectors.toList()); // stream의 변환된 요소들을 리스트로 반환
 
         if(products.isEmpty()) {
@@ -35,7 +40,12 @@ public class ProductService {
     public List<ProductDto> findLowestPriceProducts() {
         List<ProductDto> products = productRepository.findLowestPriceProducts()
                 .stream()
-                .map(ProductConverter::toProductDTO)
+                .map(product -> {
+                    ProductDto productDto = ProductConverter.toProductDTO(product);
+                    String imageUrl = s3Service.getProductImageUrl(product.getName());
+                    productDto.setImageUrl(imageUrl);
+                    return productDto;
+                })
                 .collect(Collectors.toList());
 
         if(products.isEmpty()) {
@@ -65,7 +75,12 @@ public class ProductService {
     public List<ProductDto> findByCategory(String category, Long lastSeenId, int size) {
         List<ProductDto> products = productRepository.findByCategory(category, lastSeenId, size)
                 .stream()
-                .map(ProductConverter::toProductDTO)
+                .map(product -> {
+                    ProductDto productDto = ProductConverter.toProductDTO(product);
+                    String imageUrl = s3Service.getProductImageUrl(product.getName());
+                    productDto.setImageUrl(imageUrl);
+                    return productDto;
+                })
                 .collect(Collectors.toList());
 
         if(products.isEmpty()) {
@@ -87,7 +102,12 @@ public class ProductService {
     public  List<ProductDto> findRandomProducts() {
         List<ProductDto> products = productRepository.findRandomProducts()
                 .stream()
-                .map(ProductConverter::toProductDTO)
+                .map(product -> {
+                    ProductDto productDto = ProductConverter.toProductDTO(product);
+                    String imageUrl = s3Service.getProductImageUrl(product.getName());
+                    productDto.setImageUrl(imageUrl);
+                    return productDto;
+                })
                 .collect(Collectors.toList());
 
         if(products.isEmpty()) {
