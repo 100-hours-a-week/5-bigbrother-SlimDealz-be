@@ -40,6 +40,13 @@ public class ProductService {
 
     // 상품 검색
     public List<ProductDto> searchProducts(String keyword, Long lastSeenId, int size) {
+        if(keyword == null || keyword.trim().isEmpty()) {
+            throw new CustomException(CustomErrorCode.INVALID_SEARCH_KEYWORD);
+        }
+        if(size <= 0) {
+            throw new CustomException(CustomErrorCode.SEARCH_NO_KEYWORD);
+        }
+
         List<ProductDto> products = productRepository.searchByKeyword(keyword, lastSeenId, size)
                 .stream()
                 .map(product -> {
@@ -76,6 +83,10 @@ public class ProductService {
 
     // 상품 상세 페이지 정보
     public ProductDto getProductWithLowestPriceByName(String productName) {
+        if ((productName == null || productName.trim().isEmpty())) {
+            throw new CustomException(CustomErrorCode.INVALID_PRODUCT_ID);
+        }
+
         Product product = productRepository.findProductWithLowestPriceByName(productName);
 
         if(product == null) {
@@ -93,6 +104,10 @@ public class ProductService {
 
     // 카테고리 별 상품 조회
     public List<ProductDto> findByCategory(String category, Long lastSeenId, int size) {
+        if(category == null || category.trim().isEmpty()) {
+            throw new CustomException(CustomErrorCode.INVALID_PRODUCT_CATEGORY);
+        }
+
         List<ProductDto> products = productRepository.findByCategory(category, lastSeenId, size)
                 .stream()
                 .map(product -> {
@@ -111,6 +126,10 @@ public class ProductService {
 
     // 판매처 리스트
     public List<ProductDto> getProductWithVendors(String productName) {
+        if ((productName == null || productName.trim().isEmpty())) {
+            throw new CustomException(CustomErrorCode.INVALID_PRODUCT_ID);
+        }
+
         List<Product> products = productRepository.findProductWithVendors(productName);
 
         return products.stream()

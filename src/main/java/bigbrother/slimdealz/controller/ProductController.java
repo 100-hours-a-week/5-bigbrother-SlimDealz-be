@@ -6,6 +6,7 @@ import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.service.ProductService;
 import bigbrother.slimdealz.service.S3Service;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ProductController {
     private final S3Service s3Service;
 
     @GetMapping("/search")
-    public List<ProductDto> searchProducts(@RequestParam("keyword") String keyword,
+    public List<ProductDto> searchProducts(@Valid @RequestParam("keyword") String keyword,
                                            @RequestParam(value = "lastSeenId", required = false) Long lastSeenId,
                                            @RequestParam(value = "size", defaultValue = "10") int size) {
         try {
@@ -65,7 +66,7 @@ public class ProductController {
     }
 
     @GetMapping("/product-detail")
-    public ProductDto getProductWithLowestPriceByName(@RequestParam("productName") String productName) {
+    public ProductDto getProductWithLowestPriceByName(@Valid @RequestParam("productName") String productName) {
         try {
             ProductDto productDto = productService.getProductWithLowestPriceByName(productName);
 
@@ -84,7 +85,7 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<ProductDto> findByCategory(@RequestParam("category") String category,
+    public List<ProductDto> findByCategory(@Valid @RequestParam("category") String category,
                                            @RequestParam(value = "lastSeenId", required = false) Long lastSeenId,
                                            @RequestParam(value = "size", defaultValue = "10") int size) {
         try {
@@ -106,7 +107,7 @@ public class ProductController {
     }
 
     @GetMapping("/vendor-list")
-    public List<ProductDto> getProductWithVendors(@RequestParam("productName") String productName) {
+    public List<ProductDto> getProductWithVendors(@Valid @RequestParam("productName") String productName) {
         try {
             return productService.getProductWithVendors(productName);
         } catch (CustomException e) {
