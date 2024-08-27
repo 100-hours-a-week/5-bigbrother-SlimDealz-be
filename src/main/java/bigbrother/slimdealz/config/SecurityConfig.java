@@ -5,6 +5,7 @@ import bigbrother.slimdealz.exception.CommonLoginFailHandler;
 import bigbrother.slimdealz.exception.CommonLoginSuccessHandler;
 import bigbrother.slimdealz.service.User.OAuth2UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,11 +29,14 @@ public class SecurityConfig {
 
     private final OAuth2UserService oAuth2UserService;
 
+    @Value("${CLIENT_URL}")
+    private String clientURL;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.setAllowedOrigins(List.of("${CLIENT_URL}"));
+        corsConfiguration.setAllowedOrigins(List.of(clientURL));
         corsConfiguration.setAllowedOriginPatterns(List.of("*"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));

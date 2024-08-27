@@ -19,32 +19,49 @@ public class BookmarkController {
     private final BookmarkService bookmarkService;
     private final UserService userService;
 
-    // New endpoint to get userId based on Kakao_ID
-    @GetMapping("/kakao/{kakao_Id}/id")
-    public ResponseEntity<Long> getUserIdByKakaoId(@PathVariable String kakao_Id) {
+//    // New endpoint to get userId based on Kakao_ID
+//    @GetMapping("/kakao/{kakao_Id}/id")
+//    public ResponseEntity<Long> getUserIdByKakaoId(@PathVariable String kakao_Id) {
+//        Long userId = userService.findUserIdByKakao_Id(kakao_Id);
+//        if (userId != null) {
+//            return ResponseEntity.ok(userId);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//    }
+//
+//    @GetMapping("/{userId}/bookmarks")
+//    public ResponseEntity<List<BookmarkProductPriceDto>> getUserBookmarks(@PathVariable Long userId) {
+//        List<BookmarkProductPriceDto> bookmarks = bookmarkService.getUserBookmarksWithPrice(userId);
+//        return ResponseEntity.ok(bookmarks);
+//    }
+//
+//    @PostMapping("/{userId}/bookmarks/{productName}")
+//    public ResponseEntity<BookmarkDto> addBookmarkByProductName(@PathVariable Long userId, @PathVariable String productName) {
+//        BookmarkDto createdBookmark = bookmarkService.addBookmarkByProductName(userId, productName);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(createdBookmark);
+//    }
+
+    @GetMapping("/kakao/{kakao_Id}/bookmarks")
+    public ResponseEntity<List<BookmarkProductPriceDto>> getUserBookmarksByKakaoId(@PathVariable String kakao_Id) {
         Long userId = userService.findUserIdByKakao_Id(kakao_Id);
-        if (userId != null) {
-            return ResponseEntity.ok(userId);
-        } else {
+        if (userId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-    }
 
-    @GetMapping("/{userId}/bookmarks")
-    public ResponseEntity<List<BookmarkProductPriceDto>> getUserBookmarks(@PathVariable Long userId) {
         List<BookmarkProductPriceDto> bookmarks = bookmarkService.getUserBookmarksWithPrice(userId);
         return ResponseEntity.ok(bookmarks);
     }
 
-    @PostMapping("/{userId}/bookmarks")
-    public ResponseEntity<BookmarkDto> addBookmark(@PathVariable Long userId, @RequestBody BookmarkDto bookmarkDto) {
-        BookmarkDto createdBookmark = bookmarkService.addBookmark(userId, bookmarkDto);
+    @PostMapping("/kakao/{kakao_Id}/bookmarks/{productName}")
+    public ResponseEntity<BookmarkDto> addBookmarkByKakaoId(@PathVariable String kakao_Id, @PathVariable String productName) {
+        Long userId = userService.findUserIdByKakao_Id(kakao_Id);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        BookmarkDto createdBookmark = bookmarkService.addBookmarkByProductName(userId, productName);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBookmark);
     }
 
-    @DeleteMapping("/{userId}/bookmarks/{bookmarkId}")
-    public ResponseEntity<Void> deleteBookmark(@PathVariable Long userId, @PathVariable Long bookmarkId) {
-        bookmarkService.deleteBookmark(userId, bookmarkId);
-        return ResponseEntity.noContent().build();
-    }
 }

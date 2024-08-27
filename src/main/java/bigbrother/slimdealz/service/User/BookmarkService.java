@@ -13,8 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,5 +90,36 @@ public class BookmarkService {
                     .prices(prices)
                     .build();
         }).collect(Collectors.toList());
+    }
+
+
+    public BookmarkDto addBookmarkByProductName(Long userId, String productName) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // productName으로 모든 상품을 검색하고, 가장 최저가를 가진 상품을 선택합니다.
+        List<Product> products = productRepository.findByName(productName);
+
+        if (products.isEmpty()) {
+            throw new RuntimeException("Product not found");
+        }
+
+        // 최저가를 가진 상품 찾기
+        Product cheapestProduct = products.stream()
+                .min(Comparator.comparing(product -> product.getPrices().stream()
+                        .min(Comparator.comparing(price -> price.getSetPrice()))
+                        .orElseThrow(() -> new RuntimeException("Price not found")).getSetPrice()))
+                .orElseThrow(() -> new RuntimeException("Cheapest product not found"));
+
+        // 북마크 생성
+        Bookmark bookmark = Bookmark.builder()
+                .member(member)
+                .product(cheapestProduct)
+                .createdAt(new Timestamp(System.currentTimeMillis()))
+                .build();
+
+        Bookmark savedBookmark = bookmarkRepository.save(bookmark);
+
+        return convertToBookmarkDto(savedBookmark);
     }
 }
