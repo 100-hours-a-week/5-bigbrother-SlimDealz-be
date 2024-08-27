@@ -30,19 +30,27 @@ public class BookmarkController {
         return ResponseEntity.ok(bookmarks);
     }
 
-    @GetMapping("/kakao/{kakao_Id}/bookmarks/{productName}")
-    public ResponseEntity<Boolean> isProductBookmarked(@PathVariable String kakao_Id, @PathVariable String productName) {
+    @GetMapping("/kakao/{kakao_Id}/bookmarks/search")
+    public ResponseEntity<Boolean> isProductBookmarked(
+            @PathVariable String kakao_Id,
+            @RequestParam("productName") String productName) {
         Long userId = userService.findUserIdByKakao_Id(kakao_Id);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         boolean isBookmarked = bookmarkService.isProductBookmarked(userId, productName);
-        return ResponseEntity.ok(isBookmarked);
+        if (isBookmarked) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @PostMapping("/kakao/{kakao_Id}/bookmarks")
-    public ResponseEntity<BookmarkDto> addBookmarkByKakaoId(@PathVariable String kakao_Id, @RequestBody BookmarkProductPriceDto bookmarkProductPriceDto) {
+    public ResponseEntity<BookmarkDto> addBookmarkByKakaoId(
+            @PathVariable String kakao_Id,
+            @RequestBody BookmarkProductPriceDto bookmarkProductPriceDto) {
         Long userId = userService.findUserIdByKakao_Id(kakao_Id);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -52,8 +60,10 @@ public class BookmarkController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBookmark);
     }
 
-    @DeleteMapping("/kakao/{kakao_Id}/bookmarks/{productName}")
-    public ResponseEntity<Void> deleteBookmarkByKakaoId(@PathVariable String kakao_Id, @PathVariable String productName) {
+    @DeleteMapping("/kakao/{kakao_Id}/bookmarks")
+    public ResponseEntity<Void> deleteBookmarkByKakaoId(
+            @PathVariable String kakao_Id,
+            @RequestParam("productName") String productName) {
         Long userId = userService.findUserIdByKakao_Id(kakao_Id);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
