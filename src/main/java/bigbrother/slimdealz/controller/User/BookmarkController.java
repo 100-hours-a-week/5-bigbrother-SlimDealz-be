@@ -1,9 +1,9 @@
 package bigbrother.slimdealz.controller.User;
 
-import bigbrother.slimdealz.dto.BookmarkDto;
-import bigbrother.slimdealz.dto.BookmarkProductPriceDto;
+import bigbrother.slimdealz.dto.user.BookmarkDto;
+import bigbrother.slimdealz.dto.user.BookmarkProductPriceDto;
 import bigbrother.slimdealz.service.User.BookmarkService;
-import bigbrother.slimdealz.service.User.UserService;  // Assuming you have a UserService to handle user-related logic
+import bigbrother.slimdealz.service.User.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,29 +19,6 @@ public class BookmarkController {
     private final BookmarkService bookmarkService;
     private final UserService userService;
 
-//    // New endpoint to get userId based on Kakao_ID
-//    @GetMapping("/kakao/{kakao_Id}/id")
-//    public ResponseEntity<Long> getUserIdByKakaoId(@PathVariable String kakao_Id) {
-//        Long userId = userService.findUserIdByKakao_Id(kakao_Id);
-//        if (userId != null) {
-//            return ResponseEntity.ok(userId);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//    }
-//
-//    @GetMapping("/{userId}/bookmarks")
-//    public ResponseEntity<List<BookmarkProductPriceDto>> getUserBookmarks(@PathVariable Long userId) {
-//        List<BookmarkProductPriceDto> bookmarks = bookmarkService.getUserBookmarksWithPrice(userId);
-//        return ResponseEntity.ok(bookmarks);
-//    }
-//
-//    @PostMapping("/{userId}/bookmarks/{productName}")
-//    public ResponseEntity<BookmarkDto> addBookmarkByProductName(@PathVariable Long userId, @PathVariable String productName) {
-//        BookmarkDto createdBookmark = bookmarkService.addBookmarkByProductName(userId, productName);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(createdBookmark);
-//    }
-
     @GetMapping("/kakao/{kakao_Id}/bookmarks")
     public ResponseEntity<List<BookmarkProductPriceDto>> getUserBookmarksByKakaoId(@PathVariable String kakao_Id) {
         Long userId = userService.findUserIdByKakao_Id(kakao_Id);
@@ -53,15 +30,36 @@ public class BookmarkController {
         return ResponseEntity.ok(bookmarks);
     }
 
-    @PostMapping("/kakao/{kakao_Id}/bookmarks/{productName}")
-    public ResponseEntity<BookmarkDto> addBookmarkByKakaoId(@PathVariable String kakao_Id, @PathVariable String productName) {
+    @GetMapping("/kakao/{kakao_Id}/bookmarks/{productName}")
+    public ResponseEntity<Boolean> isProductBookmarked(@PathVariable String kakao_Id, @PathVariable String productName) {
         Long userId = userService.findUserIdByKakao_Id(kakao_Id);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        BookmarkDto createdBookmark = bookmarkService.addBookmarkByProductName(userId, productName);
+        boolean isBookmarked = bookmarkService.isProductBookmarked(userId, productName);
+        return ResponseEntity.ok(isBookmarked);
+    }
+
+    @PostMapping("/kakao/{kakao_Id}/bookmarks")
+    public ResponseEntity<BookmarkDto> addBookmarkByKakaoId(@PathVariable String kakao_Id, @RequestBody BookmarkProductPriceDto bookmarkProductPriceDto) {
+        Long userId = userService.findUserIdByKakao_Id(kakao_Id);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        BookmarkDto createdBookmark = bookmarkService.addBookmarkByProductName(userId, bookmarkProductPriceDto.getProductName());
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBookmark);
     }
 
+    @DeleteMapping("/kakao/{kakao_Id}/bookmarks/{productName}")
+    public ResponseEntity<Void> deleteBookmarkByKakaoId(@PathVariable String kakao_Id, @PathVariable String productName) {
+        Long userId = userService.findUserIdByKakao_Id(kakao_Id);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        bookmarkService.removeBookmarkByProductName(userId, productName);
+        return ResponseEntity.noContent().build();
+    }
 }

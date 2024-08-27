@@ -2,7 +2,7 @@ package bigbrother.slimdealz.controller.User;
 
 import bigbrother.slimdealz.auth.JWTConstants;
 import bigbrother.slimdealz.auth.JWTutil;
-import bigbrother.slimdealz.dto.MemberDTO;
+import bigbrother.slimdealz.dto.user.MemberDTO;
 import bigbrother.slimdealz.auth.KakaoUserInfo;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.service.User.MemberService;
