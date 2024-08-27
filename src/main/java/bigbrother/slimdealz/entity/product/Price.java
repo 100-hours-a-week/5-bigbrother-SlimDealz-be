@@ -1,7 +1,10 @@
 package bigbrother.slimdealz.entity.product;
 
+import bigbrother.slimdealz.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Table(name = "prices")
 @Entity
@@ -19,6 +22,12 @@ public class Price {
     int setPrice;
 
     String promotion;
+
+    @Column(name = "created_at")
+    LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "FK_Price_Product"))
