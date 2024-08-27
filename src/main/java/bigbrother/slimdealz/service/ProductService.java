@@ -92,10 +92,9 @@ public class ProductService {
         return products.stream()
                 .peek(this::validateVendorUrl)  // Product의 vendorUrl 검증
                 .map(product -> {
-                    // Vendor를 조회하고 검증
-                    Optional<Vendor> vendor = vendorRepository.findByProductId(product.getId());
-                    vendor.ifPresent(this::validateUrl);  // Vendor의 vendorUrl 검증
-
+                    // Price 테이블을 통해 Vendor를 조회
+                    Optional<Vendor> vendor = vendorRepository.findByPricesProductId(product.getId());
+                    vendor.ifPresent(this::validateUrl);
                     return ProductConverter.toProductDTO(product);
                 })
                 .collect(Collectors.toList());
