@@ -4,6 +4,8 @@ import bigbrother.slimdealz.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Table(name = "vendors")
 @Entity
 @Builder
@@ -16,13 +18,13 @@ public class Vendor extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "name")
+    @Column(name = "vendor_name")
     String vendorName;
 
-    @Column(name = "logo")
-    String vendorImage;
-
-    @Column(name = "url")
+    @Column(name = "vendor_url")
     String vendorUrl;
+
+    @OneToMany(mappedBy = "vendor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Price> prices;
 
 }

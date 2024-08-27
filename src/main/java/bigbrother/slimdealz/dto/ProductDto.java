@@ -15,10 +15,9 @@ public class ProductDto {
 
     private Long id;
     private String name;
-    private String image;
-    private String brand;
     private String category;
     private String shippingFee;
+    private String vendorUrl;
     private List<PriceDto> prices;
 }
 

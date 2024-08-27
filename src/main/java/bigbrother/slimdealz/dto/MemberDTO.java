@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MemberDTO {
+    private Long id;            // 회원 번호
     private String name;      // 카카오에서 가져온 닉네임
     private String kakao_Id;      // 카카오 사용자 ID
     private String profileImage;  // 카카오 프로필 이미지 URL

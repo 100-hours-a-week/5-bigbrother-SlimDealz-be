@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceDto {
-    private Long id;
-    private int setPrice;
-    private String promotion;
-    private Long productId;
-    private VendorDto vendor;
+public class VendorDto {
+    Long id;
+    String vendorName;
+    String vendorUrl;
 }

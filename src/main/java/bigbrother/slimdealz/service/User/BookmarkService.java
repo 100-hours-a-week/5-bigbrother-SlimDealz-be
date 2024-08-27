@@ -1,6 +1,9 @@
 package bigbrother.slimdealz.service.User;
 
 import bigbrother.slimdealz.dto.BookmarkDto;
+import bigbrother.slimdealz.dto.BookmarkProductPriceDto;
+import bigbrother.slimdealz.dto.PriceDto;
+import bigbrother.slimdealz.dto.VendorDto;
 import bigbrother.slimdealz.entity.Bookmark;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.product.Product;
@@ -53,6 +56,10 @@ public class BookmarkService {
         bookmarkRepository.delete(bookmark);
     }
 
+    public List<Product> recommendProductsForUser(Long userId) {
+        return bookmarkRepository.findRecommendedProducts(userId);
+    }
+
     private BookmarkDto convertToBookmarkDto(Bookmark bookmark) {
         return BookmarkDto.builder()
                 .id(bookmark.getId())
@@ -60,5 +67,35 @@ public class BookmarkService {
                 .productId(bookmark.getProduct().getId())
                 .createdAt(bookmark.getCreatedAt())
                 .build();
+    }
+
+
+    public List<BookmarkProductPriceDto> getUserBookmarksWithPrice(Long userId) {
+        // 북마크와 관련된 모든 엔티티들을 가져옵니다.
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarksWithProductsAndPrices(userId);
+
+        // 각 엔티티를 DTO로 변환합니다.
+        return bookmarks.stream().map(bookmark -> {
+            List<PriceDto> prices = bookmark.getProduct().getPrices().stream()
+                    .map(price -> PriceDto.builder()
+                            .id(price.getId())
+                            .setPrice(price.getSetPrice())
+                            .promotion(price.getPromotion())
+                            .productId(price.getProduct().getId())
+                            .vendor(VendorDto.builder()
+                                    .id(price.getVendor().getId())
+                                    .vendorName(price.getVendor().getVendorName())
+                                    .build())
+                            .build())
+                    .collect(Collectors.toList());
+
+            return BookmarkProductPriceDto.builder()
+                    .bookmarkId(bookmark.getId())
+                    .productId(bookmark.getProduct().getId())
+                    .productName(bookmark.getProduct().getName())
+                    .shippingFee(bookmark.getProduct().getShippingFee())
+                    .prices(prices)
+                    .build();
+        }).collect(Collectors.toList());
     }
 }

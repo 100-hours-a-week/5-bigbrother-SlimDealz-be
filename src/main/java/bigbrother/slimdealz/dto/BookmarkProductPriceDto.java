@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceDto {
-    private Long id;
-    private int setPrice;
-    private String promotion;
+public class BookmarkProductPriceDto {
+    private Long bookmarkId;
     private Long productId;
-    private VendorDto vendor;
+    private String productName;
+    private String shippingFee;
+    private List<PriceDto> prices;  // List to hold multiple prices
 }
