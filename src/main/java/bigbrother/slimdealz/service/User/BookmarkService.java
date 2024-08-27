@@ -1,8 +1,9 @@
 package bigbrother.slimdealz.service.User;
 
-import bigbrother.slimdealz.dto.BookmarkDto;
-import bigbrother.slimdealz.dto.BookmarkProductPriceDto;
-import bigbrother.slimdealz.dto.PriceDto;
+import bigbrother.slimdealz.dto.user.BookmarkDto;
+import bigbrother.slimdealz.dto.user.BookmarkProductPriceDto;
+import bigbrother.slimdealz.dto.product.PriceDto;
+import bigbrother.slimdealz.dto.product.VendorDto;
 import bigbrother.slimdealz.entity.Bookmark;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.product.Product;
@@ -56,6 +57,10 @@ public class BookmarkService {
         bookmarkRepository.delete(bookmark);
     }
 
+    public List<Product> recommendProductsForUser(Long userId) {
+        return bookmarkRepository.findRecommendedProducts(userId);
+    }
+
     private BookmarkDto convertToBookmarkDto(Bookmark bookmark) {
         return BookmarkDto.builder()
                 .id(bookmark.getId())
@@ -78,7 +83,10 @@ public class BookmarkService {
                             .setPrice(price.getSetPrice())
                             .promotion(price.getPromotion())
                             .productId(price.getProduct().getId())
-                            .vendorId(price.getVendor().getId())
+                            .vendor(VendorDto.builder()
+                                    .id(price.getVendor().getId())
+                                    .vendorName(price.getVendor().getVendorName())
+                                    .build())
                             .build())
                     .collect(Collectors.toList());
 

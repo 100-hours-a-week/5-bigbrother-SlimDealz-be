@@ -1,4 +1,4 @@
-package bigbrother.slimdealz.dto;
+package bigbrother.slimdealz.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceHistoryDto {
+public class PriceDto {
     private Long id;
-    private int previousPrice;
-    private String updatedAt;
-    private String endAt;
+    private int setPrice;
+    private String promotion;
+    private Long productId;
+    private VendorDto vendor;
 }

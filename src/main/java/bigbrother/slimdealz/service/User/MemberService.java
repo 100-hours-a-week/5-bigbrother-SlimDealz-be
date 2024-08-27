@@ -2,8 +2,7 @@ package bigbrother.slimdealz.service.User;
 
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
-import bigbrother.slimdealz.dto.MemberDTO;
-import bigbrother.slimdealz.dto.MemberUpdateDTO;
+import bigbrother.slimdealz.dto.user.MemberDTO;
 import bigbrother.slimdealz.repository.User.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
