@@ -8,6 +8,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -24,6 +25,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private final QPrice price = QPrice.price;
     private final QVendor vendor = QVendor.vendor;
 
+    private final LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+    private final LocalDateTime endOfDay = LocalDate.now().atTime(23, 59, 59, 999999999);
+
     // 검색 결과 목록
     @Override
     public List<Product> searchByKeyword(String keyword, Long lastSeenId, int size) {
@@ -33,7 +37,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .where(
                         product.name.containsIgnoreCase(keyword),
                         lastSeenId != null ? product.id.gt(lastSeenId) : null,
-                        product.createdAt.eq(LocalDateTime.now())
+                        product.createdAt.between(startOfDay, endOfDay)
                 ) // containsIgnoreCase 부분검색, like '%%'
                 .orderBy(product.id.asc())
                 .limit(size)
@@ -47,7 +51,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(product)
                 .from(price)
                 .join(price.product, product)
-                .where(price.createdAt.eq(LocalDateTime.now()))
+                .where(price.createdAt.between(startOfDay, endOfDay))
                 .orderBy(price.setPrice.asc())
                 .limit(10)
                 .fetch();
@@ -60,7 +64,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .selectFrom(product)
                 .join(product.prices, price)
                 .where(product.name.eq(productName),
-                        price.createdAt.eq(LocalDateTime.now())) // 상품명과 일치하는 상품만 조회
+                        price.createdAt.between(startOfDay, endOfDay)) // 상품명과 일치하는 상품만 조회
                 .groupBy(product.id, price.vendor.id)
                 .orderBy(product.name.asc(), price.setPrice.asc()) // 할인가 기준 최저가 정렬
                 .fetchFirst(); // 정렬한 상품 중 첫번째 상품 반환
@@ -78,7 +82,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .where(
                         product.category.eq(category),
                         lastSeenId != null ? product.id.gt(lastSeenId) : null,
-                        product.createdAt.eq(LocalDateTime.now()),
+                        product.createdAt.between(startOfDay, endOfDay),
                         price.setPrice.eq(
                                 JPAExpressions.select(priceSub.setPrice.min())
                                         .from(priceSub)
@@ -99,27 +103,31 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .leftJoin(product.prices, price)
                 .fetchJoin()
                 .where(product.name.eq(productName)
-                , product.createdAt.eq(LocalDateTime.now()))
+                , product.createdAt.between(startOfDay, endOfDay)
+                , price.createdAt.between(startOfDay, endOfDay)
+                ,vendor.createdAt.between(startOfDay, endOfDay))
                 .fetch();
     }
 
     // 랜덤 추천
+    // 랜덤 추천
     @Override
     public List<Product> findRandomProducts() {
-        QProduct productSub = new QProduct("productSub");
-        QPrice priceSub = new QPrice("priceSub");
+        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfDay = LocalDate.now().atTime(23, 59, 59, 999999999);
 
         return queryFactory
                 .selectFrom(product)
                 .join(product.prices, price)
-                .where(productSub.createdAt.eq(LocalDateTime.now()),
+                .where(
+                        product.createdAt.between(startOfDay, endOfDay), // 오늘의 생성된 상품만 필터링
                         price.setPrice.eq(
-                        JPAExpressions
-                                .select(priceSub.setPrice.min())
-                                .from(priceSub)
-                                .join(priceSub.product, productSub)
-                                .where(productSub.name.eq(product.name))
-                ))
+                                JPAExpressions
+                                        .select(price.setPrice.min())
+                                        .from(price)
+                                        .where(price.product.eq(product))
+                        )
+                )
                 .orderBy(Expressions.numberTemplate(Double.class, "function('RAND')").asc()) // 랜덤으로 섞기
                 .limit(10) // 10개만 선택
                 .fetch();
