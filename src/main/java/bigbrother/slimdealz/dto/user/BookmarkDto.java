@@ -1,17 +1,19 @@
-package bigbrother.slimdealz.dto;
+package bigbrother.slimdealz.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceHistoryDto {
+public class BookmarkDto {
     private Long id;
-    private int previousPrice;
-    private String updatedAt;
-    private String endAt;
+    private Long userId;
+    private Long productId;
+    private Timestamp createdAt;
 }

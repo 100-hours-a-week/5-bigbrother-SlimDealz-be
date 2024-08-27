@@ -1,9 +1,9 @@
 package bigbrother.slimdealz.service.User;
 
-import bigbrother.slimdealz.dto.BookmarkDto;
-import bigbrother.slimdealz.dto.BookmarkProductPriceDto;
-import bigbrother.slimdealz.dto.PriceDto;
-import bigbrother.slimdealz.dto.VendorDto;
+import bigbrother.slimdealz.dto.user.BookmarkDto;
+import bigbrother.slimdealz.dto.user.BookmarkProductPriceDto;
+import bigbrother.slimdealz.dto.product.PriceDto;
+import bigbrother.slimdealz.dto.product.VendorDto;
 import bigbrother.slimdealz.entity.Bookmark;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.product.Product;

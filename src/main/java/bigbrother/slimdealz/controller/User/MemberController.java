@@ -1,7 +1,7 @@
 package bigbrother.slimdealz.controller.User;
 
 import bigbrother.slimdealz.entity.Member;
-import bigbrother.slimdealz.dto.MemberDTO;
+import bigbrother.slimdealz.dto.user.MemberDTO;
 import bigbrother.slimdealz.service.User.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
