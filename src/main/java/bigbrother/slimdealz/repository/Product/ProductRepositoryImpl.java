@@ -10,8 +10,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -33,7 +33,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .where(
                         product.name.containsIgnoreCase(keyword),
                         lastSeenId != null ? product.id.gt(lastSeenId) : null,
-                        product.createdAt.eq(Instant.from(LocalDate.now()))
+                        product.createdAt.eq(LocalDateTime.now())
                 ) // containsIgnoreCase 부분검색, like '%%'
                 .orderBy(product.id.asc())
                 .limit(size)
@@ -47,7 +47,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(product)
                 .from(price)
                 .join(price.product, product)
-                .where(price.createdAt.eq(Instant.from(LocalDate.now())))
+                .where(price.createdAt.eq(LocalDateTime.now()))
                 .orderBy(price.setPrice.asc())
                 .limit(10)
                 .fetch();
@@ -60,7 +60,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .selectFrom(product)
                 .join(product.prices, price)
                 .where(product.name.eq(productName),
-                        price.createdAt.eq(Instant.from(LocalDate.now()))) // 상품명과 일치하는 상품만 조회
+                        price.createdAt.eq(LocalDateTime.now())) // 상품명과 일치하는 상품만 조회
                 .groupBy(product.id, price.vendor.id)
                 .orderBy(product.name.asc(), price.setPrice.asc()) // 할인가 기준 최저가 정렬
                 .fetchFirst(); // 정렬한 상품 중 첫번째 상품 반환
@@ -78,7 +78,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .where(
                         product.category.eq(category),
                         lastSeenId != null ? product.id.gt(lastSeenId) : null,
-                        product.createdAt.eq(Instant.from(LocalDate.now())),
+                        product.createdAt.eq(LocalDateTime.now()),
                         price.setPrice.eq(
                                 JPAExpressions.select(priceSub.setPrice.min())
                                         .from(priceSub)
@@ -99,7 +99,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .leftJoin(product.prices, price)
                 .fetchJoin()
                 .where(product.name.eq(productName)
-                , product.createdAt.eq(Instant.from(LocalDate.now())))
+                , product.createdAt.eq(LocalDateTime.now()))
                 .fetch();
     }
 
@@ -112,7 +112,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return queryFactory
                 .selectFrom(product)
                 .join(product.prices, price)
-                .where(productSub.createdAt.eq(Instant.from(LocalDate.now())),
+                .where(productSub.createdAt.eq(LocalDateTime.now()),
                         price.setPrice.eq(
                         JPAExpressions
                                 .select(priceSub.setPrice.min())
