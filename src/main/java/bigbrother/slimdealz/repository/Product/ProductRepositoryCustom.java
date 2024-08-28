@@ -22,4 +22,7 @@ public interface ProductRepositoryCustom {
 
     // 판매처 리스트
     List<Product> findProductWithVendors(String productName);
+
+    // 랜덤 추천
+    List<Product> findRandomProducts();
 }

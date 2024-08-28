@@ -1,4 +1,4 @@
-package bigbrother.slimdealz.dto;
+package bigbrother.slimdealz.dto.product;
 
 import bigbrother.slimdealz.entity.product.Price;
 import bigbrother.slimdealz.entity.product.Product;

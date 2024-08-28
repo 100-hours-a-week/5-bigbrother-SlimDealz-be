@@ -48,7 +48,8 @@ public enum CustomErrorCode {
     PRODUCT_SORTING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "PRODUCT-007", "상품 정렬에 실패했습니다."),
     PRODUCT_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT-008", "카테고리를 찾을 수 없습니다."),
     INVALID_PRODUCT_CATEGORY(HttpStatus.BAD_REQUEST, "PRODUCT-009", "카테고리가 유효하지 않습니다."),
-    PRODUCT_CATEGORY_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "PRODUCT-010", "카테고리 서비스가 이용 불가능합니다.");
+    PRODUCT_CATEGORY_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "PRODUCT-010", "카테고리 서비스가 이용 불가능합니다."),
+    PRODUCT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT-011", "상품 이미지를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

@@ -1,4 +1,4 @@
-package bigbrother.slimdealz.dto;
+package bigbrother.slimdealz.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +18,7 @@ public class ProductDto {
     private String category;
     private String shippingFee;
     private String vendorUrl;
+    private String imageUrl;
     private List<PriceDto> prices;
 }
 

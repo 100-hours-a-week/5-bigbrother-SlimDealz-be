@@ -45,3 +45,6 @@ src/main/resources/firebase/FirebaseServiceKey.json
 
 ### Mac OS
 .DS_Store
+
+### discord webhook
+src/main/java/bigbrother/slimdealz/utils/DiscordNotifier.java
