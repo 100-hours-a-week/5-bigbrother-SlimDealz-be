@@ -18,7 +18,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/v1/image")
+@RequestMapping("/api/v1/image")
 public class ImageController {
 
     private final S3Service s3Service;
