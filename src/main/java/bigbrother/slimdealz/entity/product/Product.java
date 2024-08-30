@@ -31,6 +31,9 @@ public class Product extends BaseEntity {
     @Column(name = "vendor_url", nullable = false)
     private String vendorUrl;
 
+    @Column(name = "image")
+    String imageUrl;
+
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Price> prices;
 }
