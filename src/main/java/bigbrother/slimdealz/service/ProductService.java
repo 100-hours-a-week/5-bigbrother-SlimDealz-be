@@ -3,20 +3,40 @@ package bigbrother.slimdealz.service;
 import bigbrother.slimdealz.dto.product.ProductConverter;
 import bigbrother.slimdealz.dto.product.ProductDto;
 import bigbrother.slimdealz.entity.product.Product;
+import bigbrother.slimdealz.entity.product.Vendor;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.repository.Product.ProductRepository;
+import bigbrother.slimdealz.repository.Product.VendorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static bigbrother.slimdealz.entity.product.QVendor.vendor;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final S3Service s3Service;
+  
+    private final VendorRepository vendorRepository;
+
+    // 필드 값 error인 경우, 예외처리
+    private void validateVendorUrl(Product product) {
+        if("error".equalsIgnoreCase(product.getVendorUrl())) {
+            throw new CustomException(CustomErrorCode.PRODUCT_URL_INVALID);
+        }
+    }
+
+    private void validateUrl(Vendor vendor) {
+        if ("error".equalsIgnoreCase(vendor.getVendorUrl())) {
+            throw new CustomException(CustomErrorCode.PRODUCT_URL_INVALID);
+        }
+    }
 
     // 상품 검색
     public List<ProductDto> searchProducts(String keyword, Long lastSeenId, int size) {
@@ -94,7 +114,13 @@ public class ProductService {
         List<Product> products = productRepository.findProductWithVendors(productName);
 
         return products.stream()
-                .map(ProductConverter::toProductDTO)
+                .peek(this::validateVendorUrl)  // Product의 vendorUrl 검증
+                .map(product -> {
+                    // Price 테이블을 통해 Vendor를 조회
+                    Optional<Vendor> vendor = vendorRepository.findByPricesProductId(product.getId());
+                    vendor.ifPresent(this::validateUrl);
+                    return ProductConverter.toProductDTO(product);
+                })
                 .collect(Collectors.toList());
     }
 
