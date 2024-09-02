@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+.DS_Store
 
 ### STS ###
 .apt_generated
@@ -39,9 +40,13 @@ out/
 ### Environment Variables ###
 .env
 src/main/resources/properties/env.properties
+src/main/java/bigbrother/slimdealz/config/EnvConfig.java
 
 # Ignore Firebase Service Account Key
 src/main/resources/firebase/FirebaseServiceKey.json
 
 ### Mac OS
 .DS_Store
+
+### discord webhook
+src/main/java/bigbrother/slimdealz/utils/DiscordNotifier.java

@@ -1,7 +1,7 @@
 package bigbrother.slimdealz.controller.User;
 
 import bigbrother.slimdealz.entity.Member;
-import bigbrother.slimdealz.dto.MemberDTO;
+import bigbrother.slimdealz.dto.user.MemberDTO;
 import bigbrother.slimdealz.service.User.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/api/v1/users/kakaologin")
+    @PostMapping("/v1/users/kakaologin")
     public Map<String, String> signUp(@RequestBody MemberDTO memberDTO) {
         log.info("--------------------------- MemberController ---------------------------");
         log.info("memberDTO = {}", memberDTO);
@@ -35,7 +35,7 @@ public class MemberController {
         return response;
     }
 
-    @PutMapping("/api/v1/users/{kakao_Id}/profile")
+    @PutMapping("/v1/users/{kakao_Id}/profile")
     public Map<String, String> updateMemberProfile(
             @PathVariable String kakao_Id,
             @RequestBody MemberDTO memberDTO) {
@@ -52,7 +52,7 @@ public class MemberController {
         return response;
     }
 
-    @GetMapping("/api/v1/users/{kakao_Id}/profile")
+    @GetMapping("/v1/users/{kakao_Id}/profile")
     public MemberDTO getMemberProfile(@PathVariable String kakao_Id) {
         Optional<Member> optionalMember = memberService.findByKakaoId(kakao_Id);
         if (optionalMember.isPresent()) {
