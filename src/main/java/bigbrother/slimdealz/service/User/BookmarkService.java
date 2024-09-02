@@ -10,6 +10,7 @@ import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.repository.Product.ProductRepository;
 import bigbrother.slimdealz.repository.User.BookmarkRepository;
 import bigbrother.slimdealz.repository.User.MemberRepository;
+import bigbrother.slimdealz.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
+    private final S3Service s3Service;
 
     // Bookmark 엔티티를 BookmarkDto로 변환하는 메서드
     private BookmarkDto convertToBookmarkDto(Bookmark bookmark) {
@@ -64,7 +66,7 @@ public class BookmarkService {
                     .productName(bookmark.getProduct().getName())  // Product 엔티티에서 productName 가져옴
                     .shippingFee(bookmark.getProduct().getShippingFee())
                     .prices(prices)
-                    .image(bookmark.getProduct().getImageUrl())
+                    .image(s3Service.getProductImageUrl(bookmark.getProduct().getName()))
                     .build();
         }).collect(Collectors.toList());
     }
