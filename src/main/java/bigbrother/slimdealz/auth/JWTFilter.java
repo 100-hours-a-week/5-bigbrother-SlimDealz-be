@@ -21,7 +21,7 @@ import java.util.Map;
 public class JWTFilter extends OncePerRequestFilter {
 
     // JWT 검증을 적용할 경로 패턴 설정
-    private static final String[] protectedPaths = {"/api/v1/users/**"};
+    private static final String[] protectedPaths = {"/v1/users/**"};
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
