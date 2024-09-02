@@ -38,7 +38,6 @@ public class BookmarkController {
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
         boolean isBookmarked = bookmarkService.isProductBookmarked(userId, productName);
         if (isBookmarked) {
             return ResponseEntity.ok(true);
