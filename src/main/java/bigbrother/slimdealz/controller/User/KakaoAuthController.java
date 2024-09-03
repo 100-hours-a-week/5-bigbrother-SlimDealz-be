@@ -2,14 +2,12 @@ package bigbrother.slimdealz.controller.User;
 
 import bigbrother.slimdealz.auth.JWTConstants;
 import bigbrother.slimdealz.auth.JWTutil;
-import bigbrother.slimdealz.dto.MemberDTO;
+import bigbrother.slimdealz.dto.user.MemberDTO;
 import bigbrother.slimdealz.auth.KakaoUserInfo;
 import bigbrother.slimdealz.entity.Member;
-import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.service.User.MemberService;
 import com.google.gson.Gson;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -23,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -39,6 +37,7 @@ public class KakaoAuthController {
     @Value("${CLIENT_URL}")
     private String client_Url;
 
+    @Autowired
     private final MemberService memberService;
     private final RestTemplate restTemplate;
 
@@ -53,6 +52,22 @@ public class KakaoAuthController {
         Map<String, Object> tokens = getKakaoAccessToken(code);
 
         String accessToken = (String) tokens.get("access_token");
+        String refreshToken = (String) tokens.get("refresh_token");
+
+        // expires_in 값이 String 타입으로 반환될 수 있으므로, 이를 Integer로 변환
+        Integer expiresIn = null;
+        if (tokens.get("expires_in") instanceof Integer) {
+            expiresIn = (Integer) tokens.get("expires_in");
+        } else if (tokens.get("expires_in") instanceof String) {
+            expiresIn = Integer.parseInt((String) tokens.get("expires_in"));
+        } else if (tokens.get("expires_in") instanceof Double) {
+            expiresIn = ((Double) tokens.get("expires_in")).intValue();
+        } else {
+            throw new RuntimeException("Unexpected type for expires_in");
+        }
+
+        LocalDateTime accessTokenExpiresAt = LocalDateTime.now().plusSeconds(expiresIn);
+        LocalDateTime refreshTokenExpiresAt = LocalDateTime.now().plusDays(60); // 예: 60일 만료
 
         // 2. 액세스 토큰을 사용하여 사용자 프로필 정보 가져오기
         ResponseEntity<String> userProfileResponse = getUserProfile(accessToken);
@@ -65,27 +80,31 @@ public class KakaoAuthController {
         Optional<Member> existingMember = memberService.findByKakaoId(kakaoUserInfo.getKakao_Id());
         Member member;
 
-        String redirectUrl;
         if (existingMember.isPresent()) {
-            member = existingMember.get();
-            redirectUrl = client_Url + "/";
+            // 기존 회원 업데이트
+            MemberDTO memberDTO = new MemberDTO();
+            memberDTO.setNickname(kakaoUserInfo.getName());
+            memberDTO.setKakaoAccessToken(accessToken);
+            memberDTO.setKakaoAccessTokenExpiresAt(accessTokenExpiresAt);
+            memberDTO.setKakaoRefreshToken(refreshToken);
+            memberDTO.setKakaoRefreshTokenExpiresAt(refreshTokenExpiresAt);
+
+            member = memberService.updateMemberProfile(kakaoUserInfo.getKakao_Id(), memberDTO);
         } else {
+            // 신규 회원 등록
             MemberDTO memberDTO = new MemberDTO();
             memberDTO.setName(kakaoUserInfo.getName());
             memberDTO.setKakao_Id(kakaoUserInfo.getKakao_Id());
             memberDTO.setProfileImage(kakaoUserInfo.getProfileImage());
+            memberDTO.setKakaoAccessToken(accessToken);
+            memberDTO.setKakaoAccessTokenExpiresAt(accessTokenExpiresAt);
+            memberDTO.setKakaoRefreshToken(refreshToken);
+            memberDTO.setKakaoRefreshTokenExpiresAt(refreshTokenExpiresAt);
 
-            member = Member.builder()
-                    .name(kakaoUserInfo.getName())
-                    .kakao_Id(kakaoUserInfo.getKakao_Id())
-                    .profileImage(kakaoUserInfo.getProfileImage())
-                    .role(MemberRole.USER)
-                    .build();
-
-            redirectUrl = client_Url + "/signup";
+            member = memberService.saveMember(memberDTO);
         }
 
-        // JWT 토큰 생성
+        // JWT 토큰 생성 및 리디렉션
         Map<String, Object> claims = Map.of(
                 "kakao_Id", member.getKakao_Id(),
                 "name", member.getName(),
@@ -94,11 +113,10 @@ public class KakaoAuthController {
         );
 
         String jwtToken = JWTutil.generateToken(claims, JWTConstants.ACCESS_EXP_TIME);
-        String refreshToken = JWTutil.generateToken(claims, JWTConstants.REFRESH_EXP_TIME);
+        String refreshTokenJwt = JWTutil.generateToken(claims, JWTConstants.REFRESH_EXP_TIME);
 
-        // URI에 토큰을 포함시켜 리디렉션
-        redirectUrl += "?jwtToken=" + URLEncoder.encode(jwtToken, StandardCharsets.UTF_8) +
-                "&refreshToken=" + URLEncoder.encode(refreshToken, StandardCharsets.UTF_8);
+        String redirectUrl = client_Url + "/?jwtToken=" + URLEncoder.encode(jwtToken, StandardCharsets.UTF_8) +
+                "&refreshToken=" + URLEncoder.encode(refreshTokenJwt, StandardCharsets.UTF_8);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(redirectUrl));

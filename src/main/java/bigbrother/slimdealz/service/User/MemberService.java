@@ -2,8 +2,7 @@ package bigbrother.slimdealz.service.User;
 
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
-import bigbrother.slimdealz.dto.MemberDTO;
-import bigbrother.slimdealz.dto.MemberUpdateDTO;
+import bigbrother.slimdealz.dto.user.MemberDTO;
 import bigbrother.slimdealz.repository.User.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,15 +25,19 @@ public class MemberService {
         Member member = Member.builder()
                 .name(memberDTO.getName())
                 .kakao_Id(memberDTO.getKakao_Id())
-                .profileImage(memberDTO.getProfileImage())  // 필드 이름을 일관되게 변경
+                .profileImage(memberDTO.getProfileImage())
                 .nickname(memberDTO.getNickname())
                 .card(memberDTO.getCard())
                 .notification_agree(memberDTO.isNotification_agree())
                 .role(MemberRole.USER)
+                .kakaoAccessToken(memberDTO.getKakaoAccessToken())  // 추가된 필드 설정
+                .kakaoAccessTokenExpiresAt(memberDTO.getKakaoAccessTokenExpiresAt())
+                .kakaoRefreshToken(memberDTO.getKakaoRefreshToken())
+                .kakaoRefreshTokenExpiresAt(memberDTO.getKakaoRefreshTokenExpiresAt())
                 .build();
         return memberRepository.save(member);
     }
-    //MemberService에 업데이트 메서드 추가:
+
     public Member updateMemberProfile(String kakao_Id, MemberDTO memberDTO) {
         Optional<Member> optionalMember = memberRepository.findByKakaoId(kakao_Id);
 
@@ -43,6 +46,12 @@ public class MemberService {
             member.setNickname(memberDTO.getNickname());
             member.setCard(memberDTO.getCard());
             member.setNotification_agree(memberDTO.isNotification_agree());
+
+            // 카카오 토큰 업데이트 로직 추가
+            member.setKakaoAccessToken(memberDTO.getKakaoAccessToken());
+            member.setKakaoAccessTokenExpiresAt(memberDTO.getKakaoAccessTokenExpiresAt());
+            member.setKakaoRefreshToken(memberDTO.getKakaoRefreshToken());
+            member.setKakaoRefreshTokenExpiresAt(memberDTO.getKakaoRefreshTokenExpiresAt());
 
             return memberRepository.save(member);
         } else {

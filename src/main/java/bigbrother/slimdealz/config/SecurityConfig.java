@@ -34,11 +34,12 @@ public class SecurityConfig {
 
         corsConfiguration.setAllowedOriginPatterns(List.of("*"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
-        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "baggage", "sentry-trace"));
+//        corsConfiguration.setExposedHeaders(List.of("Authorization", "baggage"));  // 노출할 헤더 설정
         corsConfiguration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration); // 모든 경로에 대해서 CORS 설정을 적용
+        source.registerCorsConfiguration("/**", corsConfiguration);
 
         return source;
     }
@@ -80,13 +81,13 @@ public class SecurityConfig {
         http.addFilterBefore(jwtVerifyFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.formLogin(httpSecurityFormLoginConfigurer -> {httpSecurityFormLoginConfigurer
-                .loginPage("/login")
+                .loginPage("/signin")
                 .successHandler(commonLoginSuccessHandler())
                 .failureHandler(commonLoginFailHandler());
         });
 
         http.oauth2Login(httpSecurityOAuth2LoginConfigurer ->
-                httpSecurityOAuth2LoginConfigurer.loginPage("/oauth2/login")
+                httpSecurityOAuth2LoginConfigurer.loginPage("/oauth2/signin")
                         .successHandler(commonLoginSuccessHandler())
                         .userInfoEndpoint(userInfoEndpointConfig ->
                                 userInfoEndpointConfig.userService(oAuth2UserService)));

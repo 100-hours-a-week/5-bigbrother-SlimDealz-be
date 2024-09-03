@@ -1,4 +1,4 @@
-package bigbrother.slimdealz.dto;
+package bigbrother.slimdealz.dto.user;
 
 public class MemberUpdateDTO {
 
