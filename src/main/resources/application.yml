@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
     properties:
       hibernate.format_sql: true
@@ -54,3 +54,7 @@ cloud:
     credentials:
       access-key: ${AWS_ACCESS_KEY_ID}
       secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+  elasticsearch:
+    username: elastic
+    password: ${ELASTICSEARCH_PASSWORD}
