@@ -1,7 +1,6 @@
 package bigbrother.slimdealz.dto.user;
 
 import bigbrother.slimdealz.dto.product.PriceDto;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
