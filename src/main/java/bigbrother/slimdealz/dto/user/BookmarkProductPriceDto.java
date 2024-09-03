@@ -1,7 +1,6 @@
 package bigbrother.slimdealz.dto.user;
 
 import bigbrother.slimdealz.dto.product.PriceDto;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,14 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class BookmarkProductPriceDto {
     private Long bookmarkId;
-
-    @JsonProperty("id")  // JSON에서 "name"으로 직렬화
     private Long productId;
-
-    @JsonProperty("name")  // JSON에서 "name"으로 직렬화
     private String productName;
-
-    @JsonProperty("imageUrl")  // JSON에서 "name"으로 직렬화
     private String image; // 제품 이미지 URL 필드 추가
 
     private String shippingFee;
