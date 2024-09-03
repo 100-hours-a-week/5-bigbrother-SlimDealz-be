@@ -33,7 +33,7 @@ public class BookmarkController {
     @GetMapping("/kakao/{kakao_Id}/bookmarks/search")
     public ResponseEntity<Boolean> isProductBookmarked(
             @PathVariable String kakao_Id,
-            @RequestParam("productName") String productName) {
+            @RequestParam(required = true) String productName) {
         Long userId = userService.findUserIdByKakao_Id(kakao_Id);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -42,7 +42,8 @@ public class BookmarkController {
         if (isBookmarked) {
             return ResponseEntity.ok(true);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            // 북마크가 없을 경우 204 No Content 반환
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
     }
 
