@@ -14,14 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class BookmarkProductPriceDto {
     private Long bookmarkId;
-
-    @JsonProperty("id")  // JSON에서 "name"으로 직렬화
     private Long productId;
-
-    @JsonProperty("name")  // JSON에서 "name"으로 직렬화
     private String productName;
-
-    @JsonProperty("imageUrl")  // JSON에서 "name"으로 직렬화
     private String image; // 제품 이미지 URL 필드 추가
 
     private String shippingFee;
