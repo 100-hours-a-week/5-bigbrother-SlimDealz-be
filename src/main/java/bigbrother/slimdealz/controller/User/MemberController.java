@@ -35,7 +35,7 @@ public class MemberController {
         return response;
     }
 
-    @PutMapping("/api/v1/users/{kakao_Id}/profile")
+    @PutMapping("/v1/users/{kakao_Id}/profile")
     public Map<String, String> updateMemberProfile(
             @PathVariable String kakao_Id,
             @RequestBody MemberDTO memberDTO) {
@@ -52,7 +52,7 @@ public class MemberController {
         return response;
     }
 
-    @GetMapping("/api/v1/users/{kakao_Id}/profile")
+    @GetMapping("/v1/users/{kakao_Id}/profile")
     public MemberDTO getMemberProfile(@PathVariable String kakao_Id) {
         Optional<Member> optionalMember = memberService.findByKakaoId(kakao_Id);
         if (optionalMember.isPresent()) {
