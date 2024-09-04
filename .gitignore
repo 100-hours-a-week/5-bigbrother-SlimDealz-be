@@ -49,6 +49,3 @@ src/main/resources/firebase/FirebaseServiceKey.json
 
 ### discord webhook
 src/main/java/bigbrother/slimdealz/utils/DiscordNotifier.java
-
-### Log Files
-src/main/resources/logback-spring.xml
