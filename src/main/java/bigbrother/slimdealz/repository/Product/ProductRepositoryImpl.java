@@ -10,7 +10,6 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.constraintvalidators.bv.time.pastorpresent.PastOrPresentValidatorForCalendar;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -32,7 +31,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     private final LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
     private final LocalDateTime endOfDay = LocalDate.now().atTime(23, 59, 59, 999999999);
-    private final PastOrPresentValidatorForCalendar pastOrPresentValidatorForCalendar;
 
     // 현재 데이터 없는 경우, 과거 데이터 조회
     private List<Product> backToDayList(LocalDateTime startOfDay, LocalDateTime endOfDay, Function<JPAQueryFactory, List<Product>> queryFunction) {
@@ -59,7 +57,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 queryFactory
                         .selectFrom(product)
                         .leftJoin(product.prices, price).fetchJoin()
-                        .leftJoin(price.vendor, vendor).fetchJoin()
                         .where(
                                 product.name.containsIgnoreCase(keyword),
                                 lastSeenId != null ? product.id.gt(lastSeenId) : null,
@@ -83,7 +80,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         .select(product)
                         .from(price)
                         .join(price.product, product)
-                        .join(price.vendor, vendor).fetchJoin()
                         .where(price.createdAt.between(startOfDay, endOfDay))
                         .orderBy(price.setPrice.asc())
                         .limit(10)
@@ -101,7 +97,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 Collections.singletonList(queryFactory
                         .selectFrom(product)
                                 .leftJoin(product.prices, price).fetchJoin()
-                                .leftJoin(price.vendor, vendor).fetchJoin()
                         .where(product.name.eq(productName),
                                 price.createdAt.between(startOfDay, endOfDay)) // 상품명과 일치하는 상품만 조회
                                 .orderBy(price.setPrice.asc())
@@ -122,7 +117,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 queryFactory
                         .selectFrom(product)
                         .leftJoin(product.prices, price).fetchJoin()
-                        .leftJoin(price.vendor, vendor).fetchJoin()
                         .where(
                                 product.category.eq(category),
                                 lastSeenId != null ? product.id.gt(lastSeenId) : null,
@@ -134,7 +128,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                                 .where(productSub.name.eq(product.name))
                                 )
                         )
-                        .orderBy(product.id.asc())
+                        .orderBy(price.setPrice.asc())
                         .limit(size)
                         .fetch()
                 );
@@ -171,7 +165,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 queryFactory
                         .selectFrom(product)
                         .leftJoin(product.prices, price).fetchJoin()
-                        .leftJoin(price.vendor, vendor).fetchJoin()
                         .where(
                                 product.createdAt.between(startOfDay, endOfDay),
                                 price.setPrice.eq(
