@@ -39,6 +39,7 @@ out/
 ### Environment Variables ###
 .env
 src/main/resources/properties/env.properties
+src/main/java/bigbrother/slimdealz/config/EnvConfig.java
 
 # Ignore Firebase Service Account Key
 src/main/resources/firebase/FirebaseServiceKey.json
