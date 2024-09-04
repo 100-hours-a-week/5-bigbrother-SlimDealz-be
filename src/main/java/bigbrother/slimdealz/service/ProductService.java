@@ -1,8 +1,6 @@
 package bigbrother.slimdealz.service;
 
-import bigbrother.slimdealz.dto.product.ProductConverter;
 import bigbrother.slimdealz.dto.product.ProductDto;
-import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
 import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.repository.Product.ProductRepository;
@@ -10,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
