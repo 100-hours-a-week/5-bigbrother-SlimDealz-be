@@ -1,22 +1,15 @@
 package bigbrother.slimdealz.auth;
 
-import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.entity.MemberRole;
 import bigbrother.slimdealz.exception.CustomExpiredJwtException;
 import bigbrother.slimdealz.exception.CustomJwtException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 
 public class JWTutil {
 
@@ -57,21 +50,9 @@ public class JWTutil {
         }
     }
 
-    // JWT로부터 Authentication 객체 생성
-    public static Authentication getAuthentication(String token) {
-        Map<String, Object> claims = validateToken(token);
-
-        // kakao_Id와 name, role 정보를 사용
-        String kakao_Id = (String) claims.get("kakao_Id");
-        String name = (String) claims.get("name");
-        String role = (String) claims.get("role");
-        MemberRole memberRole = MemberRole.fromValue(role);
-
-        Member member = Member.builder().kakao_Id(kakao_Id).name(name).role(memberRole).build();
-        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(member.getRole().getValue()));
-        PrincipalDetail principalDetail = new PrincipalDetail(member, authorities);
-
-        return new UsernamePasswordAuthenticationToken(principalDetail, "", authorities);
+    // JWT에서 사용자 정보 추출
+    public static Map<String, Object> getClaims(String token) {
+        return validateToken(token);
     }
 
     // 토큰이 만료되었는지 확인

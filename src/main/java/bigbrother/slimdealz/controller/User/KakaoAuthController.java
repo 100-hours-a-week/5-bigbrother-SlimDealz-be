@@ -7,7 +7,6 @@ import bigbrother.slimdealz.auth.KakaoUserInfo;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.service.User.MemberService;
 import com.google.gson.Gson;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -29,107 +26,77 @@ import java.util.Optional;
 public class KakaoAuthController {
 
     @Value("${KAKAO_API_KEY}")
-    private String kakaoApiKey;
+    private String kakaoApiKey; // 카카오 API 키
 
     @Value("${SERVER_URL}/auth/kakao/callback")
-    private String kakaoRedirectUrl;
+    private String kakaoRedirectUrl; // 카카오 인증 후 리다이렉트 URL
 
     @Value("${CLIENT_URL}")
-    private String client_Url;
+    private String clientUrl; // 클라이언트 URL
 
-    @Autowired
     private final MemberService memberService;
 
+    @Autowired
     public KakaoAuthController(MemberService memberService) {
         this.memberService = memberService;
     }
 
+    /**
+     * 카카오 인증 콜백 처리
+     *
+     * @param code 카카오 인증 코드
+     * @return 리다이렉션 응답
+     */
     @GetMapping("/auth/kakao/callback")
     public ResponseEntity<?> handleKakaoCallback(@RequestParam("code") String code) {
         // 1. 카카오 서버에 액세스 토큰 요청
         Map<String, Object> tokens = getKakaoAccessToken(code);
-
         String accessToken = (String) tokens.get("access_token");
         String refreshToken = (String) tokens.get("refresh_token");
-
-        // expires_in 값이 String 타입으로 반환될 수 있으므로, 이를 Integer로 변환
-        Integer expiresIn = null;
-        if (tokens.get("expires_in") instanceof Integer) {
-            expiresIn = (Integer) tokens.get("expires_in");
-        } else if (tokens.get("expires_in") instanceof String) {
-            expiresIn = Integer.parseInt((String) tokens.get("expires_in"));
-        } else if (tokens.get("expires_in") instanceof Double) {
-            expiresIn = ((Double) tokens.get("expires_in")).intValue();
-        } else {
-            throw new RuntimeException("Unexpected type for expires_in");
-        }
-
-        LocalDateTime accessTokenExpiresAt = LocalDateTime.now().plusSeconds(expiresIn);
-        LocalDateTime refreshTokenExpiresAt = LocalDateTime.now().plusDays(60); // 예: 60일 만료
+        int expiresIn = getExpiresIn(tokens); // 액세스 토큰의 만료 시간
 
         // 2. 액세스 토큰을 사용하여 사용자 프로필 정보 가져오기
         ResponseEntity<String> userProfileResponse = getUserProfile(accessToken);
-        Map<String, Object> userProfile = new Gson().fromJson(userProfileResponse.getBody(), Map.class);
+        KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(new Gson().fromJson(userProfileResponse.getBody(), Map.class));
 
-        // 3. KakaoUserInfo 객체로 사용자 정보 추출
-        KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(userProfile);
+        // 3. 기존 회원 확인 및 등록 또는 업데이트
+        Member member = saveOrUpdateMember(kakaoUserInfo, accessToken, refreshToken, expiresIn);
 
-        // 4. 기존 회원 확인 및 등록 또는 업데이트
-        Optional<Member> existingMember = memberService.findByKakaoId(kakaoUserInfo.getKakao_Id());
-        Member member;
-
-        if (existingMember.isPresent()) {
-            // 기존 회원 업데이트
-            MemberDTO memberDTO = new MemberDTO();
-            memberDTO.setNickname(kakaoUserInfo.getName());
-            memberDTO.setKakaoAccessToken(accessToken);
-            memberDTO.setKakaoAccessTokenExpiresAt(accessTokenExpiresAt);
-            memberDTO.setKakaoRefreshToken(refreshToken);
-            memberDTO.setKakaoRefreshTokenExpiresAt(refreshTokenExpiresAt);
-
-            member = memberService.updateMemberProfile(kakaoUserInfo.getKakao_Id(), memberDTO);
-        } else {
-            // 신규 회원 등록
-            MemberDTO memberDTO = new MemberDTO();
-            memberDTO.setName(kakaoUserInfo.getName());
-            memberDTO.setKakao_Id(kakaoUserInfo.getKakao_Id());
-            memberDTO.setProfileImage(kakaoUserInfo.getProfileImage());
-            memberDTO.setKakaoAccessToken(accessToken);
-            memberDTO.setKakaoAccessTokenExpiresAt(accessTokenExpiresAt);
-            memberDTO.setKakaoRefreshToken(refreshToken);
-            memberDTO.setKakaoRefreshTokenExpiresAt(refreshTokenExpiresAt);
-
-            member = memberService.saveMember(memberDTO);
-        }
-
-        // JWT 토큰 생성 및 리디렉션
+        // 4. JWT 토큰 생성
         Map<String, Object> claims = Map.of(
+                "id", member.getId(),
                 "kakao_Id", member.getKakao_Id(),
                 "name", member.getName(),
                 "role", member.getRole().getValue(),
                 "profile_image", member.getProfileImage()
         );
-
         String jwtToken = JWTutil.generateToken(claims, JWTConstants.ACCESS_EXP_TIME);
         String refreshTokenJwt = JWTutil.generateToken(claims, JWTConstants.REFRESH_EXP_TIME);
 
-        String redirectUrl = client_Url + "/?jwtToken=" + URLEncoder.encode(jwtToken, StandardCharsets.UTF_8) +
-                "&refreshToken=" + URLEncoder.encode(refreshTokenJwt, StandardCharsets.UTF_8);
+        // 5. 쿠키에 JWT 토큰, 리프레시 토큰, 카카오 ID 설정
+        HttpHeaders headers = createCookies(jwtToken, refreshTokenJwt, member.getKakao_Id());
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(redirectUrl));
+        // 6. 클라이언트로 리디렉션
+        headers.setLocation(URI.create(clientUrl));
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
+    /**
+     * 카카오 API를 통해 액세스 토큰 및 리프레시 토큰을 가져옴
+     *
+     * @param authCode 카카오 인증 코드
+     * @return 액세스 토큰 및 리프레시 토큰을 포함한 맵
+     */
     private Map<String, Object> getKakaoAccessToken(String authCode) {
         String tokenUri = "https://kauth.kakao.com/oauth/token";
         RestTemplate restTemplate = new RestTemplate();
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", kakaoApiKey);  // 카카오에서 발급받은 REST API 키
+        params.add("client_id", kakaoApiKey);
         params.add("redirect_uri", kakaoRedirectUrl);
         params.add("code", authCode);
 
@@ -137,14 +104,95 @@ public class KakaoAuthController {
         ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, request, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            // 응답에서 access_token 및 refresh_token을 포함한 JSON 데이터를 추출
-            Map<String, Object> json = new Gson().fromJson(response.getBody(), Map.class);
-            return json;
+            return new Gson().fromJson(response.getBody(), Map.class);
         }
 
         throw new RuntimeException("Failed to get tokens from Kakao");
     }
 
+    /**
+     * 토큰의 만료 시간을 가져옴
+     *
+     * @param tokens 토큰 정보를 담고 있는 맵
+     * @return 만료 시간(초)
+     */
+    private int getExpiresIn(Map<String, Object> tokens) {
+        Object expiresInObj = tokens.get("expires_in");
+        if (expiresInObj instanceof Integer) {
+            return (Integer) expiresInObj;
+        } else if (expiresInObj instanceof String) {
+            return Integer.parseInt((String) expiresInObj);
+        } else if (expiresInObj instanceof Double) {
+            return ((Double) expiresInObj).intValue();
+        } else {
+            throw new RuntimeException("Unexpected type for expires_in");
+        }
+    }
+
+    /**
+     * 기존 회원을 업데이트하거나 신규 회원을 등록함
+     *
+     * @param kakaoUserInfo 카카오 사용자 정보
+     * @param accessToken   액세스 토큰
+     * @param refreshToken  리프레시 토큰
+     * @param expiresIn     액세스 토큰 만료 시간
+     * @return 회원 엔티티
+     */
+    private Member saveOrUpdateMember(KakaoUserInfo kakaoUserInfo, String accessToken, String refreshToken, int expiresIn) {
+        LocalDateTime accessTokenExpiresAt = LocalDateTime.now().plusSeconds(expiresIn);
+        LocalDateTime refreshTokenExpiresAt = LocalDateTime.now().plusDays(60);
+
+        Optional<Member> existingMember = memberService.findByKakaoId(kakaoUserInfo.getKakao_Id());
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setNickname(kakaoUserInfo.getName());
+        memberDTO.setKakaoAccessToken(accessToken);
+        memberDTO.setKakaoAccessTokenExpiresAt(accessTokenExpiresAt);
+        memberDTO.setKakaoRefreshToken(refreshToken);
+        memberDTO.setKakaoRefreshTokenExpiresAt(refreshTokenExpiresAt);
+
+        if (existingMember.isPresent()) {
+            return memberService.updateMemberProfile(kakaoUserInfo.getKakao_Id(), memberDTO);
+        } else {
+            memberDTO.setName(kakaoUserInfo.getName());
+            memberDTO.setKakao_Id(kakaoUserInfo.getKakao_Id());
+            memberDTO.setProfileImage(kakaoUserInfo.getProfileImage());
+            return memberService.saveMember(memberDTO);
+        }
+    }
+
+    /**
+     * 쿠키에 JWT 토큰, 리프레시 토큰, 카카오 ID 설정
+     *
+     * @param jwtToken        JWT 토큰
+     * @param refreshTokenJwt 리프레시 토큰
+     * @param kakaoId         카카오 ID
+     * @return 쿠키가 설정된 HttpHeaders 객체
+     */
+    private HttpHeaders createCookies(String jwtToken, String refreshTokenJwt, String kakaoId) {
+        HttpHeaders headers = new HttpHeaders();
+        boolean isSecure = kakaoRedirectUrl.startsWith("https");
+
+        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
+        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
+        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; SameSite=None; Secure";
+
+//        if (isSecure) {
+//            jwtCookie += "; Secure";
+//            refreshCookie += "; Secure";
+//            kakaoIdCookie += "; Secure";
+//        }
+
+        headers.add(HttpHeaders.SET_COOKIE, jwtCookie);
+        headers.add(HttpHeaders.SET_COOKIE, refreshCookie);
+        headers.add(HttpHeaders.SET_COOKIE, kakaoIdCookie);
+        return headers;
+    }
+    /**
+     * 카카오 API를 통해 사용자 프로필 정보를 가져옴
+     *
+     * @param accessToken 액세스 토큰
+     * @return 사용자 프로필 정보를 담은 ResponseEntity 객체
+     */
     private ResponseEntity<String> getUserProfile(String accessToken) {
         String profileUri = "https://kapi.kakao.com/v2/user/me";
         RestTemplate restTemplate = new RestTemplate();
@@ -155,6 +203,4 @@ public class KakaoAuthController {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(profileUri, HttpMethod.GET, entity, String.class);
     }
-
-
 }
