@@ -1,0 +1,48 @@
+[2024-09-06 18:22:38:6203] ERROR 64655 --- [  restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+[2024-09-06 18:23:40:4917] ERROR 64668 --- [  restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+[2024-09-06 18:25:20:4603] ERROR 64717 --- [  restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+[2024-09-06 18:30:10:254441] ERROR 64742 --- [nio-8080-exec-8] b.s.controller.ProductController         : 상품을 찾을 수 없습니다.
+[2024-09-06 18:30:10:254475] ERROR 64742 --- [nio-8080-exec-8] b.s.exception.CustomExceptionHandler     : error code : PRODUCT_NOT_FOUND, url /v1/product-detail, message: 상품을 찾을 수 없습니다.
+[2024-09-06 18:30:18:262453] ERROR 64742 --- [nio-8080-exec-9] b.s.controller.ProductController         : 상품을 찾을 수 없습니다.
+[2024-09-06 18:30:18:262453] ERROR 64742 --- [nio-8080-exec-9] b.s.exception.CustomExceptionHandler     : error code : PRODUCT_NOT_FOUND, url /v1/product-detail, message: 상품을 찾을 수 없습니다.
+[2024-09-06 18:30:33:277570] ERROR 64742 --- [io-8080-exec-10] b.s.controller.ProductController         : 상품을 찾을 수 없습니다.
+[2024-09-06 18:30:33:277570] ERROR 64742 --- [io-8080-exec-10] b.s.exception.CustomExceptionHandler     : error code : PRODUCT_NOT_FOUND, url /v1/product-detail, message: 상품을 찾을 수 없습니다.
