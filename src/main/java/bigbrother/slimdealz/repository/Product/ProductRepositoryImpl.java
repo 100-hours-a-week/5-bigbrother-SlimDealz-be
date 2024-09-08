@@ -50,6 +50,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     // 검색 결과 목록
     @Override
     public List<Product> searchByKeyword(String keyword, Long lastSeenId, int size) {
+        QProduct productSub = new QProduct("productSub");
+        QPrice priceSub = new QPrice("priceSub"); // Price 서브쿼리용 객체
 
         return backToDayList(startOfDay, endOfDay, queryFactory ->
                 queryFactory
@@ -58,9 +60,15 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 product.name.containsIgnoreCase(keyword),
                                 lastSeenId != null ? product.id.gt(lastSeenId) : null,
                                 product.createdAt.between(startOfDay, endOfDay)
-                        ) // containsIgnoreCase 부분검색, like '%%'
-                        .orderBy(product.id.asc())
-                        .limit(size)
+                        )
+                        .groupBy(product.name) // name을 기준으로 그룹화
+                        .having(product.prices.any().setPrice.eq( // 최저가 조건 추가
+                                JPAExpressions
+                                        .select(priceSub.setPrice.min()) // 최저가 서브쿼리
+                                        .from(priceSub)
+                                        .where(priceSub.product.eq(product)) // 동일한 제품에 대한 가격 조회
+                        ))
+                        .limit(size) // 결과 크기 제한
                         .fetch()
         );
     }
