@@ -100,11 +100,11 @@
     </appender>
 
     <!-- root 레벨 설정 -->
-    <root level="WARN">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="ERROR"/>
-        <!-- Sentry Appender 추가 -->
-        <appender-ref ref="SENTRY"/>
-    </root>
+<!--    <root level="WARN">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--        <appender-ref ref="FILE"/>-->
+<!--        <appender-ref ref="ERROR"/>-->
+<!--        &lt;!&ndash; Sentry Appender 추가 &ndash;&gt;-->
+<!--        <appender-ref ref="SENTRY"/>-->
+<!--    </root>-->
 </configuration>
