@@ -84,10 +84,9 @@
     <!-- root 레벨 설정 -->
     <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="INFO"/>
         <appender-ref ref="FILE"/>
-        <appender-ref ref="WARN"/>
         <appender-ref ref="ERROR"/>
+        <!-- Sentry Appender 추가 -->
         <appender-ref ref="SENTRY"/>
     </root>
 
