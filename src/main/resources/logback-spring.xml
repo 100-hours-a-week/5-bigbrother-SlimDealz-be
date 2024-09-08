@@ -99,12 +99,12 @@
         </encoder>
     </appender>
 
-   <root level="WARN">
+  <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
-        <appender-ref ref="INFO"/>
         <appender-ref ref="ERROR"/>
         <!-- Sentry Appender 추가 -->
         <appender-ref ref="SENTRY"/>
     </root>
+
 </configuration>
