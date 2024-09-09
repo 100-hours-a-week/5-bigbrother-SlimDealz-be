@@ -13,6 +13,7 @@ import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -202,5 +203,14 @@ public class KakaoAuthController {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(profileUri, HttpMethod.GET, entity, String.class);
+    }
+
+    @GetMapping("/auth/kakao/logout")
+    public ResponseEntity<?> kakaoLogout() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(clientUrl + "/"));  // 클라이언트 홈 페이지로 리디렉트
+
+        // 클라이언트로 리디렉션
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 }
