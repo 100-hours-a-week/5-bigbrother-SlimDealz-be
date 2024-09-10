@@ -17,12 +17,11 @@ import java.util.Map;
 public class JWTController {
 
     @RequestMapping("/refresh")
-    public Map<String, Object> refresh(@RequestHeader("Authorization") String authHeader, String refreshToken) {
+    public Map<String, Object> refresh(@RequestHeader(value = "Authorization", required = false) String authHeader, String refreshToken) {
         log.info("Refresh Token = {}", refreshToken);
-        if (authHeader == null) {
-            throw new CustomJwtException("Access Token 이 존재하지 않습니다");
-        } else if (!authHeader.startsWith(JWTConstants.JWT_TYPE)) {
-            throw new CustomJwtException("BEARER 로 시작하지 않는 올바르지 않은 토큰 형식입니다");
+
+        if (authHeader == null || !authHeader.startsWith(JWTConstants.JWT_TYPE)) {
+            throw new CustomJwtException("유효하지 않은 또는 존재하지 않는 Access Token");
         }
 
         String accessToken = JWTutil.getTokenFromHeader(authHeader);
