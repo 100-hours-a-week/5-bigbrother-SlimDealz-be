@@ -36,10 +36,12 @@ public class KakaoAuthController {
     private String clientUrl; // 클라이언트 URL
 
     private final MemberService memberService;
+    private final RestTemplate restTemplate;
 
     @Autowired
     public KakaoAuthController(MemberService memberService) {
         this.memberService = memberService;
+        this.restTemplate = restTemplate;
     }
 
     /**

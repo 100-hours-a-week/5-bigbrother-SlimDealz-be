@@ -17,6 +17,7 @@ public class BookmarkProductPriceDto {
     private Long productId;
     private String productName;
     private String image; // 제품 이미지 URL 필드 추가
+
     private String shippingFee;
     private List<PriceDto> prices;  // List to hold multiple prices
 
