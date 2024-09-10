@@ -50,3 +50,6 @@ src/main/resources/firebase/FirebaseServiceKey.json
 
 ### discord webhook
 src/main/java/bigbrother/slimdealz/utils/DiscordNotifier.java
+
+### FCM json
+src/main/resources/slimdealz-bf162-firebase-adminsdk-f6gdw-e4cef6d7b3.json
