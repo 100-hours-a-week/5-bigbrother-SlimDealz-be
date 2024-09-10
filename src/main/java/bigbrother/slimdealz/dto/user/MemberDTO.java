@@ -1,3 +1,4 @@
+
 package bigbrother.slimdealz.dto.user;
 
 import lombok.*;
