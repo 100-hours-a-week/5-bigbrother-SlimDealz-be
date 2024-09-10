@@ -1,4 +1,6 @@
 spring:
+  sentry:
+    dsn: ${SENTRY_DSN}
   jwt:
     secret: ${JWT_SECRET_KEY}
 
