@@ -4,7 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-.DS_Store
 
 ### STS ###
 .apt_generated
@@ -53,3 +52,4 @@ src/main/java/bigbrother/slimdealz/utils/DiscordNotifier.java
 
 ### FCM json
 src/main/resources/slimdealz-bf162-firebase-adminsdk-f6gdw-e4cef6d7b3.json
+

@@ -26,7 +26,6 @@ import java.util.Optional;
 @RestController
 public class KakaoAuthController {
 
-    private final RestTemplate restTemplate;
     @Value("${KAKAO_API_KEY}")
     private String kakaoApiKey; // 카카오 API 키
 
@@ -37,6 +36,7 @@ public class KakaoAuthController {
     private String clientUrl; // 클라이언트 URL
 
     private final MemberService memberService;
+    private final RestTemplate restTemplate;
 
     @Autowired
     public KakaoAuthController(MemberService memberService, RestTemplate restTemplate) {

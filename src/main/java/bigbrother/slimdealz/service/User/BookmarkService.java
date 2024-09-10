@@ -27,7 +27,6 @@ public class BookmarkService {
     private final ProductRepository productRepository;
     private final S3Service s3Service;
 
-
     // Bookmark 엔티티를 BookmarkDto로 변환하는 메서드
     private BookmarkDto convertToBookmarkDto(Bookmark bookmark) {
         return BookmarkDto.builder()
