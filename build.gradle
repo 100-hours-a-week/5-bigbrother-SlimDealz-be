@@ -56,6 +56,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
     // AWS
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.530'
+    implementation 'com.amazon.ion:ion-java:1.11.9'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
