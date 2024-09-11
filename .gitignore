@@ -4,7 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-gradle/
 logs/
 
 ### STS ###
@@ -56,4 +55,4 @@ src/main/java/bigbrother/slimdealz/utils/DiscordNotifier.java
 src/main/resources/slimdealz-bf162-firebase-adminsdk-f6gdw-e4cef6d7b3.json
 
 #logback-spring.xml
-src/main/resources/logback-spring.xml
+#src/main/resources/logback-spring.xml

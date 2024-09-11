@@ -2,7 +2,7 @@ package bigbrother.slimdealz.auth;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
-import lombok.extern.slf4j.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
