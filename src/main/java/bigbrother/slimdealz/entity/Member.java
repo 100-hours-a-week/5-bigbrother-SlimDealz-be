@@ -32,6 +32,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 
+    private String fcmToken;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
