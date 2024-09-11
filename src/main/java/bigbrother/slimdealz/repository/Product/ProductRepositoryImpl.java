@@ -69,7 +69,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 price.setPrice.as("setPrice")
                         ))
                         .from(product)
-                        .join(product.prices, price).fetchJoin()
+                        .join(product.prices, price)
                         .where(
                                 product.name.containsIgnoreCase(keyword),
                                 lastSeenId != null ? product.id.gt(lastSeenId) : null,
@@ -101,7 +101,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 price.setPrice.as("setPrice")
                         ))
                         .from(price)
-                        .join(price.product, product).fetchJoin()
+                        .join(price.product, product)
                         .where(price.createdAt.between(startOfDay, endOfDay))
                         .groupBy(product.id, product.name, product.shippingFee)
                         .orderBy(price.setPrice.asc())
@@ -122,7 +122,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 price.setPrice.as("setPrice")
                         ))
                         .from(product)
-                        .leftJoin(product.prices, price).fetchJoin()
+                        .leftJoin(product.prices, price)
                         .where(product.name.eq(productName),
                                 price.createdAt.between(startOfDay, endOfDay))
                         .groupBy(product.id, product.name, product.shippingFee)
@@ -147,7 +147,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 price.setPrice.as("setPrice")
                         ))
                         .from(product)
-                        .leftJoin(product.prices, price).fetchJoin()
+                        .leftJoin(product.prices, price)
                         .where(
                                 product.category.eq(category),
                                 lastSeenId != null ? product.id.gt(lastSeenId) : null,
@@ -177,8 +177,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 price.setPrice.as("setPrice")
                         ))
                         .from(product)
-                        .leftJoin(product.prices, price).fetchJoin()
-                        .leftJoin(price.vendor, vendor).fetchJoin()
+                        .leftJoin(product.prices, price)
+                        .leftJoin(price.vendor, vendor)
                         .where(product.name.eq(productName),
                                 product.createdAt.between(startOfDay, endOfDay),
                                 price.createdAt.between(startOfDay, endOfDay),
