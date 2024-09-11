@@ -1,32 +1,37 @@
 package bigbrother.slimdealz.fcm.controller;
 
-import bigbrother.slimdealz.fcm.entity.FCMTokenRequest;
-import bigbrother.slimdealz.fcm.service.FCMService;
-import jakarta.servlet.http.HttpServletRequest;
+import bigbrother.slimdealz.fcm.entity.FCMMessageRequestDto;
+import bigbrother.slimdealz.fcm.service.FirebaseCloudMessageService;
+import bigbrother.slimdealz.service.User.MemberService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/users/fcm")
 public class FCMController {
 
-    private final FCMService fcmService;
+    private final FirebaseCloudMessageService fcmService;
+    private final MemberService memberService;
 
-    public FCMController(FCMService fcmService) {
+    public FCMController(FirebaseCloudMessageService fcmService, MemberService memberService) {
         this.fcmService = fcmService;
+        this.memberService = memberService;
     }
 
-    // 클라이언트에서 FCM 토큰을 받아 저장하는 엔드포인트
-    @PostMapping("/register")
-    public ResponseEntity<String> registerFCMToken(@RequestBody FCMTokenRequest fcmTokenRequest,
-                                                   HttpServletRequest request) {
-        // JWT 필터에서 설정된 Id, name 등의 정보를 가져옴
-        Integer id = (Integer) request.getAttribute("id");
-        String name = (String) request.getAttribute("name");
+    @PostMapping("/v1/register-fcm-token")
+    public ResponseEntity<?> registerFcmToken(@RequestBody FCMMessageRequestDto request) {
+        String token = request.getToken();
 
-        // FCM 토큰 저장 또는 업데이트
-        fcmService.saveOrUpdateToken(id.longValue(), fcmTokenRequest.getToken());
+        // 토큰을 데이터베이스에 저장
+        memberService.saveOrUpdateFcmToken(request.getId(), token);
 
-        return ResponseEntity.ok("FCM 토큰이 성공적으로 저장되었습니다.");
+        return ResponseEntity.ok("FCM 토큰이 성공적으로 등록되었습니다.");
+    }
+
+    @PostMapping("/v1/send-fcm")
+    public ResponseEntity<String> sendFCMMessage(@RequestBody FCMMessageRequestDto requestDto) {
+        String response = fcmService.sendMessage(requestDto);
+        return ResponseEntity.ok(response);
     }
 }

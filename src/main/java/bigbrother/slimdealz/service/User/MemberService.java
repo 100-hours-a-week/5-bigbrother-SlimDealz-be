@@ -6,6 +6,7 @@ import bigbrother.slimdealz.dto.user.MemberDTO;
 import bigbrother.slimdealz.repository.User.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +20,11 @@ public class MemberService {
 
     public Optional<Member> findByKakaoId(String kakao_Id) {
         return memberRepository.findByKakaoId(kakao_Id);
+    }
+
+    public Member findMemberById(Long userId) {
+        return memberRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
     }
 
     public Member saveMember(MemberDTO memberDTO) {
@@ -57,6 +63,23 @@ public class MemberService {
         } else {
             throw new RuntimeException("User not found with kakao_Id: " + kakao_Id);
         }
+    }
+
+    /**
+     * FCM 토큰 저장 또는 업데이트 메서드
+     *
+     * @param userId   사용자 ID
+     * @param fcmToken FCM 토큰
+     * @return 업데이트된 사용자
+     */
+    public Member saveOrUpdateFcmToken(Long userId, String fcmToken) {
+        // 사용자 조회
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
+
+        // FCM 토큰 업데이트
+        member.setFcmToken(fcmToken);
+        return memberRepository.save(member);  // 변경된 정보 저장
     }
 
 }
