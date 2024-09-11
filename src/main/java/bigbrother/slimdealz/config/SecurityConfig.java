@@ -1,6 +1,7 @@
 package bigbrother.slimdealz.config;
 
 import bigbrother.slimdealz.auth.JWTFilter;
+import bigbrother.slimdealz.auth.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
@@ -35,7 +39,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.setAllowedOriginPatterns(List.of("*"));
+        corsConfiguration.setAllowedOriginPatterns(List.of("*","http://localhost:5173", "http://localhost:3000"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "baggage", "sentry-trace"));
         corsConfiguration.setAllowCredentials(true);
@@ -77,33 +81,32 @@ public class SecurityConfig {
      *   (코멘트된 부분을 활성화하면 특정 경로에 대해 인증을 요구할 수 있습니다)
      * - UsernamePasswordAuthenticationFilter 이전에 JWT 필터를 추가합니다.
      *
-     * @param http HttpSecurity 객체
      * @return SecurityFilterChain 객체
      * @throws Exception 설정 과정에서 발생할 수 있는 예외
      */
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-        // CORS 설정 적용
-        http.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()));
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .cors(withDefaults())
+                .sessionManagement((sessionManagement) ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+                        authorizationManagerRequestMatcherRegistry
+                                .requestMatchers("/v1/users").permitAll()
+                                .anyRequest().permitAll())
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {
+                    httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(jwtAuthenticationEntryPoint);
+//                    httpSecurityExceptionHandlingConfigurer.accessDeniedHandler(jwtAccessDeniedHandler);
+                })
+                .addFilterBefore(jwtVerifyFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        // CSRF 보호 비활성화
-        http.csrf(AbstractHttpConfigurer::disable);
-
-        // 세션 관리를 STATELESS로 설정
-        http.sessionManagement(httpSecuritySessionManagementConfigurer -> {
-            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        });
-
-        // 모든 요청을 인증 없이 허용 (필요 시 특정 경로를 인증 요구로 변경 가능)
-        http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                authorizationManagerRequestMatcherRegistry
-//                        .requestMatchers("/v1/users/**").authenticated()
-                        .anyRequest().permitAll());
-
-        // JWT 필터를 UsernamePasswordAuthenticationFilter 전에 추가
-        http.addFilterBefore(jwtVerifyFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+        return httpSecurity.build();
     }
 }
