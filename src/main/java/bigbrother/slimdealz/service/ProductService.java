@@ -6,6 +6,7 @@ import bigbrother.slimdealz.exception.CustomException;
 import bigbrother.slimdealz.repository.Product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class ProductService {
     private final S3Service s3Service;
 
     // 상품 검색
+    @Transactional
     public List<ProductDto> searchProducts(String keyword, Long lastSeenId, int size) {
         List<ProductDto> products = productRepository.searchByKeyword(keyword, lastSeenId, size);
 
@@ -31,6 +33,7 @@ public class ProductService {
     }
 
     // 오늘의 최저가 상품 목록
+    @Transactional
     public List<ProductDto> findLowestPriceProducts() {
         List<ProductDto> products = productRepository.findLowestPriceProducts();
 
@@ -46,6 +49,7 @@ public class ProductService {
     }
 
     // 상품 상세 페이지 정보
+    @Transactional
     public ProductDto getProductWithLowestPriceByName(String productName) {
         ProductDto product = productRepository.findProductWithLowestPriceByName(productName);
 
@@ -60,6 +64,7 @@ public class ProductService {
     }
 
     // 카테고리 별 상품 조회
+    @Transactional
     public List<ProductDto> findByCategory(String category, Long lastSeenId, int size) {
         List<ProductDto> products = productRepository.findByCategory(category, lastSeenId, size);
 
@@ -75,6 +80,7 @@ public class ProductService {
     }
 
     // 판매처 리스트
+    @Transactional
     public List<ProductDto> getProductWithVendors(String productName) {
         List<ProductDto> products = productRepository.findProductWithVendors(productName);
 
@@ -87,6 +93,7 @@ public class ProductService {
     }
 
     // 랜덤 추천
+    @Transactional
     public  List<ProductDto> findRandomProducts() {
         List<ProductDto> products = productRepository.findRandomProducts();
 
