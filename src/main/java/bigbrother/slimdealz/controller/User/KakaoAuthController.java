@@ -39,13 +39,13 @@ public class KakaoAuthController {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public KakaoAuthController(MemberService memberService) {
+    public KakaoAuthController(MemberService memberService, RestTemplate restTemplate) {
         this.memberService = memberService;
         this.restTemplate = restTemplate;
     }
 
     /**
-     * 카카오 인증 콜백 처리
+     * 카카오 인증 콜백 처리f
      *
      * @param code 카카오 인증 코드
      * @return 리다이렉션 응답
@@ -92,7 +92,6 @@ public class KakaoAuthController {
      */
     private Map<String, Object> getKakaoAccessToken(String authCode) {
         String tokenUri = "https://kauth.kakao.com/oauth/token";
-        RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -105,6 +104,7 @@ public class KakaoAuthController {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, request, String.class);
+
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return new Gson().fromJson(response.getBody(), Map.class);
@@ -175,9 +175,9 @@ public class KakaoAuthController {
         HttpHeaders headers = new HttpHeaders();
         boolean isSecure = kakaoRedirectUrl.startsWith("https");
 
-        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
-        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
-        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; SameSite=None; Secure";
+        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
 
 //        if (isSecure) {
 //            jwtCookie += "; Secure";
@@ -198,7 +198,6 @@ public class KakaoAuthController {
      */
     private ResponseEntity<String> getUserProfile(String accessToken) {
         String profileUri = "https://kapi.kakao.com/v2/user/me";
-        RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
