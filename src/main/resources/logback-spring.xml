@@ -6,6 +6,8 @@
     <!-- Environment 내의 프로퍼티들을 개별적으로 설정 -->
     <springProperty scope="context" name="LOG_LEVEL" source="logging.level.root"/>
 
+    <!-- log file path -->
+    <property name="LOG_PATH" value="logs" />
     <!-- log file name -->
     <property name="LOG_FILE_NAME" value="log"/>
     <!-- err log file name -->
@@ -82,10 +84,11 @@
     </appender>
 
     <!-- root 레벨 설정 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
         <appender-ref ref="ERROR"/>
+        <!-- Sentry Appender 추가 -->
         <appender-ref ref="SENTRY"/>
     </root>
 
