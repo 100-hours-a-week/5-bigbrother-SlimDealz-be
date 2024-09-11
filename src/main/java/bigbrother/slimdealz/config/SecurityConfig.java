@@ -39,7 +39,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:5173", "http://localhost:3000", "https://api.slimdealz.store, https://slimdealz.store"));
+        corsConfiguration.setAllowedOriginPatterns(List.of("*","http://localhost:5173", "http://localhost:3000", "https://api.slimdealz.store, https://slimdealz.store"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "baggage", "sentry-trace"));
         corsConfiguration.setAllowCredentials(true);
