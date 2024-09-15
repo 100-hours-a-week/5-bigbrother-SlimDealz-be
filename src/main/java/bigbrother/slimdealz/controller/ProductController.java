@@ -1,5 +1,6 @@
 package bigbrother.slimdealz.controller;
 
+import bigbrother.slimdealz.dto.product.ChartDto;
 import bigbrother.slimdealz.dto.product.ProductDto;
 import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
@@ -152,4 +153,20 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/price-compare")
+    public List<ChartDto> getChartData(
+            @RequestParam("productName") String productName,
+            @RequestParam("dateLimit") String dateLimit
+    ){
+        try{
+            List<ChartDto> chart = productService.getChartData(productName, dateLimit);
+            return chart;
+        } catch (CustomException e) {
+            log.error(e.getDetailMessage());
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
+        }
+    }
 }
