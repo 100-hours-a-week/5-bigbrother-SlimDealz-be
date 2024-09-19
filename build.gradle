@@ -56,6 +56,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
     // AWS
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.530'
+    implementation 'com.amazon.ion:ion-java:1.11.9'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
@@ -73,7 +75,8 @@ dependencies {
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
     //Sentry
-    implementation 'io.sentry:sentry-logback:1.7.30'
+    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:7.8.0'
+    implementation 'io.sentry:sentry-logback:7.1.0'
 
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

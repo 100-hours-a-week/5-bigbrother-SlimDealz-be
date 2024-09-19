@@ -1,5 +1,6 @@
 package bigbrother.slimdealz.controller;
 
+import bigbrother.slimdealz.dto.product.ChartDto;
 import bigbrother.slimdealz.dto.product.ProductDto;
 import bigbrother.slimdealz.entity.product.Product;
 import bigbrother.slimdealz.exception.CustomErrorCode;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.*;
 
 @Slf4j
 @RestController
@@ -25,21 +27,34 @@ public class ProductController {
     public List<ProductDto> searchProducts(@RequestParam("keyword") String keyword,
                                            @RequestParam(value = "lastSeenId", required = false) Long lastSeenId,
                                            @RequestParam(value = "size", defaultValue = "10") int size) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        CompletableFuture<List<ProductDto>> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                List<ProductDto> products = productService.searchProducts(keyword, lastSeenId, size);
+                products.forEach(product -> {
+                    String imageUrl = s3Service.getProductImageUrl(product.getName());
+                    product.setImageUrl(imageUrl);
+                });
+                return products;
+            } catch (CustomException e) {
+                log.error(e.getDetailMessage());
+                throw e;
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                throw new CustomException(CustomErrorCode.SEARCH_NO_RESULT);
+            }
+        }, executor);
+
         try {
-            List<ProductDto> products = productService.searchProducts(keyword, lastSeenId, size);
-
-            products.forEach(product -> {
-                String imageUrl = s3Service.getProductImageUrl(product.getName());
-                product.setImageUrl(imageUrl);
-            });
-            return products;
-
-        } catch (CustomException e) {
-            log.error(e.getDetailMessage());
-            throw e;
+            return future.get(10, TimeUnit.SECONDS);  // 10초 타임아웃 설정
+        } catch (TimeoutException e) {
+            log.error("Search request timed out");
+            throw new CustomException(CustomErrorCode.SEARCH_TIMEOUT);  // 타임아웃에 대한 커스텀 에러
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new CustomException(CustomErrorCode.SEARCH_NO_RESULT);
+        } finally {
+            executor.shutdown();
         }
     }
 
@@ -138,4 +153,20 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/price-compare")
+    public List<ChartDto> getChartData(
+            @RequestParam("productName") String productName,
+            @RequestParam("dateLimit") String dateLimit
+    ){
+        try{
+            List<ChartDto> chart = productService.getChartData(productName, dateLimit);
+            return chart;
+        } catch (CustomException e) {
+            log.error(e.getDetailMessage());
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new CustomException(CustomErrorCode.PRODUCT_NOT_FOUND);
+        }
+    }
 }

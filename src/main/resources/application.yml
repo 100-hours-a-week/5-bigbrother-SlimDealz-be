@@ -1,4 +1,6 @@
 spring:
+  sentry:
+    dsn: ${SENTRY_DSN}
   jwt:
     secret: ${JWT_SECRET_KEY}
 
@@ -19,9 +21,14 @@ spring:
     hibernate:
       ddl-auto: update
 
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
+
+
 
   security:
     oauth2:
