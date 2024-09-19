@@ -7,6 +7,7 @@ import bigbrother.slimdealz.auth.KakaoUserInfo;
 import bigbrother.slimdealz.entity.Member;
 import bigbrother.slimdealz.service.User.MemberService;
 import com.google.gson.Gson;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -175,13 +176,13 @@ public class KakaoAuthController {
         HttpHeaders headers = new HttpHeaders();
         boolean isSecure = kakaoRedirectUrl.startsWith("https");
 
-        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
-        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
-        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+//        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+//        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+//        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
 
-//        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
-//        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
-//        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; SameSite=None; Secure";
+        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
+        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
+        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; SameSite=None; Secure";
 
 
 //        if (isSecure) {
@@ -214,6 +215,14 @@ public class KakaoAuthController {
     @GetMapping("/auth/kakao/logout")
     public ResponseEntity<?> kakaoLogout() {
         HttpHeaders headers = new HttpHeaders();
+
+        // JWT 토큰 쿠키 삭제
+        Cookie jwtCookie = new Cookie("jwtToken", null);
+        jwtCookie.setMaxAge(0);  // 쿠키 만료
+        jwtCookie.setPath("/");  // 경로 설정 (쿠키가 설정된 경로)
+        jwtCookie.setHttpOnly(true);  // HTTP-only 설정
+        jwtCookie.setSecure(true);  // HTTPS-only
+
         headers.setLocation(URI.create(clientUrl + "/"));  // 클라이언트 홈 페이지로 리디렉트
 
         // 클라이언트로 리디렉션
