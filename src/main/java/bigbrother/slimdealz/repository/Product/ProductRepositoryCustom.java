@@ -1,5 +1,6 @@
 package bigbrother.slimdealz.repository.Product;
 
+import bigbrother.slimdealz.dto.product.ChartDto;
 import bigbrother.slimdealz.entity.product.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -25,4 +26,6 @@ public interface ProductRepositoryCustom {
 
     // 랜덤 추천
     List<Product> findRandomProducts();
+
+
 }
