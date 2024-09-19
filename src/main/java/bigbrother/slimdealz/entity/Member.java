@@ -18,7 +18,10 @@ public class Member {
 
     private String name;
     private String kakao_Id;
+
+    @Column(name = "profile_image") // Map to the database column
     private String profileImage;
+
     private String kakaoAccessToken;
     private String kakaoRefreshToken;
 
