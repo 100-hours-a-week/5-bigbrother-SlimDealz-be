@@ -25,7 +25,7 @@ public class JWTController {
         }
 
         String accessToken = JWTutil.getTokenFromHeader(authHeader);
-
+        //response entity에다가 넣어서 값으로
         // Access Token 의 만료 여부 확인
         if (!JWTutil.isExpired(accessToken)) {
             return Map.of("Access Token", accessToken, "Refresh Token", refreshToken);
