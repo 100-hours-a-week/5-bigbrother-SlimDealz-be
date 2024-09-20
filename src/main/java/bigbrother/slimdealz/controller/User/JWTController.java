@@ -5,8 +5,8 @@ import bigbrother.slimdealz.auth.JWTutil;
 import bigbrother.slimdealz.exception.CustomJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -16,33 +16,41 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JWTController {
 
-    @RequestMapping("/refresh")
-    public Map<String, Object> refresh(@RequestHeader(value = "Authorization", required = false) String authHeader, String refreshToken) {
-        log.info("Refresh Token = {}", refreshToken);
+    @PostMapping("/refresh")
+    public Map<String, Object> refresh(
+            @RequestParam(value = "refreshToken") String refreshToken) {
 
-        if (authHeader == null || !authHeader.startsWith(JWTConstants.JWT_TYPE)) {
-            throw new CustomJwtException("유효하지 않은 또는 존재하지 않는 Access Token");
+        log.info("Received Refresh Token: {}", refreshToken);
+
+        try {
+            // Refresh Token 검증
+            Map<String, Object> claims = JWTutil.validateToken(refreshToken);
+
+            // 새로운 Access Token 생성
+            String newAccessToken = JWTutil.generateToken(claims, JWTConstants.ACCESS_EXP_TIME);
+
+            // Refresh Token의 남은 유효 시간 확인
+            long refreshTokenExpiryTime = JWTutil.tokenRemainTime(((Integer) claims.get("exp")));
+            String newRefreshToken = refreshToken;
+
+            // Refresh Token의 남은 시간이 60초 이하이면 새로 발급
+            if (refreshTokenExpiryTime <= 60) {
+                newRefreshToken = JWTutil.generateToken(claims, JWTConstants.REFRESH_EXP_TIME);
+                log.info("Refresh Token has been regenerated due to short expiration time.");
+            }
+
+            log.info("New Access Token generated: {}", newAccessToken);
+            log.info("New Refresh Token: {}", newRefreshToken);
+
+            // 새로 발급된 Access Token과 Refresh Token 반환
+            return Map.of("accessToken", newAccessToken, "refreshToken", newRefreshToken);
+
+        } catch (CustomJwtException e) {
+            log.error("JWT validation failed: {}", e.getMessage());
+            throw new CustomJwtException("Refresh Token validation failed.");
+        } catch (Exception e) {
+            log.error("An unexpected error occurred during token refresh: {}", e.getMessage());
+            throw new RuntimeException("An error occurred while refreshing the token.");
         }
-
-        String accessToken = JWTutil.getTokenFromHeader(authHeader);
-        //response entity에다가 넣어서 값으로
-        // Access Token 의 만료 여부 확인
-        if (!JWTutil.isExpired(accessToken)) {
-            return Map.of("Access Token", accessToken, "Refresh Token", refreshToken);
-        }
-
-        // refreshToken 검증 후 새로운 토큰 생성 후 전달
-        Map<String, Object> claims = JWTutil.validateToken(refreshToken);
-        String newAccessToken = JWTutil.generateToken(claims, JWTConstants.ACCESS_EXP_TIME);
-
-        String newRefreshToken = refreshToken;
-        long expTime = JWTutil.tokenRemainTime((Integer) claims.get("exp"));
-        log.info("Refresh Token Remain Expire Time = {}", expTime);
-
-        if (expTime <= 60) {
-            newRefreshToken = JWTutil.generateToken(claims, JWTConstants.REFRESH_EXP_TIME);
-        }
-
-        return Map.of("accessToken", newAccessToken, "refreshToken", newRefreshToken);
     }
 }
