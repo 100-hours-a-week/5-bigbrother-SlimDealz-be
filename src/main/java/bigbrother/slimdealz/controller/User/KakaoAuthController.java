@@ -78,7 +78,7 @@ public class KakaoAuthController {
         String refreshTokenJwt = JWTutil.generateToken(claims, JWTConstants.REFRESH_EXP_TIME);
 
         // 5. 쿠키에 JWT 토큰, 리프레시 토큰, 카카오 ID 설정
-        HttpHeaders headers = createCookies(jwtToken, refreshTokenJwt, member.getKakao_Id());
+        HttpHeaders headers = createCookies(jwtToken, refreshTokenJwt, member.getId());
 
         // 6. 클라이언트로 리디렉션
         headers.setLocation(URI.create(clientUrl));
@@ -169,20 +169,20 @@ public class KakaoAuthController {
      *
      * @param jwtToken        JWT 토큰
      * @param refreshTokenJwt 리프레시 토큰
-     * @param kakaoId         카카오 ID
+     * @param id         카카오 ID
      * @return 쿠키가 설정된 HttpHeaders 객체
      */
-    private HttpHeaders createCookies(String jwtToken, String refreshTokenJwt, String kakaoId) {
+    private HttpHeaders createCookies(String jwtToken, String refreshTokenJwt, Long id) {
         HttpHeaders headers = new HttpHeaders();
         boolean isSecure = kakaoRedirectUrl.startsWith("https");
 
-        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
-        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
-        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+//        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+//        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+//        String idCookie = "Id=" + id + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
 
-//        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
-//        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
-//        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; SameSite=None; Secure";
+        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
+        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
+        String idCookie = "Id=" + id + "; Path=/; SameSite=None; Secure";
 
 
 //        if (isSecure) {
@@ -193,7 +193,7 @@ public class KakaoAuthController {
 
         headers.add(HttpHeaders.SET_COOKIE, jwtCookie);
         headers.add(HttpHeaders.SET_COOKIE, refreshCookie);
-        headers.add(HttpHeaders.SET_COOKIE, kakaoIdCookie);
+        headers.add(HttpHeaders.SET_COOKIE, idCookie);
         return headers;
     }
     /**
