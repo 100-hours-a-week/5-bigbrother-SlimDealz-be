@@ -223,7 +223,19 @@ public class KakaoAuthController {
         jwtCookie.setHttpOnly(true);  // HTTP-only 설정
         jwtCookie.setSecure(true);  // HTTPS-only
 
-        headers.setLocation(URI.create(clientUrl + "/"));  // 클라이언트 홈 페이지로 리디렉트
+        // userId 쿠키 삭제
+        Cookie userIdCookie = new Cookie("userId", null);
+        userIdCookie.setMaxAge(0);  // 쿠키 만료
+        userIdCookie.setPath("/");  // 경로 설정 (쿠키가 설정된 경로)
+        userIdCookie.setHttpOnly(true);  // HTTP-only 설정
+        userIdCookie.setSecure(true);  // HTTPS-only
+
+        // Add cookies to the response headers
+        headers.add("Set-Cookie", jwtCookie.toString());
+        headers.add("Set-Cookie", userIdCookie.toString());
+
+        // 클라이언트 홈 페이지로 리디렉트
+        headers.setLocation(URI.create(clientUrl + "/"));
 
         // 클라이언트로 리디렉션
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
