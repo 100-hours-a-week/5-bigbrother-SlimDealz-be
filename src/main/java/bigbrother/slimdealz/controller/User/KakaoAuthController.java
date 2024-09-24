@@ -176,13 +176,13 @@ public class KakaoAuthController {
         HttpHeaders headers = new HttpHeaders();
         boolean isSecure = kakaoRedirectUrl.startsWith("https");
 
-//        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
-//        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
-//        String idCookie = "Id=" + id + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+        String idCookie = "Id=" + id + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
 
-        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
-        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
-        String idCookie = "Id=" + id + "; Path=/; SameSite=None; Secure";
+//        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
+//        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
+//        String idCookie = "Id=" + id + "; Path=/; SameSite=None; Secure";
 
 
 //        if (isSecure) {
