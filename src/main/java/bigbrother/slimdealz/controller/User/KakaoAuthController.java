@@ -178,11 +178,11 @@ public class KakaoAuthController {
 
         String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
         String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
-        String idCookie = "Id=" + id + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
+        String idCookie = "userId=" + id + "; Path=/; Domain=.slimdealz.store; SameSite=None; Secure";
 
 //        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
 //        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
-//        String idCookie = "Id=" + id + "; Path=/; SameSite=None; Secure";
+//        String idCookie = "userId=" + id + "; Path=/; SameSite=None; Secure";
 
 
 //        if (isSecure) {
