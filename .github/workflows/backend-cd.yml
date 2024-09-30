@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 name: 백엔드 DEV CD
+=======
+name: main CD
+>>>>>>> 812c900 (cicd file fixed)
 
 on:
   workflow_dispatch:
