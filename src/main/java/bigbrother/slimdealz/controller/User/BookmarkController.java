@@ -60,9 +60,9 @@ public class BookmarkController {
             HttpServletRequest request,
             @RequestBody BookmarkProductPriceDto bookmarkProductPriceDto) {
         // JWT에서 추출된 kakao_Id를 요청에서 가져옴
-        String kakaoId = (String) request.getAttribute("kakaoId");
+        String kakao_Id = (String) request.getAttribute("kakao_Id");
 
-        Long id = userService.findUserIdByKakaoId(kakaoId);
+        Long id = userService.findUserIdByKakaoId(kakao_Id);
         if (id == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
