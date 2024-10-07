@@ -14,7 +14,7 @@ import java.util.*;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long>, QuerydslPredicateExecutor<Bookmark>, BookmarkRepositoryCustom {
     @Query("SELECT b FROM Bookmark b JOIN FETCH b.product p JOIN FETCH p.prices WHERE b.member.id = :memberId")
     List<Bookmark> findBookmarksWithProductsAndPrices(Long memberId);
-    @Query("SELECT b FROM Bookmark b JOIN b.product p WHERE b.member.id = :memberId AND p.name = :productName")
+    @Query("SELECT b FROM Bookmark b JOIN b.product p WHERE b.member.id = :memberId AND p.productName = :productName")
     List<Bookmark> findBookmarksByMemberIdAndProductName(Long memberId, String productName);
 
     Optional<Bookmark> findByMemberAndProduct(Member member, Product product);

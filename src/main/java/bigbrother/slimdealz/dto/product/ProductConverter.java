@@ -10,10 +10,12 @@ public class ProductConverter {
     public static ProductDto toProductDTO(Product product) {
         return ProductDto.builder()
                 .id(product.getId())
-                .name(product.getName())
+                .productName(product.getProductName())
                 .category(product.getCategory())
                 .shippingFee(product.getShippingFee())
                 .vendorUrl(product.getVendorUrl())
+                .viewCount(product.getViewCount())
+                .viewedAt(product.getViewedAt())
                 .prices(product.getPrices().stream()
                         .map(ProductConverter::toPriceDTO)
                         .collect(Collectors.toList()))
@@ -27,6 +29,8 @@ public class ProductConverter {
                 .promotion(price.getPromotion())
                 .productId(price.getProduct().getId())
                 .vendor(toVendorDTO(price.getVendor()))
+                .createdAt(price.getCreatedAt())
+                .updatedAt(price.getUpdatedAt())
                 .build();
     }
 

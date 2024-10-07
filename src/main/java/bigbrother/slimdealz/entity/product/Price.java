@@ -1,6 +1,5 @@
 package bigbrother.slimdealz.entity.product;
 
-import bigbrother.slimdealz.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,18 +15,18 @@ public class Price {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "set_price", nullable = false)
-    int setPrice;
+    private int setPrice;
 
     String promotion;
 
     @Column(name = "created_at")
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "FK_Price_Product"))

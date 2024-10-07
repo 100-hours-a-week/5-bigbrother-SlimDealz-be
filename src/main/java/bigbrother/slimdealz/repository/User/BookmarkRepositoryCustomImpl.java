@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,13 +50,13 @@ public class BookmarkRepositoryCustomImpl implements BookmarkRepositoryCustom{
                 .collect(Collectors.toSet());
 
         // 필터링된 상품 목록 반환
+        LocalDateTime todayStart = LocalDate.now().atStartOfDay();
         JPAQuery<Product> productQuery = new JPAQuery<>(entityManager);
         return productQuery
                 .select(product)
                 .from(product)
-                .where(product.id.in(recommendedProductList))
+                .where(product.id.in(recommendedProductList)
+                        .and(product.updatedAt.after(todayStart)))
                 .fetch();
     }
-
-
 }

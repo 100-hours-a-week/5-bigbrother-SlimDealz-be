@@ -1,6 +1,8 @@
 package bigbrother.slimdealz.service.User;
 
 import bigbrother.slimdealz.dto.product.PriceDto;
+import bigbrother.slimdealz.dto.product.ProductConverter;
+import bigbrother.slimdealz.dto.product.ProductDto;
 import bigbrother.slimdealz.dto.product.VendorDto;
 import bigbrother.slimdealz.dto.user.BookmarkDto;
 import bigbrother.slimdealz.dto.user.BookmarkProductPriceDto;
@@ -13,6 +15,7 @@ import bigbrother.slimdealz.repository.User.MemberRepository;
 import bigbrother.slimdealz.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -63,10 +66,10 @@ public class BookmarkService {
             return BookmarkProductPriceDto.builder()
                     .bookmarkId(bookmark.getId())
                     .productId(bookmark.getProduct().getId())
-                    .productName(bookmark.getProduct().getName())  // Product 엔티티에서 productName 가져옴
+                    .productName(bookmark.getProduct().getProductName())  // Product 엔티티에서 productName 가져옴
                     .shippingFee(bookmark.getProduct().getShippingFee())
                     .prices(prices)
-                    .image(s3Service.getProductImageUrl(bookmark.getProduct().getName()))
+                    .image(s3Service.getProductImageUrl(bookmark.getProduct().getProductName()))
                     .build();
         }).collect(Collectors.toList());
     }
@@ -77,7 +80,7 @@ public class BookmarkService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // 상품 이름으로 모든 상품을 검색하고, 최저가 상품을 선택
-        Product cheapestProduct = productRepository.findByName(productName).stream()
+        Product cheapestProduct = productRepository.findByProductName(productName).stream()
                 .min(Comparator.comparing(product -> product.getPrices().stream()
                         .min(Comparator.comparing(price -> price.getSetPrice()))
                         .orElseThrow(() -> new RuntimeException("Price not found")).getSetPrice()))
@@ -106,7 +109,7 @@ public class BookmarkService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // 상품 이름으로 최저가 상품을 선택
-        Product cheapestProduct = productRepository.findByName(productName).stream()
+        Product cheapestProduct = productRepository.findByProductName(productName).stream()
                 .min(Comparator.comparing(product -> product.getPrices().stream()
                         .min(Comparator.comparing(price -> price.getSetPrice()))
                         .orElseThrow(() -> new RuntimeException("Price not found")).getSetPrice()))
@@ -116,5 +119,15 @@ public class BookmarkService {
                 .orElseThrow(() -> new RuntimeException("Bookmark not found"));
 
         bookmarkRepository.delete(bookmark);
+    }
+
+    // 북마크 기반 추천 상품
+    @Transactional(readOnly = true)
+    public List<ProductDto> getRecommendedBookmarkProducts(Long userId) {
+        List<Product> recommendedProducts = bookmarkRepository.findRecommendedProducts(userId);
+
+        return recommendedProducts.stream()
+                .map(ProductConverter::toProductDTO)
+                .collect(Collectors.toList());
     }
 }

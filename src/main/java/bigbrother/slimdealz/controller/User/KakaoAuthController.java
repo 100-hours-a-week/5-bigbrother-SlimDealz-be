@@ -185,6 +185,10 @@ public class KakaoAuthController {
 //        String idCookie = "userId=" + id + "; Path=/; SameSite=None; Secure";
 
 
+//        String jwtCookie = "jwtToken=" + jwtToken + "; Path=/; SameSite=None; Secure";
+//        String refreshCookie = "refreshToken=" + refreshTokenJwt + "; Path=/; SameSite=None; Secure";
+//        String kakaoIdCookie = "kakaoId=" + kakaoId + "; Path=/; SameSite=None; Secure";
+
 //        if (isSecure) {
 //            jwtCookie += "; Secure";
 //            refreshCookie += "; Secure";

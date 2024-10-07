@@ -17,9 +17,6 @@ public class S3Config {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-//    @Value("${cloud.aws.s3.url}")
-//    private String url;
-
     @Value("${cloud.aws.credentials.access-key}")
     private String accessKey;
 

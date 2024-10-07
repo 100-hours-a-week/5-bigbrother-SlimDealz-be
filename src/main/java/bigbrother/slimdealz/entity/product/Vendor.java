@@ -16,13 +16,13 @@ public class Vendor extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "vendor_name")
-    String vendorName;
+    private String vendorName;
 
     @Column(name = "vendor_url")
-    String vendorUrl;
+    private String vendorUrl;
 
     @OneToMany(mappedBy = "vendor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Price> prices;

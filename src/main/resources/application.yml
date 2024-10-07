@@ -1,4 +1,5 @@
 spring:
+  CLIENT_SERVER: ${CLIENT_URL}
   sentry:
     dsn: ${SENTRY_DSN}
   jwt:
@@ -12,7 +13,7 @@ spring:
 
     hikari:
       minimum-idle: 5
-      maximum-pool-size: 20
+      maximum-pool-size: 150
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
@@ -27,8 +28,6 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
-
-
 
   security:
     oauth2:

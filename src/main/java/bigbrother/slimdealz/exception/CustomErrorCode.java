@@ -41,6 +41,7 @@ public enum CustomErrorCode {
     //product error
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT-001", "상품을 찾을 수 없습니다."),
     INVALID_PRODUCT_ID(HttpStatus.BAD_REQUEST, "PRODUCT-002", "상품이 유효하지 않습니다."),
+    INVALID_PRODUCT_NAME(HttpStatus.BAD_REQUEST, "PRODUCT-012", "상품명이 유효하지 않습니다."),
     PRODUCT_URL_INVALID(HttpStatus.BAD_REQUEST, "PRODUCT-003", "판매처 URL이 유효하지 않습니다."),
     PRODUCT_URL_REDIRECTION_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "PRODUCT-004", "판매처로의 리다이렉션에 실패했습니다."),
     PRODUCT_URL_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT-005", "판매처 URL을 찾을 수 없습니다."),
@@ -49,7 +50,9 @@ public enum CustomErrorCode {
     PRODUCT_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT-008", "카테고리를 찾을 수 없습니다."),
     INVALID_PRODUCT_CATEGORY(HttpStatus.BAD_REQUEST, "PRODUCT-009", "카테고리가 유효하지 않습니다."),
     PRODUCT_CATEGORY_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "PRODUCT-010", "카테고리 서비스가 이용 불가능합니다."),
-    PRODUCT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT-011", "상품 이미지를 찾을 수 없습니다.");
+    PRODUCT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT-011", "상품 이미지를 찾을 수 없습니다."),
+    //review error
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW-001", "리뷰를 찾을 수 없습니다."); // 세미콜론 추가
 
     private final HttpStatus httpStatus;
     private final String code;

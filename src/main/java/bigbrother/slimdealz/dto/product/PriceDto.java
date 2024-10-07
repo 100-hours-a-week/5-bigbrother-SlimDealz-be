@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class PriceDto {
     private String promotion;
     private Long productId;
     private VendorDto vendor;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
