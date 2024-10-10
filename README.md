@@ -9,7 +9,7 @@
 ### 기술 스택
 
 - **FE**: React, Vie js, Babel js, Typescript
-- **BE**: Spring Boot, JPA
+- **BE**: Spring Boot, JPA, Query DSL
 - **DB**: AWS RDS MySQL
 - **SCRAPPING&CROLLING:** Python, BeuatifulSoup4, Selenium ****
 - 배포: Docker, AWS
